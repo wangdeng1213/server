@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTaskWeiboInteractMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusTaskWeiboInteract" type="LinksusTaskWeiboInteract" >
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="max_id" property="maxId" jdbcType="BIGINT" />
+		<result column="pagetime" property="pagetime" jdbcType="BIGINT" />
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		account_id,interact_type,max_id,pagetime
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusTaskWeiboInteractList"  resultMap="LinksusTaskWeiboInteract">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_weibo_interact
+	</select> 
+    
+    <select id="getMaxIdByAccountId"  resultMap="LinksusTaskWeiboInteract">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_weibo_interact
+		   WHERE account_id=#{accountId:BIGINT} and interact_type=#{interactType:TINYINT} 
+	</select> 
+    <!-- 主键查询  -->
+	<select id="getLinksusTaskWeiboInteractById"  resultMap="LinksusTaskWeiboInteract" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_weibo_interact
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusTaskWeiboInteract" parameterType="LinksusTaskWeiboInteract">
+		INSERT INTO linksus_task_weibo_interact(
+		account_id,interact_type,max_id,pagetime
+		) VALUES(
+		#{accountId:BIGINT},#{interactType:TINYINT},#{maxId:BIGINT},#{pagetime:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusTaskWeiboInteract" parameterType="LinksusTaskWeiboInteract">
+		  UPDATE linksus_task_weibo_interact SET
+		  account_id=#{accountId:BIGINT},interact_type=#{interactType:TINYINT},max_id=#{maxId:BIGINT},pagetime=#{pagetime:BIGINT}
+		  WHERE account_id=#{accountId:BIGINT} and interact_type=#{interactType:TINYINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusTaskWeiboInteractById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_task_weibo_interact 
+		  WHERE account_id=#{accountId:BIGINT} and interact_type=#{interactType:TINYINT}
+	</update> 
+	
+	<!-- 设置当前账号翻页信息 -->
+	<update id="updateLinksusTaskWeiboInteractPageInfo" parameterType="LinksusTaskWeiboInteract">
+		  update linksus_task_weibo_interact set 
+		  max_id=#{maxId:BIGINT},pagetime=#{pagetime:BIGINT}
+		  WHERE account_id=#{accountId:BIGINT} and interact_type=#{interactType:TINYINT}
+	</update> 
+</mapper>   

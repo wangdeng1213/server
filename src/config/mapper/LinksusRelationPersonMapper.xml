@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationPersonMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationPerson" type="LinksusRelationPerson" >
+		<result column="person_id" property="personId" jdbcType="BIGINT" />	
+		<result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />	
+		<result column="person_name" property="personName" jdbcType="VARCHAR" />	
+		<result column="gender" property="gender" jdbcType="VARCHAR" />	
+		<result column="birth_day" property="birthDay" jdbcType="VARCHAR" />	
+		<result column="location" property="location" jdbcType="VARCHAR" />	
+		<result column="country_code" property="countryCode" jdbcType="VARCHAR" />	
+		<result column="state_code" property="stateCode" jdbcType="VARCHAR" />	
+		<result column="city_code" property="cityCode" jdbcType="VARCHAR" />	
+		<result column="sina_ids" property="sinaIds" jdbcType="VARCHAR" />	
+		<result column="tencent_ids" property="tencentIds" jdbcType="VARCHAR" />	
+		<result column="weixin_ids" property="weixinIds" jdbcType="VARCHAR" />	
+		<result column="add_time" property="addTime" jdbcType="INTEGER" />	
+		<result column="synctime" property="synctime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		person_id,headimgurl,person_name,gender,birth_day,location,country_code,state_code,city_code,sina_ids,tencent_ids,weixin_ids,add_time,synctime
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationPersonList"  resultMap="LinksusRelationPerson">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_person
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusRelationPersonById"  resultMap="LinksusRelationPerson" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_person
+		  WHERE person_id=#{personId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationPerson" parameterType="LinksusRelationPerson">
+		INSERT INTO linksus_relation_person(
+		person_id,headimgurl,person_name,gender,birth_day,location,country_code,state_code,city_code,sina_ids,tencent_ids,weixin_ids,add_time,synctime
+		) VALUES(
+		#{personId:BIGINT},#{headimgurl:VARCHAR},#{personName:VARCHAR},#{gender:VARCHAR},#{birthDay:VARCHAR},#{location:VARCHAR},#{countryCode:VARCHAR},#{stateCode:VARCHAR},#{cityCode:VARCHAR},#{sinaIds:VARCHAR},#{tencentIds:VARCHAR},#{weixinIds:VARCHAR},#{addTime:INTEGER},#{synctime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationPerson" parameterType="LinksusRelationPerson">
+		  UPDATE linksus_relation_person SET
+		  headimgurl=#{headimgurl:VARCHAR},person_name=#{personName:VARCHAR},gender=#{gender:VARCHAR},birth_day=#{birthDay:VARCHAR},location=#{location:VARCHAR},country_code=#{countryCode:VARCHAR},state_code=#{stateCode:VARCHAR},city_code=#{cityCode:VARCHAR},add_time=#{addTime:INTEGER},synctime=#{synctime:INTEGER}
+		  WHERE person_id=#{personId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationPersonById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_person 
+		  WHERE person_id=#{personId:BIGINT}
+	</update> 
+	
+	<!-- 分页查询无头像用户列表 -->
+	<select id="getLinksusRelationPersonAddImageList"  resultMap="LinksusRelationPerson"  parameterType="LinksusRelationPerson">
+		  SELECT  * FROM linksus_relation_person where headimgurl is null or headimgurl='0' limit #{startCount},#{pageSize}
+	</select> 
+	
+	<!-- 新增人员头像路径 -->
+	<update id="updateLinksusRelationPersonHeadUrl" parameterType="LinksusRelationPerson">
+		  UPDATE linksus_relation_person SET headimgurl=#{headimgurl:VARCHAR} WHERE person_id=#{personId:BIGINT}
+	</update> 
+	<!-- 插入人员主表微信用户 -->
+	<insert id="insertWeiXinUser" parameterType="LinksusRelationPerson">
+	  insert into linksus_relation_person(
+		person_id,headimgurl,weixin_ids,add_time
+		) VALUES(
+		#{personId:BIGINT},#{headimgurl:VARCHAR},#{weixinIds:VARCHAR},#{addTime:INTEGER})
+	</insert>
+	
+	 <!-- 模糊查询指定微博账户所在用户 -->
+	<select id="getLinksusRelationPersonByUid"  resultMap="LinksusRelationPerson"  parameterType="java.util.HashMap">
+		  SELECT  * FROM linksus_relation_person where  #{filed:VARCHAR} like '%#{uid:VARCHAR}%'  limit 0,1
+	</select> 
+	
+	<!-- 更新人员表基本信息 -->
+	<update id="updateLinksusRelationPersonInfo" parameterType="LinksusRelationPerson">
+		  UPDATE linksus_relation_person SET 
+		  headimgurl=#{headimgurl:VARCHAR},person_name=#{personName:VARCHAR},gender=#{gender:VARCHAR},birth_day=#{birthDay:VARCHAR},location=#{location:VARCHAR},country_code=#{countryCode:VARCHAR},state_code=#{stateCode:VARCHAR},city_code=#{cityCode:VARCHAR},synctime=#{synctime:INTEGER}
+		  WHERE person_id=#{personId:BIGINT}
+	</update> 
+	
+	<!-- 分页查询用户列表 -->
+	<select id="getLinksusRelationPersons"  resultMap="LinksusRelationPerson"  parameterType="LinksusRelationPerson">
+		  SELECT  * 
+		  FROM linksus_relation_person 
+		  where synctime &lt; UNIX_TIMESTAMP(now()) - 2592000
+	      order by person_id desc
+          limit #{startCount},#{pageSize}
+	</select> 
+</mapper>   

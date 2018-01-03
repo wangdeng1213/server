@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationPersonInfoMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationPersonInfo" type="LinksusRelationPersonInfo" >
+		<result column="person_id" property="personId" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="person_name" property="personName" jdbcType="VARCHAR" />	
+		<result column="gender" property="gender" jdbcType="VARCHAR" />	
+		<result column="birth_day" property="birthDay" jdbcType="VARCHAR" />	
+		<result column="verified_info" property="verifiedInfo" jdbcType="VARCHAR" />	
+		<result column="location" property="location" jdbcType="VARCHAR" />	
+		<result column="country_code" property="countryCode" jdbcType="VARCHAR" />	
+		<result column="state_code" property="stateCode" jdbcType="VARCHAR" />	
+		<result column="city_code" property="cityCode" jdbcType="VARCHAR" />		
+		<result column="last_updt_time" property="lastUpdtTime" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		person_id,institution_id,person_name,gender,birth_day,verified_info,location,country_code,state_code,city_code,last_updt_time
+	</sql>
+	
+	<!-- 获取人员基本信息  -->
+	<select id="getLinksusRelationPersonInfoById"  resultMap="LinksusRelationPersonInfo">
+		  SELECT * FROM linksus_relation_person_info where person_id=#{personId}
+	</select> 
+     
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationPersonInfoList"  resultMap="LinksusRelationPersonInfo">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_person_info
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWeiboById"  resultMap="LinksusRelationPersonInfo" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_person_info
+		  WHERE person_id=#{personId:BIGINT} and institution_id=#{institutionId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationPersonInfo" parameterType="LinksusRelationPersonInfo">
+		INSERT INTO linksus_relation_person_info(
+		person_id,institution_id,person_name,gender,birth_day,verified_info,location,country_code,state_code,city_code,last_updt_time
+		) VALUES(
+		#{personId:BIGINT},#{institutionId:BIGINT},#{personName:VARCHAR},#{gender:VARCHAR},#{birthDay:VARCHAR},#{verifiedInfo:VARCHAR},#{location:VARCHAR},#{countryCode:VARCHAR},#{stateCode:VARCHAR},#{cityCode:VARCHAR},#{lastUpdtTime:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationPersonInfo" parameterType="LinksusRelationPersonInfo">
+		  UPDATE linksus_relation_person_info SET
+		  person_id=#{personId:BIGINT},institution_id=#{institutionId:BIGINT},person_name=#{personName:VARCHAR},gender=#{gender:VARCHAR},birth_day=#{birthDay:VARCHAR},verified_info=#{verifiedInfo:VARCHAR},location=#{location:VARCHAR},country_code=#{countryCode:VARCHAR},state_code=#{stateCode:VARCHAR},city_code=#{cityCode:VARCHAR},last_updt_time=#{lastUpdtTime:BIGINT}
+		  WHERE person_id=#{personId:BIGINT} and institution_id=#{institutionId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationPersonInfoById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_person_info 
+		  WHERE person_id=#{personId:BIGINT} and institution_id=#{institutionId:BIGINT}
+	</update> 
+</mapper>   

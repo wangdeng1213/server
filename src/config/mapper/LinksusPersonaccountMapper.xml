@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusPersonaccountMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusPersonaccount" type="LinksusPersonaccount" >
+		<result column="id" property="id" jdbcType="BIGINT" />	
+		<result column="name" property="name" jdbcType="VARCHAR" />	
+		<result column="mail" property="mail" jdbcType="VARCHAR" />	
+		<result column="pwd" property="pwd" jdbcType="CHAR" />	
+		<result column="tele" property="tele" jdbcType="CHAR" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="type" property="type" jdbcType="TINYINT" />	
+		<result column="tele_status" property="teleStatus" jdbcType="TINYINT" />	
+		<result column="mail_status" property="mailStatus" jdbcType="TINYINT" />	
+		<result column="pinyin_name" property="pinyinName" jdbcType="VARCHAR" />	
+		<result column="pinyin_short_name" property="pinyinShortName" jdbcType="VARCHAR" />	
+		<result column="created_ip" property="createdIp" jdbcType="VARCHAR" />	
+		<result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />	
+		<result column="created_time" property="createdTime" jdbcType="INTEGER" />	
+		<result column="active_time" property="activeTime" jdbcType="INTEGER" />	
+		<result column="last_login_time" property="lastLoginTime" jdbcType="INTEGER" />	
+		<result column="last_upd_time" property="lastUpdTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		id,name,mail,pwd,tele,status,type,tele_status,mail_status,pinyin_name,pinyin_short_name,created_ip,last_login_ip,created_time,active_time,last_login_time,last_upd_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusPersonaccountList"  resultMap="LinksusPersonaccount">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_personaccount
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusPersonaccountById"  resultMap="LinksusPersonaccount" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_personaccount
+		  WHERE id=#{id:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusPersonaccount" parameterType="LinksusPersonaccount">
+		INSERT INTO linksus_personaccount(
+		id,name,mail,pwd,tele,status,type,tele_status,mail_status,pinyin_name,pinyin_short_name,created_ip,last_login_ip,created_time,active_time,last_login_time,last_upd_time
+		) VALUES(
+		#{id:BIGINT},#{name:VARCHAR},#{mail:VARCHAR},#{pwd:CHAR},#{tele:CHAR},#{status:TINYINT},#{type:TINYINT},#{teleStatus:TINYINT},#{mailStatus:TINYINT},#{pinyinName:VARCHAR},#{pinyinShortName:VARCHAR},#{createdIp:VARCHAR},#{lastLoginIp:VARCHAR},#{createdTime:INTEGER},#{activeTime:INTEGER},#{lastLoginTime:INTEGER},#{lastUpdTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusPersonaccount" parameterType="LinksusPersonaccount">
+		  UPDATE linksus_personaccount SET
+		  id=#{id:BIGINT},name=#{name:VARCHAR},mail=#{mail:VARCHAR},pwd=#{pwd:CHAR},tele=#{tele:CHAR},status=#{status:TINYINT},type=#{type:TINYINT},tele_status=#{teleStatus:TINYINT},mail_status=#{mailStatus:TINYINT},pinyin_name=#{pinyinName:VARCHAR},pinyin_short_name=#{pinyinShortName:VARCHAR},created_ip=#{createdIp:VARCHAR},last_login_ip=#{lastLoginIp:VARCHAR},created_time=#{createdTime:INTEGER},active_time=#{activeTime:INTEGER},last_login_time=#{lastLoginTime:INTEGER},last_upd_time=#{lastUpdTime:INTEGER}
+		  WHERE id=#{id:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusPersonaccountById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_personaccount 
+		  WHERE id=#{id:BIGINT}
+	</update>   
+	<!-- 根据机构ID查询管理员  -->
+	<select id="getManagerByInstitutionId"  resultType="java.util.Map" parameterType="java.lang.Long">
+		select b.id ,b.name from linksus_institution_person a 
+        left join linksus_personaccount b 
+        on  a.person_id = b.id 
+        where  a.type =0 and a.institution_id =#{value}
+	</select>
+	<!-- 根据机构ID查询运维人员  -->
+	<select id="getPersonaccountByInstitutionId"  resultType="java.util.Map" parameterType="java.lang.Long">
+		select a.id,
+			case when mail_status=1 then mail else null end mail,
+			case when tele_status=1 then tele else null end tele 
+		from linksus_institution_person p,linksus_personaccount a
+		where p.person_id =a.id and p.type=1 and p.status=1 and p.institution_id=#{value}
+	</select>
+</mapper>   

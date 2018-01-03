@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationPersonTagdefMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationPersonTagdef" type="LinksusRelationPersonTagdef" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="tag_name" property="tagName" jdbcType="VARCHAR" />	
+		<result column="use_count" property="useCount" jdbcType="INTEGER" />	
+		<result column="inst_person_id" property="instPersonId" jdbcType="BIGINT" />	
+		<result column="create_time" property="createTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,institution_id,tag_name,use_count,inst_person_id,create_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationPersonTagdefList"  resultMap="LinksusRelationPersonTagdef" >
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_person_tagdef
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusRelationPersonTagdefById"  resultMap="LinksusRelationPersonTagdef"  parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_person_tagdef
+		 WHERE 1=1  and pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationPersonTagdef" parameterType="LinksusRelationPersonTagdef">
+		INSERT INTO linksus_relation_person_tagdef(
+		pid,institution_id,tag_name,use_count,inst_person_id,create_time
+		) VALUES(
+		#{pid:BIGINT},#{institutionId:BIGINT},#{tagName:VARCHAR},#{useCount:INTEGER},#{instPersonId:BIGINT},#{createTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationPersonTagdef" parameterType="LinksusRelationPersonTagdef">
+		  UPDATE linksus_relation_person_tagdef SET
+		  pid=#{pid:BIGINT},institution_id=#{institutionId:BIGINT},tag_name=#{tagName:VARCHAR},use_count=#{useCount:INTEGER},inst_person_id=#{instPersonId:BIGINT},create_time=#{createTime:INTEGER}
+		 WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationPersonTagdefById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_person_tagdef 
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	
+	   <!-- 主键查询  -->
+	<select id="getLinksusRelationPersonTagdefByTagName"  resultMap="LinksusRelationPersonTagdef"  parameterType="java.lang.String">
+		  SELECT * FROM linksus_relation_person_tagdef WHERE 1=1  and tag_name =#{tag_name}
+	</select> 
+</mapper>   

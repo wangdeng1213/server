@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationWxuserMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationWxuser" type="LinksusRelationWxuser" >
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="person_id" property="personId" jdbcType="BIGINT" />	
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />	
+		<result column="sex" property="sex" jdbcType="VARCHAR" />	
+		<result column="city" property="city" jdbcType="VARCHAR" />	
+		<result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+		<result column="country" property="country" jdbcType="VARCHAR" />
+		<result column="country_code" property="countryCode" jdbcType="VARCHAR" />	
+		<result column="province" property="province" jdbcType="VARCHAR" />	
+		<result column="province_code" property="provinceCode" jdbcType="VARCHAR" />
+		<result column="language" property="language" jdbcType="VARCHAR" />	
+		<result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />	
+		<result column="last_updt_time" property="lastUpdtTime" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		user_id,person_id,nickname,sex,city,city_code,country,country_code,province,province_code,language,headimgurl,last_updt_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationWxuserList"  resultMap="LinksusRelationWxuser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_wxuser
+	</select> 
+    
+    <!-- 主键查询  -->  
+	<select id="getLinksusRelationWxuserById"  resultMap="LinksusRelationWxuser" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_wxuser
+		  WHERE user_id=#{userId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationWxuser" parameterType="LinksusRelationWxuser">
+		INSERT INTO linksus_relation_wxuser(
+		user_id,person_id,nickname,sex,city,city_code,country,country_code,province,province_code,language,headimgurl,last_updt_time
+		) VALUES(
+		#{userId:BIGINT},#{personId:BIGINT},#{nickname:VARCHAR},#{sex:VARCHAR},#{city:VARCHAR},#{cityCode},#{country:VARCHAR},#{countryCode:VARCHAR},#{province:VARCHAR},#{provinceCode:VARCHAR},#{language:VARCHAR},#{headimgurl:VARCHAR},#{lastUpdtTime:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationWxuser" parameterType="LinksusRelationWxuser">
+		  UPDATE linksus_relation_wxuser SET
+		  nickname=#{nickname:VARCHAR},sex=#{sex:VARCHAR},city=#{city:VARCHAR},city_code=#{cityCode},country=#{country:VARCHAR},
+		  country_code=#{countryCode:VARCHAR},province=#{province:VARCHAR},province_code=#{provinceCode:VARCHAR},language=#{language:VARCHAR},
+		  headimgurl=#{headimgurl:VARCHAR},last_updt_time=#{lastUpdtTime:BIGINT}
+		  WHERE user_id=#{userId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationWxuserById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_wxuser 
+		  WHERE user_id=#{userId:BIGINT}
+	</update> 
+	
+	  <!--  根据主键查询微信用户信息 -->
+	<select id="getLinksusRelationWxuserInfo"  resultMap="LinksusRelationWxuser" parameterType="java.lang.Long">
+		  SELECT * from linksus_relation_wxuser where  user_id=#{userId}
+	</select> 
+	
+	  <!--   多条件查询单个   -->
+	<select id="getLinksusRelationWxuserByMap"  resultMap="LinksusRelationWxuser" parameterType="java.util.Map">
+		  SELECT * from linksus_relation_wxuser 
+		  where  nickname = #{nickname} 
+		     and sex = #{sex} 
+		     and country = #{country}  
+		  	 and province = #{province}  
+		     and city = #{city}
+		    limit 0,1  
+	</select> 
+		<!-- 只更新personid  -->
+	<update id="updatePersonId" parameterType="LinksusRelationWxuser">
+		  UPDATE linksus_relation_wxuser 
+		  	 SET person_id=#{personId}
+		  WHERE user_id=#{userId:BIGINT}
+	</update> 
+</mapper>   

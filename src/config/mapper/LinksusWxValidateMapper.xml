@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusWxValidateMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusWxValidate" type="LinksusWxValidate" >
+		<result column="id" property="id" jdbcType="BIGINT" />	
+		<result column="wx_num" property="wxNum" jdbcType="VARCHAR" />	
+		<result column="code" property="code" jdbcType="VARCHAR" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="created_time" property="createdTime" jdbcType="INTEGER" />	
+		<result column="last_upd_time" property="lastUpdTime" jdbcType="INTEGER" />	
+		<result column="valid_time" property="validTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		id,wx_num,code,status,created_time,last_upd_time,valid_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusWxValidateList"  resultMap="LinksusWxValidate">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_wx_validate
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWxValidateById"  resultMap="LinksusWxValidate" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_wx_validate
+		  WHERE id=#{id:BIGINT}
+	</select> 
+	
+	<!-- 根据微信号查询  -->
+	<select id="getLinksusWxValidateByWxnum"  resultMap="LinksusWxValidate" parameterType="java.lang.String">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_wx_validate
+		  WHERE wx_num=#{value}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusWxValidate" parameterType="LinksusWxValidate">
+		INSERT INTO linksus_wx_validate(
+		id,wx_num,code,status,created_time,last_upd_time,valid_time
+		) VALUES(
+		#{id:BIGINT},#{wxNum:VARCHAR},#{code:VARCHAR},#{status:TINYINT},#{createdTime:INTEGER},#{lastUpdTime:INTEGER},#{validTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusWxValidate" parameterType="LinksusWxValidate">
+		  UPDATE linksus_wx_validate SET
+		  id=#{id:BIGINT},wx_num=#{wxNum:VARCHAR},code=#{code:VARCHAR},status=#{status:TINYINT},created_time=#{createdTime:INTEGER},last_upd_time=#{lastUpdTime:INTEGER},valid_time=#{validTime:INTEGER}
+		  WHERE id=#{id:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusWxValidateById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_wx_validate 
+		  WHERE id=#{id:BIGINT}
+	</update> 
+</mapper>   

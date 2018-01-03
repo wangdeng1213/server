@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusAttentionWeiboMapper" >
+  <resultMap id="LinksusAttentionWeibo" type="LinksusAttentionWeibo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="institution_id" property="institutionId" jdbcType="BIGINT" />
+    <result column="account_id" property="accountId" jdbcType="BIGINT" />
+    <result column="account_type" property="accountType" jdbcType="TINYINT" />
+    <result column="mid" property="mid" jdbcType="BIGINT" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="pic_original_url" property="picOriginalUrl" jdbcType="VARCHAR" />
+    <result column="pic_middle_url" property="picMiddleUrl" jdbcType="VARCHAR" />
+    <result column="pic_thumb_url" property="picThumbUrl" jdbcType="VARCHAR" />
+    <result column="music_url" property="musicUrl" jdbcType="VARCHAR" />
+    <result column="video_url" property="videoUrl" jdbcType="VARCHAR" />
+    <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+    <result column="repost_count" property="repostCount" jdbcType="INTEGER" />
+    <result column="src_mid" property="srcMid" jdbcType="BIGINT" />
+    <result column="geo" property="geo" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="BIGINT" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="uprofile_url" property="uprofileUrl" jdbcType="VARCHAR" />
+    <result column="content_type" property="contentType" jdbcType="CHAR" />
+    <result column="publish_type" property="publishType" jdbcType="TINYINT" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="INTEGER" />
+     <result column="current_url" property="currentUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  	<resultMap id="LinksusWeibo" type="LinksusWeibo" >
+	 	<result column="MID" property="mid" jdbcType="BIGINT" />
+	 	<result column="repost_count" property="repostCount" jdbcType="INTEGER" />
+    	<result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+    	 <result column="account_type" property="accountType" jdbcType="TINYINT" />
+	 </resultMap>
+  
+   <sql id="Base_Column_List" >
+       id, institution_id, account_id, account_type, mid, content, pic_original_url, pic_middle_url, 
+    pic_thumb_url, music_url, video_url, comment_count, repost_count, src_mid, geo, uid, 
+    uname, uprofile_url, content_type, publish_type, source, created_time,current_url
+  </sql>
+   <select id="getLinksusAttention" resultMap="LinksusAttentionWeibo">
+	select * from linksus_attention_weibo limit 1
+	 </select>
+	 
+	   <select id="getAttentionWeiboCount" resultType="java.lang.Integer">
+	   select count(*) from linksus_attention_weibo 
+	   where account_id = #{accountId,jdbcType=BIGINT}
+	   and account_type = #{accountType,jdbcType=TINYINT}
+	   and mid = #{mid,jdbcType=BIGINT}
+	   </select>
+	 <update id="updateLinksusAttentionWeiboSingle" parameterType="java.util.Map">
+	 update linksus_attention_weibo
+      set id = #{id,jdbcType=BIGINT},
+      institution_id = #{institutionId,jdbcType=BIGINT},
+      account_id = #{accountId,jdbcType=BIGINT},
+      account_type = #{accountType,jdbcType=TINYINT},
+      mid = #{mid,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
+      pic_original_url = #{picOriginalUrl,jdbcType=VARCHAR},
+      pic_middle_url = #{picMiddleUrl,jdbcType=VARCHAR},
+      pic_thumb_url = #{picThumbUrl,jdbcType=VARCHAR},
+      music_url = #{musicUrl,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      repost_count = #{repostCount,jdbcType=INTEGER},
+      src_mid = #{srcMid,jdbcType=BIGINT},
+      geo = #{geo,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=BIGINT},
+      uname = #{uname,jdbcType=VARCHAR},
+      uprofile_url = #{uprofileUrl,jdbcType=VARCHAR},
+      content_type = #{contentType,jdbcType=CHAR},
+      publish_type = #{publishType,jdbcType=TINYINT},
+      source = #{source,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=INTEGER} ,
+      current_url = #{currentUrl,jdbcType=VARCHAR}
+      where 
+      institution_id = #{institutionId,jdbcType=BIGINT} 
+      and account_id = #{accountId,jdbcType=BIGINT}
+      and account_type = #{accountType,jdbcType=TINYINT}
+      and uid = #{uid,jdbcType=BIGINT}
+      and content_type = #{contentType,jdbcType=CHAR}
+      and publish_type = #{publishType,jdbcType=TINYINT}
+	 </update>
+	 <insert id="insertLinksusAttentionWeibo" parameterType="LinksusAttentionWeibo">
+	 insert into linksus_attention_weibo (id, institution_id, account_id, 
+      account_type, mid, content, 
+      pic_original_url, pic_middle_url, pic_thumb_url, 
+      music_url, video_url, comment_count, 
+      repost_count, src_mid, geo, 
+      uid, uname, uprofile_url, 
+      content_type, publish_type, source, 
+      created_time, current_url)
+    values (#{id,jdbcType=BIGINT}, #{institutionId,jdbcType=BIGINT}, #{accountId,jdbcType=BIGINT}, 
+      #{accountType,jdbcType=TINYINT}, #{mid,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, 
+      #{picOriginalUrl,jdbcType=VARCHAR}, #{picMiddleUrl,jdbcType=VARCHAR}, #{picThumbUrl,jdbcType=VARCHAR}, 
+      #{musicUrl,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, #{commentCount,jdbcType=INTEGER}, 
+      #{repostCount,jdbcType=INTEGER}, #{srcMid,jdbcType=BIGINT}, #{geo,jdbcType=VARCHAR}, 
+      #{uid,jdbcType=BIGINT}, #{uname,jdbcType=VARCHAR}, #{uprofileUrl,jdbcType=VARCHAR}, 
+      #{contentType,jdbcType=CHAR}, #{publishType,jdbcType=TINYINT}, #{source,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=INTEGER}, #{currentUrl,jdbcType=VARCHAR})
+	 </insert>
+	 <select id="getLinksusAttentionWeiboHasSend" parameterType="LinksusWeibo" resultMap="LinksusWeibo">
+	   select  MID as mid,repost_count as repostCount,comment_count as commentCount,account_type as accountType
+		  from linksus_attention_weibo where account_type = #{accountType,jdbcType=TINYINT} order by id limit #{startCount},#{pageSize}
+	</select>
+	 
+	<select id="getLinksusAttentionWeiboByMap" parameterType="java.util.Map" resultMap="LinksusWeibo">
+	   select  MID as mid,repost_count as repostCount,comment_count as commentCount,account_type as accountType
+	   from linksus_attention_weibo where account_type = #{weiboType,jdbcType=TINYINT} and mid=#{mid,jdbcType=BIGINT} limit 1
+	</select>
+	
+	<update id="updateSendWeiboCount" parameterType="LinksusWeibo" >
+     update linksus_attention_weibo
+        set comment_count=#{commentCount,jdbcType=INTEGER},repost_count = #{repostCount,jdbcType=INTEGER}
+     where mid = #{mid,jdbcType=BIGINT}  
+  	</update> 
+  	
+</mapper>

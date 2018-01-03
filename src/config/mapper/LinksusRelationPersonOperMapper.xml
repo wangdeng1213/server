@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationPersonOperMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationPersonOper" type="LinksusRelationPersonOper" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="oper_type" property="operType" jdbcType="TINYINT" />	
+		<result column="person_id" property="personId" jdbcType="VARCHAR" />	
+		<result column="description" property="description" jdbcType="VARCHAR" />	
+		<result column="oper_status" property="operStatus" jdbcType="TINYINT" />	
+		<result column="last_updt_time" property="lastUpdtTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,institution_id,oper_type,person_id,description,oper_status,last_updt_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationPersonOperList"  resultMap="LinksusRelationPersonOper" >
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_person_oper
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusRelationPersonOperById"  resultMap="LinksusRelationPersonOper"  parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_person_oper
+		 WHERE 1=1  and pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationPersonOper" parameterType="LinksusRelationPersonOper">
+		INSERT INTO linksus_relation_person_oper(
+		pid,institution_id,oper_type,person_id,description,oper_status,last_updt_time
+		) VALUES(
+		#{pid:BIGINT},#{institutionId:BIGINT},#{operType:TINYINT},#{personId:TEXT},#{description:TEXT},#{operStatus:TINYINT},#{lastUpdtTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationPersonOper" parameterType="LinksusRelationPersonOper">
+		  UPDATE linksus_relation_person_oper SET
+		  pid=#{pid:BIGINT},institution_id=#{institutionId:BIGINT},oper_type=#{operType:TINYINT},person_id=#{personId:TEXT},description=#{description:TEXT},oper_status=#{operStatus:TINYINT},last_updt_time=#{lastUpdtTime:INTEGER}
+		 WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationPersonOperById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_person_oper 
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+</mapper>   

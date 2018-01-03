@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-config.dtd">  
+<!--配置项主要有三项：别名,应用环境，mapper文件位置-->  
+<configuration>  
+    <!--对完全限定名较长的类，可在这里对其起别名（一般取类名），供mapper文件使用-->  
+    <typeAliases>  
+        <typeAlias type="com.linksus.entity.LinksusTaskConnLimit" alias="LinksusTaskConnLimit" />
+        <typeAlias type="com.linksus.entity.LinksusAttentionWeibo" alias="LinksusAttentionWeibo" />
+        <typeAlias type="com.linksus.entity.LinksusAppaccount" alias="LinksusAppaccount" />
+        <typeAlias type="com.linksus.entity.LinksusWeiboDataSync" alias="LinksusWeiboDataSync" />
+        <typeAlias type="com.linksus.entity.LinksusRelationUserAccount" alias="LinksusRelationUserAccount" />
+        <typeAlias type="com.linksus.entity.LinksusRelationWeibouser" alias="LinksusRelationWeibouser" />
+        <typeAlias type="com.linksus.entity.LinksusRelationOperateItem" alias="LinksusRelationOperateItem" />
+         <typeAlias type="com.linksus.entity.AttentionRelationEntrity" alias="AttentionRelationEntrity" />
+        <typeAlias type="com.linksus.entity.LinksusRelationWxuser" alias="LinksusRelationWxuser" />
+        <typeAlias type="com.linksus.entity.LinksusRelationWxaccount" alias="LinksusRelationWxaccount" />
+        <typeAlias type="com.linksus.entity.LinksusWx" alias="LinksusWx" />
+        <typeAlias type="com.linksus.entity.LinksusWxObjectSupply" alias="LinksusWxObjectSupply" />
+        <typeAlias type="com.linksus.entity.LinksusRelationPerson" alias="LinksusRelationPerson" />
+        <typeAlias type="com.linksus.entity.LinksusRelationPersonInfo" alias="LinksusRelationPersonInfo" />
+        <typeAlias type="com.linksus.entity.LinksusSourceAppaccount" alias="LinksusSourceAppaccount" />
+        <typeAlias type="com.linksus.entity.LinksusWeibo" alias="LinksusWeibo" />
+        <typeAlias type="com.linksus.entity.LinksusWeiboTopic" alias="LinksusWeiboTopic" />
+        <typeAlias type="com.linksus.entity.LinksusTaskSytimeFlag" alias="LinksusTaskSytimeFlag" />
+        <typeAlias type="com.linksus.entity.LinksusRelationMarketing" alias="LinksusRelationMarketing" />
+        <typeAlias type="com.linksus.entity.LinksusRelationMarketingItem" alias="LinksusRelationMarketingItem" />
+        <typeAlias type="com.linksus.entity.LinksusInstitution" alias="LinksusInstitution" />
+        <typeAlias type="com.linksus.entity.LinksusRelationPersonInfo" alias="LinksusRelationPersonInfo" />
+        <typeAlias type="com.linksus.entity.LinksusRelationEmailConf" alias="LinksusRelationEmailConf" />
+        <typeAlias type="com.linksus.entity.LinksusRelationPersonContact" alias="LinksusRelationPersonContact" />
+        <typeAlias type="com.linksus.entity.LinksusRelationOperate" alias="LinksusRelationOperate" />
+        <typeAlias type="com.linksus.entity.LinksusRelationUserTag" alias="LinksusRelationUserTag" />
+        <typeAlias type="com.linksus.entity.LinksusTaskErrorCode" alias="LinksusTaskErrorCode" />
+        <typeAlias type="com.linksus.entity.LinksusTaskIncrementUser" alias="LinksusTaskIncrementUser" />
+        <typeAlias type="com.linksus.entity.LinksusTaskTotalUser" alias="LinksusTaskTotalUser" />
+        <typeAlias type="com.linksus.entity.LinksusRemoveEvent" alias="LinksusRemoveEvent" />
+        <typeAlias type="com.linksus.entity.LinksusRelationUserTagCount" alias="LinksusRelationUserTagCount" />
+        <typeAlias type="com.linksus.entity.LinksusRelationPersonGroup" alias="LinksusRelationPersonGroup" />
+		<typeAlias type="com.linksus.entity.LinksusRelationGroup" alias="LinksusRelationGroup" />
+        <typeAlias type="com.linksus.entity.LinksusWeiboPool" alias="LinksusWeiboPool" />
+		<typeAlias type="com.linksus.entity.LinksusWxValidate" alias="LinksusWxValidate" />
+		<typeAlias type="com.linksus.entity.LinksusWeiboPool" alias="LinksusWeiboPool" />
+		<typeAlias type="com.linksus.entity.LinksusRelationPersonEdu" alias="LinksusRelationPersonEdu" />
+		<typeAlias type="com.linksus.entity.LinksusRelationPersonJob" alias="LinksusRelationPersonJob" />
+		<typeAlias type="com.linksus.entity.LinksusRelationPersonOper" alias="LinksusRelationPersonOper" />
+		<typeAlias type="com.linksus.entity.LinksusRelationPersonTagdef" alias="LinksusRelationPersonTagdef" />
+		<typeAlias type="com.linksus.entity.LinksusRelationPersonTag" alias="LinksusRelationPersonTag" />
+        <typeAlias type="com.linksus.entity.LinksusRelationUserTagdef" alias="LinksusRelationUserTagdef" />
+       <typeAlias type="com.linksus.entity.LinksusTypeAreaCode" alias="LinksusTypeAreaCode" />
+       <typeAlias type="com.linksus.entity.LinksusTaskWeiboInteract" alias="LinksusTaskWeiboInteract" />
+       <typeAlias type="com.linksus.entity.LinksusInteractPerson" alias="LinksusInteractPerson" />
+       <typeAlias type="com.linksus.entity.LinksusInteractRecord" alias="LinksusInteractRecord" />
+       <typeAlias type="com.linksus.entity.LinksusInteractUser" alias="LinksusInteractUser" />
+       <typeAlias type="com.linksus.entity.LinksusInteractWeibo" alias="LinksusInteractWeibo" />
+      <typeAlias type="com.linksus.entity.LinksusTaskInteractWeiboMid" alias="LinksusTaskInteractWeiboMid" />  
+       <typeAlias type="com.linksus.entity.LinksusRelationStatistics" alias="LinksusRelationStatistics" />
+       <typeAlias type="com.linksus.entity.LinksusInteractReplyCount" alias="LinksusInteractReplyCount" />
+	   <typeAlias type="com.linksus.entity.LinksusInteractMessage" alias="LinksusInteractMessage" />
+	   <typeAlias type="com.linksus.entity.LinksusInteractWeixin" alias="LinksusInteractWeixin" />
+	   <typeAlias type="com.linksus.entity.LinksusTaskAttentionUser" alias="LinksusTaskAttentionUser" />
+	   <typeAlias type="com.linksus.entity.LinksusInteractAttentionReply" alias="LinksusInteractAttentionReply" />
+	   <typeAlias type="com.linksus.entity.LinksusInteractAttentionReplyAcct" alias="LinksusInteractAttentionReplyAcct" />
+	   <typeAlias type="com.linksus.entity.LinksusInteractWxMaterial" alias="LinksusInteractWxMaterial" />
+	   <typeAlias type="com.linksus.entity.LinksusInteractWxArticle" alias="LinksusInteractWxArticle" />
+	   <typeAlias type="com.linksus.entity.LinksusInteractKeyword" alias="LinksusInteractKeyword" />
+       <typeAlias type="com.linksus.entity.LinksusInteractKeywordReplyAcct" alias="LinksusInteractKeywordReplyAcct" />
+       <typeAlias type="com.linksus.entity.LinksusInteractKeywordReply" alias="LinksusInteractKeywordReply" />
+       <typeAlias type="com.linksus.entity.LinksusInteractWxMenu" alias="LinksusInteractWxMenu" />
+       <typeAlias type="com.linksus.entity.LinksusInteractWxMenuAcct" alias="LinksusInteractWxMenuAcct" />
+       <typeAlias type="com.linksus.entity.LinksusInteractWxMenuItem" alias="LinksusInteractWxMenuItem" />
+       <typeAlias type="com.linksus.entity.LinksusTaskException" alias="LinksusTaskException" />
+       <typeAlias type="com.linksus.entity.LinksusTaskInvalidRecord" alias="LinksusTaskInvalidRecord" />
+       <typeAlias type="com.linksus.entity.LinksusPersonaccount" alias="LinksusPersonaccount" />
+	   <typeAlias type="com.linksus.entity.LinksusRelationUserCompany" alias="LinksusRelationUserCompany" />
+       <typeAlias type="com.linksus.entity.LinksusRelationUserEdu" alias="LinksusRelationUserEdu" />
+       <typeAlias type="com.linksus.entity.LinksusWxMassGroup" alias="LinksusWxMassGroup" />
+	   <!-- 政务 -->
+       <typeAlias type="com.linksus.entity.LinksusGovAppraise" alias="LinksusGovAppraise" />
+       <typeAlias type="com.linksus.entity.LinksusGovInteract" alias="LinksusGovInteract" />
+       <typeAlias type="com.linksus.entity.LinksusGovMeger" alias="LinksusGovMeger" />
+       <typeAlias type="com.linksus.entity.LinksusGovRunning" alias="LinksusGovRunning" />
+       <typeAlias type="com.linksus.entity.LinksusGovStructure" alias="LinksusGovStructure" />
+       <typeAlias type="com.linksus.entity.LinksusGovTag" alias="LinksusGovTag" />
+       <typeAlias type="com.linksus.entity.LinksusGovYixin" alias="LinksusGovYixin" />
+       <typeAlias type="com.linksus.entity.LinksusTaskInteractGovMid" alias="LinksusTaskInteractGovMid" />
+       <typeAlias type="com.linksus.entity.LinksusTaskGovInteract" alias="LinksusTaskGovInteract" />
+       <typeAlias type="com.linksus.entity.LinksusGovMessage" alias="LinksusGovMessage" />
+       <typeAlias type="com.linksus.entity.LinksusGovWeibo" alias="LinksusGovWeibo" />
+       <typeAlias type="com.linksus.entity.LinksusGovDocument" alias="LinksusGovDocument" /> 
+    </typeAliases>  
+    <!--明确mapper文件的位置-->
+    <mappers>
+    	<mapper resource="config/mapper/LinksusTaskConnLimitMapper.xml" />
+    	<mapper resource="config/mapper/LinksusAttentionWeiboMapper.xml"/>
+   	    <mapper resource="config/mapper/LinksusAppaccountMapper.xml"/>
+   	    <mapper resource="config/mapper/LinksusWeiboDataSyncMapper.xml"/>
+   	    <mapper resource="config/mapper/LinksusRelationUserAccountMapper.xml"/>
+   	    <mapper resource="config/mapper/LinksusWeiboMapper.xml"/>
+   	    <mapper resource="config/mapper/LinksusWeiboTopicMapper.xml"/>
+   	    <mapper resource="config/mapper/LinksusRelationOperateItemMapper.xml" />
+   	    <mapper resource="config/mapper/AttentionRelationEntrityMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRelationWxuserMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRelationPersonInfoMapper.xml" />
+   	    <mapper resource="config/mapper/CommonMapper.xml"/>
+   	    <mapper resource="config/mapper/LinksusSourceAppaccountMapper.xml"/>
+   	    <mapper resource="config/mapper/LinksusTaskSytimeFlagMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRelationMarketingMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRelationMarketingItemMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusInstitutionMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRelationWeibouserMapper.xml" /> 
+   	    <mapper resource="config/mapper/LinksusRelationEmailConfMapper.xml" />   
+   	    <mapper resource="config/mapper/LinksusRelationPersonMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRelationOperateMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRelationUserTagMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusTaskErrorCodeMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusTaskIncrementUserMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRelationPersonContactMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusTaskTotalUserMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRelationWxaccountMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRelationUserTagCountMapper.xml" />   	    
+		<mapper resource="config/mapper/LinksusRelationGroupMapper.xml" />
+		<mapper resource="config/mapper/LinksusRelationPersonGroupMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusRemoveEventMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusWeiboPoolMapper.xml" />
+   	    <mapper resource="config/mapper/LinksusWxValidateMapper.xml" />   	    
+		<mapper resource="config/mapper/LinksusWeiboPoolMapper.xml" />
+		<mapper resource="config/mapper/LinksusRelationPersonTagMapper.xml" />
+		<mapper resource="config/mapper/LinksusRelationPersonTagdefMapper.xml" />
+		<mapper resource="config/mapper/LinksusRelationPersonOperMapper.xml" />
+		<mapper resource="config/mapper/LinksusRelationPersonJobMapper.xml" />
+		<mapper resource="config/mapper/LinksusRelationPersonEduMapper.xml" />
+		<mapper resource="config/mapper/LinksusRelationUserTagdefMapper.xml" />
+		<mapper resource="config/mapper/LinksusWxObjectSupplyMapper.xml" />
+        <mapper resource="config/mapper/LinksusWxMapper.xml" />
+		<mapper resource="config/mapper/LinksusTypeAreaCodeMapper.xml" />
+		<mapper resource="config/mapper/LinksusTaskWeiboInteractMapper.xml" />
+       <!--   <mapper resource="config/mapper/LinksusInteractPersonMapper.xml" />  -->
+        <mapper resource="config/mapper/LinksusInteractRecordMapper.xml" />
+        <mapper resource="config/mapper/LinksusInteractUserMapper.xml" />
+        <mapper resource="config/mapper/LinksusInteractWeiboMapper.xml" />
+		<!--  <mapper resource="config/mapper/LinksusRelationStatisticsMapper.xml" />  -->
+        <mapper resource="config/mapper/LinksusTaskInteractWeiboMidMapper.xml" /> 
+		<mapper resource="config/mapper/LinksusRelationStatisticsMapper.xml" />
+		<mapper resource="config/mapper/LinksusInteractReplyCountMapper.xml" />		
+		<mapper resource="config/mapper/LinksusInteractWeixinMapper.xml" />
+		<mapper resource="config/mapper/LinksusInteractMessageMapper.xml" />
+		<mapper resource="config/mapper/LinksusTaskAttentionUserMapper.xml" />		
+		<mapper resource="config/mapper/LinksusInteractAttentionReplyAcctMapper.xml" />
+		<mapper resource="config/mapper/LinksusInteractAttentionReplyMapper.xml" />		
+		<mapper resource="config/mapper/LinksusInteractWxArticleMapper.xml" />
+		<mapper resource="config/mapper/LinksusInteractWxMaterialMapper.xml" />
+		<mapper resource="config/mapper/LinksusInteractAttentionReplyMapper.xml" />
+		<mapper resource="config/mapper/LinksusInteractKeywordReplyAcctMapper.xml" />
+		<mapper resource="config/mapper/LinksusInteractKeywordReplyMapper.xml" />		
+	    <mapper resource="config/mapper/LinksusInteractKeywordMapper.xml" />
+		<mapper resource="config/mapper/LinksusInteractWxMenuMapper.xml" />
+		<mapper resource="config/mapper/LinksusInteractWxMenuAcctMapper.xml" />
+		<mapper resource="config/mapper/LinksusInteractWxMenuItemMapper.xml" />
+		<mapper resource="config/mapper/LinksusTaskExceptionMapper.xml" />
+		<mapper resource="config/mapper/LinksusTaskInvalidRecordMapper.xml" />
+		<mapper resource="config/mapper/LinksusPersonaccountMapper.xml" />
+		<mapper resource="config/mapper/LinksusRelationUserCompanyMapper.xml" />
+		<mapper resource="config/mapper/LinksusRelationUserEduMapper.xml" />
+		<mapper resource="config/mapper/LinksusWxMassGroupMapper.xml" />
+		<!-- 政务 -->
+		<mapper resource="config/mapper/LinksusGovAppraiseMapper.xml" />
+		<mapper resource="config/mapper/LinksusGovInteractMapper.xml" />
+		<mapper resource="config/mapper/LinksusGovMegerMapper.xml" />
+		<mapper resource="config/mapper/LinksusGovRunningMapper.xml" />
+		<mapper resource="config/mapper/LinksusGovStructureMapper.xml" />
+		<mapper resource="config/mapper/LinksusGovTagMapper.xml" />
+		<mapper resource="config/mapper/LinksusGovYixinMapper.xml" />
+		<mapper resource="config/mapper/LinksusTaskInteractGovMidMapper.xml" />
+		<mapper resource="config/mapper/LinksusTaskGovInteractMapper.xml" />
+		<mapper resource="config/mapper/LinksusGovMessageMapper.xml" />
+		<mapper resource="config/mapper/LinksusGovWeiboMapper.xml" />
+		<mapper resource="config/mapper/LinksusGovDocumentMapper.xml" />
+    </mappers>  
+</configuration>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractAttentionReplyMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractAttentionReply" type="LinksusInteractAttentionReply" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="reply_type" property="replyType" jdbcType="TINYINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="msg_type" property="msgType" jdbcType="TINYINT" />	
+		<result column="material_id" property="materialId" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,institution_id,reply_type,content,msg_type,material_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractAttentionReplyList"  resultMap="LinksusInteractAttentionReply">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_attention_reply
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractAttentionReplyById"  resultMap="LinksusInteractAttentionReply" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_attention_reply
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractAttentionReply" parameterType="LinksusInteractAttentionReply">
+		INSERT INTO linksus_interact_attention_reply(
+		pid,institution_id,reply_type,content,msg_type,material_id
+		) VALUES(
+		#{pid:BIGINT},#{institutionId:BIGINT},#{replyType:TINYINT},#{content:VARCHAR},#{msgType:TINYINT},#{materialId:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractAttentionReply" parameterType="LinksusInteractAttentionReply">
+		  UPDATE linksus_interact_attention_reply SET
+		  pid=#{pid:BIGINT},institution_id=#{institutionId:BIGINT},reply_type=#{replyType:TINYINT},content=#{content:VARCHAR},msg_type=#{msgType:TINYINT},material_id=#{materialId:BIGINT}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractAttentionReplyById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_attention_reply 
+		  WHERE pid=#{pid:BIGINT}
+	</update>
+	
+	 <!-- 通过主键及平台类型查询  -->
+	<select id="getLinksusInteractAttentionReplyByIdAndType"  resultMap="LinksusInteractAttentionReply" parameterType="java.util.Map">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_attention_reply
+		  WHERE pid=#{pid:BIGINT} AND reply_type=#{replyType:TINYINT}
+	</select>  
+</mapper>   

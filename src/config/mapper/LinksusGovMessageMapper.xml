@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusGovMessageMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusGovMessage" type="LinksusGovMessage" >
+	    <result column="pid" property="pid" jdbcType="BIGINT" />
+		<result column="run_id" property="runId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="msg_id" property="msgId" jdbcType="BIGINT" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="img" property="img" jdbcType="VARCHAR" />	
+		<result column="img_name" property="imgName" jdbcType="VARCHAR" />	
+		<result column="img_thumb" property="imgThumb" jdbcType="VARCHAR" />	
+		<result column="attatch" property="attatch" jdbcType="VARCHAR" />	
+		<result column="attatch_name" property="attatchName" jdbcType="VARCHAR" />	
+		<result column="send_type" property="sendType" jdbcType="TINYINT" />	
+		<result column="reply_msg_id" property="replyMsgId" jdbcType="BIGINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="send_time" property="sendTime" jdbcType="INTEGER" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+	</resultMap>
+	<resultMap id="sendMessages" type="LinksusGovMessage" >
+	    <result column="pid" property="pid" jdbcType="BIGINT" />
+		<result column="run_id" property="runId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="msg_id" property="msgId" jdbcType="BIGINT" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="img" property="img" jdbcType="VARCHAR" />	
+		<result column="img_name" property="imgName" jdbcType="VARCHAR" />	
+		<result column="img_thumb" property="imgThumb" jdbcType="VARCHAR" />	
+		<result column="attatch" property="attatch" jdbcType="VARCHAR" />	
+		<result column="attatch_name" property="attatchName" jdbcType="VARCHAR" />	
+		<result column="send_type" property="sendType" jdbcType="TINYINT" />	
+		<result column="reply_msg_id" property="replyMsgId" jdbcType="BIGINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="send_time" property="sendTime" jdbcType="INTEGER" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />
+		<result column="last_interact_time" property="lastInteractTime" jdbcType="INTEGER" />
+		<result column="reply_id" property="replyId" jdbcType="INTEGER" /> 	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+	</resultMap>
+	 
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,run_id,account_id,msg_id,interact_type,content,img,img_name,img_thumb,attatch,attatch_name,send_type,reply_msg_id,status,send_time,interact_time,user_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusGovMessageList"  resultMap="LinksusGovMessage">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_message
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusGovMessageById"  resultMap="LinksusGovMessage" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_message
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusGovMessage" parameterType="LinksusGovMessage">
+		INSERT INTO linksus_gov_message(
+		pid,run_id,account_id,msg_id,interact_type,content,img,img_name,img_thumb,attatch,attatch_name,send_type,reply_msg_id,status,send_time,interact_time,user_id
+		) VALUES(
+		#{pid:BIGINT},#{runId:BIGINT},#{accountId:BIGINT},#{msgId:BIGINT},#{interactType:TINYINT},#{content:VARCHAR},#{img:VARCHAR},#{imgName:VARCHAR},#{imgThumb:VARCHAR},#{attatch:VARCHAR},#{attatchName:VARCHAR},#{sendType:TINYINT},#{replyMsgId:BIGINT},#{status:TINYINT},#{sendTime:INTEGER},#{interactTime:INTEGER},#{userId:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusGovMessage" parameterType="LinksusGovMessage">
+		  UPDATE linksus_gov_message SET
+		  run_id=#{runId:BIGINT},account_id=#{accountId:BIGINT},msg_id=#{msgId:BIGINT},interact_type=#{interactType:TINYINT},content=#{content:VARCHAR},img=#{img:VARCHAR},img_name=#{imgName:VARCHAR},img_thumb=#{imgThumb:VARCHAR},attatch=#{attatch:VARCHAR},attatch_name=#{attatchName:VARCHAR},send_type=#{sendType:TINYINT},reply_msg_id=#{replyMsgId:BIGINT},status=#{status:TINYINT},send_time=#{sendTime:INTEGER},interact_time=#{interactTime:INTEGER}
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusGovMessageById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_gov_message 
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</update> 
+	
+	<!-- 根据消息ID查询记录数   -->
+	<select id="getLinksusInteractMessageCountByMsgId"  resultType="java.lang.Integer" parameterType="java.lang.Long">
+		  SELECT count(*) FROM linksus_gov_message
+		  WHERE msg_id=#{msg_id:BIGINT}
+	</select>
+	
+	<!-- 私信读数据  -->
+	<update id="addInteractReadMessage" parameterType="LinksusGovMessage">
+		INSERT INTO linksus_gov_message(
+		pid,run_id,account_id,msg_id,interact_type,content,img,img_name,img_thumb,attatch,attatch_name,send_type,reply_msg_id,status,send_time,interact_time,user_id
+		) VALUES(
+		#{pid:BIGINT},#{runId:BIGINT},#{accountId:BIGINT},#{msgId:BIGINT},#{interactType:TINYINT},#{content:VARCHAR},#{img:VARCHAR},#{imgName:VARCHAR},#{imgThumb:VARCHAR},#{attatch:VARCHAR},#{attatchName:VARCHAR},#{sendType:TINYINT},#{replyMsgId:BIGINT},#{status:TINYINT},#{sendTime:INTEGER},#{interactTime:INTEGER},#{userId:BIGINT}
+		)
+	</update>
+	
+	<!-- 查询需要发送的私信数据   -->
+	<select id="getSendMessageList"  resultMap="sendMessages" parameterType="LinksusGovMessage">
+		   SELECT 
+		  a.run_id,a.account_id,a.msg_id,a.interact_type,a.content,a.img,a.img_name,a.img_thumb,
+		  a.attatch,a.attatch_name,a.send_type,a.send_time,a.reply_msg_id,a.status,a.interact_time,
+      b.interact_time last_interact_time,b.msg_id reply_id
+		  FROM linksus_gov_message a,linksus_gov_message b
+		  where a.interact_type=2 and a.send_type=0 and a.status=1 and a.reply_msg_id=b.run_id
+		  order by a.run_id limit #{startCount},#{pageSize}
+	</select>
+	
+	<!-- 查询私信是否已存在 -->
+	<select id="getMessageIsExists" resultMap="LinksusGovMessage" parameterType="java.util.Map">
+	   select * from linksus_gov_message where user_id=#{userId:BIGINT} and account_id=#{accountId:BIGINT}
+	   and account_type=#{accountType:TINYINT} and msg_id=#{msgId:BIGINT} and interact_type=#{interactType:TINYINT}
+	</select>
+	
+	
+	<!-- 更新回复的私信状态 -->
+	<update id="updateLinksusGovMessageStatus" parameterType="java.util.Map">
+		  UPDATE linksus_gov_message SET
+		  `status`=#{status:TINYINT},interact_time=#{interactTime:INTEGER} WHERE pid=#{pid:BIGINT}
+	</update>
+	
+	 <!-- 列表查询  -->
+	<select id="getLinksusGovMessageByMsgId"  resultMap="LinksusGovMessage" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_message  where pid=#{pid:BIGINT}
+	</select> 
+</mapper>   

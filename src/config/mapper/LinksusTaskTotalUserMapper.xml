@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTaskTotalUserMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusTaskTotalUser" type="LinksusTaskTotalUser" >
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="task_type" property="taskType" jdbcType="TINYINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="next_cursor" property="nextCursor" jdbcType="BIGINT" />
+		<result column="last_updt_time" property="lastUpdtTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		account_id,account_type,task_type,institution_id,status,next_cursor,last_updt_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusTaskTotalUserList"  resultMap="LinksusTaskTotalUser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_total_user
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusTaskTotalUserById"  resultMap="LinksusTaskTotalUser" parameterType="LinksusTaskTotalUser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_total_user
+		  WHERE account_id=#{accountId:BIGINT} and account_type=#{accountType:TINYINT} and task_type=#{taskType:TINYINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusTaskTotalUser" parameterType="LinksusTaskTotalUser">
+		INSERT INTO linksus_task_total_user(
+		account_id,account_type,task_type,institution_id,status,next_cursor,last_updt_time
+		) VALUES(
+		#{accountId:BIGINT},#{accountType:TINYINT},#{taskType:TINYINT},#{institutionId:BIGINT},#{status:TINYINT},#{nextCursor:BIGINT},#{lastUpdtTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusTaskTotalUser" parameterType="LinksusTaskTotalUser">
+		  UPDATE linksus_task_total_user SET
+		  account_id=#{accountId:BIGINT},account_type=#{accountType:TINYINT},task_type=#{taskType:TINYINT},institution_id=#{institutionId:BIGINT},status=#{status:TINYINT},next_cursor=#{nextCursor:BIGINT},last_updt_time=#{lastUpdtTime:INTEGER}
+		  WHERE account_id=#{accountId:BIGINT} and account_type=#{accountType:TINYINT} and task_type=#{taskType:TINYINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusTaskTotalUserById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_task_total_user 
+		  WHERE account_id=#{accountId:BIGINT} and account_type=#{accountType:TINYINT} and task_type=#{taskType:TINYINT}
+	</update> 
+	
+	<!-- 分页获取根据任务类型、账号类型未执行全量任务表 -->
+	<select id="getLinksusTaskTotalUsersByType" resultMap="LinksusTaskTotalUser" parameterType="LinksusTaskTotalUser">
+	   select * from linksus_task_total_user where status=0 and task_type=#{taskType} and account_type=#{accountType} limit #{startCount},#{pageSize}
+	</select>
+	
+	<!-- 更新任务状态 -->
+	<update id="updateLinksusTaskTotalUsersStatus" parameterType="LinksusTaskTotalUser">
+	  update linksus_task_total_user set status=#{status} where account_id=#{accountId} and account_type=#{accountType} and task_type=#{taskType}
+	</update>
+	
+	<!-- 更新最后一条用户id -->
+	<update id="updateLinksusTaskTotalUsersCursor" parameterType="LinksusTaskTotalUser">
+	  update linksus_task_total_user set next_cursor=#{nextCursor:BIGINT} where account_id=#{accountId} and account_type=#{accountType} and task_type=#{taskType}
+	</update>
+	
+</mapper>   

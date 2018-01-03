@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationUserCompanyMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationUserCompany" type="LinksusRelationUserCompany" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="openid" property="openid" jdbcType="VARCHAR" />	
+		<result column="begin_year" property="beginYear" jdbcType="INTEGER" />	
+		<result column="end_year" property="endYear" jdbcType="INTEGER" />	
+		<result column="company_name" property="companyName" jdbcType="VARCHAR" />	
+		<result column="department_name" property="departmentName" jdbcType="VARCHAR" />	
+		<result column="company_id" property="companyId" jdbcType="VARCHAR" />	
+		<result column="add_time" property="addTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,user_id,openid,begin_year,end_year,company_name,department_name,company_id,add_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationUserCompanyList"  resultMap="LinksusRelationUserCompany">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_user_company
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusRelationUserCompanyById"  resultMap="LinksusRelationUserCompany" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_user_company
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationUserCompany" parameterType="LinksusRelationUserCompany">
+		INSERT INTO linksus_relation_user_company(
+		pid,user_id,openid,begin_year,end_year,company_name,department_name,company_id,add_time
+		) VALUES(
+		#{pid:BIGINT},#{userId:BIGINT},#{openid:VARCHAR},#{beginYear:INTEGER},#{endYear:INTEGER},#{companyName:VARCHAR},#{departmentName:VARCHAR},#{companyId:VARCHAR},#{addTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationUserCompany" parameterType="LinksusRelationUserCompany">
+		  UPDATE linksus_relation_user_company SET
+		  pid=#{pid:BIGINT},user_id=#{userId:BIGINT},openid=#{openid:VARCHAR},begin_year=#{beginYear:INTEGER},end_year=#{endYear:INTEGER},company_name=#{companyName:VARCHAR},department_name=#{departmentName:VARCHAR},company_id=#{companyId:VARCHAR},add_time=#{addTime:INTEGER}
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationUserCompanyById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_user_company 
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- userId删除 -->
+	<update id="deleteLinksusRelationUserCompanyByUserId" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_user_company 
+		  WHERE 1=1  and user_id=#{userId:BIGINT}
+	</update> 
+</mapper>   

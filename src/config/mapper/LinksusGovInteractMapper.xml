@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusGovInteractMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusGovInteract" type="LinksusGovInteract" >
+		<result column="interact_id" property="interactId" jdbcType="INTEGER" />
+		<result column="run_id" property="runId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="comment_id" property="commentId" jdbcType="BIGINT" />	
+		<result column="weibo_id" property="weiboId" jdbcType="BIGINT" />	
+		<result column="source_weibo_id" property="sourceWeiboId" jdbcType="BIGINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="reply_comment_id" property="replyCommentId" jdbcType="BIGINT" />	
+		<result column="send_type" property="sendType" jdbcType="TINYINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="send_time" property="sendTime" jdbcType="INTEGER" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />
+		<result column="reply_id" property="replyId" jdbcType="INTEGER" />	
+	</resultMap>
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		interact_id,run_id,user_id,account_id,comment_id,weibo_id,source_weibo_id,content,interact_type,reply_comment_id,send_type,status,send_time,interact_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusGovInteractList"  resultMap="LinksusGovInteract">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_interact
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusGovInteractById"  resultMap="LinksusGovInteract" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_interact
+		  WHERE interact_id=#{interactId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusGovInteract" parameterType="LinksusGovInteract">
+		INSERT INTO linksus_gov_interact(
+		interact_id,run_id,user_id,account_id,comment_id,weibo_id,source_weibo_id,content,interact_type,reply_comment_id,send_type,status,send_time,interact_time
+		) VALUES(
+		#{interactId:INTEGER},#{runId:BIGINT},#{userId:BIGINT},#{accountId:BIGINT},#{commentId:BIGINT},#{weiboId:BIGINT},#{sourceWeiboId:BIGINT},#{content:VARCHAR},#{interactType:TINYINT},#{replyCommentId:BIGINT},#{sendType:TINYINT},#{status:TINYINT},#{sendTime:INTEGER},#{interactTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusGovInteract" parameterType="LinksusGovInteract">
+		  UPDATE linksus_gov_interact SET
+		  interact_id=#{interactId:INTEGER},run_id=#{runId:BIGINT},user_id=#{userId:BIGINT},account_id=#{accountId:BIGINT},comment_id=#{commentId:BIGINT},weibo_id=#{weiboId:BIGINT},source_weibo_id=#{sourceWeiboId:BIGINT},content=#{content:VARCHAR},interact_type=#{interactType:TINYINT},reply_comment_id=#{replyCommentId:BIGINT},send_type=#{sendType:TINYINT},status=#{status:TINYINT},send_time=#{sendTime:INTEGER},interact_time=#{interactTime:INTEGER}
+		  WHERE interact_id=#{interactId:INTEGER},
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusGovInteractById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_gov_interact 
+		  WHERE interact_id=#{interactId:INTEGER}
+	</update> 
+	
+	<update id="deleteLinksusGovInteractByMap" parameterType="java.util.Map">
+		  DELETE FROM linksus_gov_interact 
+		  WHERE comment_id = #{run_id:BIGINT}
+	</update>
+	
+	<select id="getInteractGovListByMid"  resultType="java.util.Map" parameterType="java.util.Map">
+		  SELECT 
+		  run_id,i.user_id,r.rps_id,r.rps_screen_name,rps_profile_image_url,
+		  rps_verified_reason,rps_gender,rps_verified_type_flag,
+		  account_id,CAST(comment_id AS CHAR) comment_id,CAST(weibo_id AS CHAR) weibo_id,
+		  CAST(source_weibo_id AS CHAR) source_weibo_id,content,interact_type,
+		  reply_comment_id,send_type,status,send_time,interact_time
+		  FROM linksus_gov_interact i,linksus_relation_weibouser r
+		  where i.user_id=r.user_id
+		  and weibo_id=#{weibo_id} 
+		  order by interact_time desc
+		  limit #{startCount},#{pageSize}
+	</select> 
+	
+	<!-- 更新回复评论状态   -->
+	<update id="updateSendReplyStatus" parameterType="LinksusGovInteract">
+          UPDATE linksus_gov_interact SET status=#{status:TINYINT} WHERE interact_id=#{interactId:BIGINT}
+	</update> 
+	
+	 <!-- 更新返回的评论信息  -->
+    <update id="updateSendReplySucc" parameterType="LinksusGovInteract">
+    	  UPDATE linksus_gov_interact SET status=#{status:TINYINT},interact_time=#{interactTime:INTEGER},comment_id=#{commentId:BIGINT},send_time=#{sendTime:INTEGER}
+		  WHERE interact_id=#{interactId:BIGINT}		  
+	</update> 
+	
+	<!-- 取出回复消息的任务列表  -->
+	<select id="getLinksusGovInteractTaskList"  resultType="LinksusGovInteract" parameterType="LinksusGovInteract">
+		   SELECT a.run_id,a.user_id,a.account_id,a.comment_id,a.weibo_id,
+		   		a.source_weibo_id, b.content, a.interact_type,b.reply_comment_id,b.send_type,
+		        b.status,b.send_time,b.interact_time,b.run_id reply_id 
+         FROM linksus_gov_interact a,linksus_gov_interact b
+        WHERE a.run_id = b.reply_comment_id
+		AND b.status = 1
+		AND b.interact_type = 7
+		AND b.send_type = #{sendType:TINYINT}
+		ORDER BY b.run_id
+		limit #{startCount},#{pageSize}
+	</select> 
+</mapper>   

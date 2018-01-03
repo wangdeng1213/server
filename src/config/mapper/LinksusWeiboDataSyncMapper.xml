@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusWeiboDataSyncMapper" >
+  <resultMap id="LinksusWeiboDataSync" type="LinksusWeiboDataSync" >
+      <result column="institution_id" property="institutionId" jdbcType="BIGINT" />
+    <result column="account_id" property="accountId" jdbcType="BIGINT" />
+    <result column="account_type" property="accountType" jdbcType="TINYINT" />
+    <result column="max_id" property="maxId" jdbcType="BIGINT" />
+  </resultMap>
+   <sql id="Base_Column_List" >
+       institution_id, account_id, account_type, max_id
+  </sql>
+   <select id="getLinksusWeiboDataSyncList" resultMap="LinksusWeiboDataSync">
+	select * from linksus_weibo_data_sync
+	 </select>
+	   <select id="getLinksusWeiboDataSyncCount" resultType="java.lang.Integer">
+	  select count(*) from linksus_weibo_data_sync 
+      where institution_id = #{institutionId,jdbcType=BIGINT}
+      and account_id = #{accountId,jdbcType=BIGINT}
+      and account_type = #{accountType,jdbcType=TINYINT} 
+	  </select>
+	   <insert id="insertLinksusWeiboDataSyncSingle" parameterType="LinksusWeiboDataSync">
+	  insert into linksus_weibo_data_sync(institution_id, account_id,account_type,max_id) values
+	  (#{institutionId,jdbcType=BIGINT},#{accountId,jdbcType=BIGINT},#{accountType,jdbcType=TINYINT},#{maxId,jdbcType=BIGINT})
+	  </insert>
+	 <update id="updateLinksusWeiboDataSyncSingle" parameterType="LinksusWeiboDataSync">
+	     update linksus_weibo_data_sync set 
+         max_id = #{maxId,jdbcType=BIGINT}
+         where institution_id = #{institutionId,jdbcType=BIGINT}
+         and account_id = #{accountId,jdbcType=BIGINT}
+         and account_type = #{accountType,jdbcType=TINYINT}
+	 </update>
+</mapper>

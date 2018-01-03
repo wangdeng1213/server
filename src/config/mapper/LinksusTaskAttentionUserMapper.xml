@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTaskAttentionUserMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusTaskAttentionUser" type="LinksusTaskAttentionUser" >
+	    <result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="user_Id" property="userId" jdbcType="TINYINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="create_time" property="createTime" jdbcType="INTEGER" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		 pid,account_id,user_Id,account_type,status,create_time,interact_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusTaskAttentionUserList"  resultMap="LinksusTaskAttentionUser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_attention_user
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusTaskAttentionUserById"  resultMap="LinksusTaskAttentionUser" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_attention_user
+		  WHERE account_id=#{accountId:BIGINT} and user_Id=#{userId:TINYINT}
+	</select> 
+	
+	
+	<select id="countLinksusTaskAttentionUser"  resultType="java.lang.Integer" parameterType="LinksusTaskAttentionUser">
+		  SELECT 
+		  count(*)
+		  FROM linksus_task_attention_user
+		  WHERE account_id=#{accountId:BIGINT} and user_Id=#{userId:TINYINT} and `status` =1
+	</select> 
+	<!-- 新增  -->
+	<update id="insertLinksusTaskAttentionUser" parameterType="LinksusTaskAttentionUser">
+		INSERT INTO linksus_task_attention_user(
+		pid,account_id,user_Id,account_type,status,create_time,interact_time
+		) VALUES(
+		#{pid:BIGINT},#{accountId:BIGINT},#{userId:TINYINT},#{accountType:TINYINT},#{status:TINYINT},#{createTime:INTEGER},#{interactTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusTaskAttentionUser" parameterType="LinksusTaskAttentionUser">
+		  UPDATE linksus_task_attention_user SET
+		  status=#{status:TINYINT},interact_time=#{interactTime:INTEGER}
+		  WHERE account_id=#{accountId:BIGINT} and user_Id=#{userId:TINYINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusTaskAttentionUserById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_task_attention_user 
+		  WHERE account_id=#{accountId:BIGINT} and user_Id=#{userId:TINYINT}
+	</update> 
+	    <!-- 查询新浪或腾讯账号类型的关注对象列表 -->
+    <select id="getAllAttentionByUserList" resultMap="LinksusTaskAttentionUser" parameterType="LinksusTaskAttentionUser">
+       select * from linksus_task_attention_user t 
+       where t.status =1
+       order by account_id 
+       limit #{startCount},#{pageSize}
+    </select>
+</mapper>   

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationMarketingMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationMarketing" type="LinksusRelationMarketing" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="marketing_object" property="marketingObject" jdbcType="TINYINT" />	
+		<result column="marketing_type" property="marketingType" jdbcType="TINYINT" />	
+		<result column="weibo_id" property="weiboId" jdbcType="BIGINT" />	
+		<result column="marketing_title" property="marketingTitle" jdbcType="VARCHAR" />	
+		<result column="marketing_content" property="marketingContent" jdbcType="VARCHAR" />	
+		<result column="marketing_success_num" property="marketingSuccessNum" jdbcType="BIGINT" />	
+		<result column="marketing_fail_num" property="marketingFailNum" jdbcType="BIGINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="apply_status" property="applyStatus" jdbcType="CHAR" />	
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />	
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,appid,app_type,institution_id,marketing_object,marketing_type,weibo_id,marketing_title,marketing_content,marketing_success_num,marketing_fail_num,status,apply_status,create_time,update_time
+	</sql>
+    
+    <!-- 查询审批通过的营销类型列表 -->
+    <select id="getSendCommentsList" resultMap="LinksusRelationMarketing" parameterType="java.util.Map">
+       select * from linksus_relation_marketing t where t.status =3 and marketing_type in 
+       <foreach collection="marketingTypes" index="index" item="item" separator="," open="(" close=")">  
+        #{item}
+       </foreach>
+       and exists (select 1 from linksus_relation_marketing_item i where t.pid=i.marketing_id and i.status=0)
+       order by pid 
+       limit #{startCount},#{pageSize}
+    </select>
+    
+    <!-- 根据营销主表主键更新营销成功失败数 -->
+    <update id="updateLinksysUserMarketing" parameterType="LinksusRelationMarketing">
+       update linksus_relation_marketing t set t.marketing_success_num=#{marketingSuccessNum},
+       t.marketing_fail_num=#{marketingFailNum} where t.pid=#{pid} 
+    </update>
+    
+    <!-- 查询审批通过的新浪或腾讯账号类型的营销列表 -->
+    <select id="getSendCommentsByUserList" resultMap="LinksusRelationMarketing" parameterType="LinksusRelationMarketing">
+       select * from linksus_relation_marketing t where t.status =3 and marketing_type=#{marketingType} and account_type=#{accountType}
+       and exists (select 1 from linksus_relation_marketing_item i where t.pid=i.marketing_id and i.status=0)
+       order by pid 
+       limit #{startCount},#{pageSize}
+    </select>
+   
+   <!-- @ -->
+    <select id="getSendMentionsByUserList" resultMap="LinksusRelationMarketing" parameterType="LinksusRelationMarketing">
+       select * from linksus_relation_marketing t where t.status =3 and marketing_type=1 and account_type=#{accountType}
+       order by pid 
+       limit #{startCount},#{pageSize}
+    </select>
+    
+    <!-- 根据营销主表主键更新营销成功失败数 -->
+    <update id="updateMentionsStatus" parameterType="LinksusRelationMarketing">
+       update linksus_relation_marketing t set status =#{status} where pid=#{pid}
+    </update>
+</mapper>   

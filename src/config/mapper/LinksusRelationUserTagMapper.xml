@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationUserTagMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationUserTag" type="LinksusRelationUserTag" >
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+		<result column="tag_id" property="tagId" jdbcType="BIGINT" />		
+	</resultMap>
+    
+    <resultMap id="LinksusRelationUserTagdef" type="LinksusRelationUserTagdef" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="tag_type" property="tagType" jdbcType="TINYINT" />	
+		<result column="tag" property="tag" jdbcType="VARCHAR" />	
+		<result column="use_count" property="useCount" jdbcType="INTEGER" />	
+	</resultMap>
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		user_id,tag,tag_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationUserTagList"  resultMap="LinksusRelationUserTag">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_user_tag
+	</select> 
+	
+	<!--  查询userId所有的标签数据 -->
+	<select id="getTagsByUserId"  resultMap="LinksusRelationUserTag" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_user_tag
+		  where user_id = #{userId:BIGINT}
+	   </select> 
+	   	
+	   	<select id="getCountByUserIdAndTagId"  resultType="java.lang.Integer" parameterType="java.util.Map">
+		  SELECT 
+		  count(*)
+		  FROM linksus_relation_user_tag
+		  where user_id = #{userId:BIGINT}  and tag_id = #{tagId:BIGINT}
+	   </select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWeiboById"  resultMap="LinksusRelationUserTag" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_user_tag
+		  WHERE user_id=#{userId:BIGINT} AND tag=#{tag:VARCHAR}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationUserTag" parameterType="LinksusRelationUserTag">
+		INSERT INTO linksus_relation_user_tag(
+		user_id,tag,tag_id
+		) VALUES(
+		#{userId:BIGINT},#{tag:VARCHAR},#{tagId:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationUserTag" parameterType="LinksusRelationUserTag">
+		  UPDATE linksus_relation_user_tag SET
+		  user_id=#{userId:BIGINT},tag=#{tag:VARCHAR},tag_id=#{tagId:BIGINT}
+		  WHERE user_id=#{userId:BIGINT} 
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationUserTagById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_user_tag 
+		  WHERE user_id=#{userId:BIGINT}
+	</update> 
+
+	
+	<update id="deleteUserTagBySet" parameterType="java.util.Map">
+		  DELETE FROM linksus_relation_user_tag 
+		  WHERE user_id=#{userId:BIGINT} and tag_id in 
+          <foreach collection="tagsSet" index="index" item="item" separator="," open="(" close=")">  
+          #{item}
+          </foreach>
+	</update> 
+		<!-- 主键删除 -->
+	<update id="deleteLinksusRelationUserTagByUserId" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_user_tag 
+		  WHERE user_id=#{userId:BIGINT}
+	</update> 
+	
+	<!-- 将标签使用记录数插入中间表  -->
+	<update id="insertTagCountIntoMiddleTable">
+		 INSERT INTO linksus_tag_trans
+		 SELECT tag_id, COUNT(*) FROM linksus_relation_user_tag GROUP BY tag_id
+	</update>
+	
+</mapper>   

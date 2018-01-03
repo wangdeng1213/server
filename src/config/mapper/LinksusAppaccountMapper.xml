@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusAppaccountMapper">
+	<resultMap id="LinksusAppaccount" type="LinksusAppaccount">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="institution_id" property="institutionId"
+			jdbcType="BIGINT" />
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="token" property="token" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="app_stime" property="appStime" jdbcType="INTEGER" />
+		<result column="app_etime" property="appEtime" jdbcType="INTEGER" />
+		<result column="token_etime" property="tokenEtime" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="created_time" property="createdTime" jdbcType="INTEGER" />
+		<result column="last_upd_time" property="lastUpdTime" jdbcType="INTEGER" />
+		<result column="app_key" property="appKey" jdbcType="VARCHAR" />
+		<result column="app_secrect" property="appSecrect" jdbcType="VARCHAR" />
+		<result column="valid_token" property="validToken" jdbcType="VARCHAR" />
+		<result column="wx_type" property="wxType" jdbcType="TINYINT" />
+		<result column="account_name" property="accountName" jdbcType="CHAR" />	
+		<result column="nick_name" property="nickName" jdbcType="CHAR" />	
+		<result column="user_profile" property="userProfile" jdbcType="CHAR" />	
+		<result column="is_gov" property="isGov" jdbcType="TINYINT" />
+		<result column="wx_source_id" property="wxSourceId" jdbcType="VARCHAR" />
+		<result column="initial_follow_num" property="initial_follow_num" jdbcType="INTEGER" />
+		<result column="last_follow_num"  property="last_follow_num" jdbcType="INTEGER" />
+		<result column="updt_follow_time" property="updt_follow_time" jdbcType="INTEGER" />
+		<result column="max_id" property="maxId" jdbcType="BIGINT" />
+		<result column="pagetime" property="pagetime" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<resultMap id="LinksusAppaccountWithMsgId"  type="LinksusAppaccount" >
+		<id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="institution_id" property="institutionId" jdbcType="BIGINT" />
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="token" property="token" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="msg_id" property="msgId" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<resultMap id="TencentInteractAppaccount"  type="LinksusAppaccount" >
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="token" property="token" jdbcType="VARCHAR" />
+		<result column="max_id" property="maxId" jdbcType="BIGINT" />
+		<result column="pagetime" property="pagetime" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<resultMap id="FackAppaccount"  type="LinksusAppaccount">
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="institution_id" property="institutionId" jdbcType="BIGINT" />
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="token" property="token" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="userId" property="userId" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, institution_id, appid, token, type, app_stime, app_etime,
+		token_etime, status,
+		created_time, last_upd_time, app_key, app_secrect, valid_token, wx_type,open_id
+  	</sql>
+   	<select id="getLinksusAppaccountList" resultMap="LinksusAppaccount" parameterType="LinksusAppaccount">
+	    select * from linksus_appaccount
+	    where token!="0"
+     	and app_stime &lt;= UNIX_TIMESTAMP(NOW()) 
+        and app_etime &gt;= UNIX_TIMESTAMP(NOW())
+        and token_etime &gt;= UNIX_TIMESTAMP(NOW())
+        and id = 2192 
+        and is_gov=0
+        and type=#{type} order by id desc limit #{startCount},#{pageSize}
+   	</select>
+   	<select id="getLinksusOrgAppaccountList" resultMap="LinksusAppaccount" parameterType="LinksusAppaccount">
+	    select * from linksus_appaccount
+	    where token!="0"
+        and token_etime &gt;= UNIX_TIMESTAMP(NOW())
+        and type=#{type} 
+        and is_gov=1
+        and id =1144
+        order by id limit #{startCount},#{pageSize}
+   	</select>  	
+   	<select id="getLinksusAppaccountAttentionList" resultMap="LinksusAppaccount" parameterType="LinksusAppaccount">
+	    select t.*,n.max_id from linksus_appaccount t
+	    LEFT JOIN linksus_weibo_data_sync  n
+      on t.id = n.account_id
+      and t.institution_id = n.institution_id
+      and t.type = n.account_type
+	  where t.token !="0"
+      and t.app_stime &lt;= UNIX_TIMESTAMP(NOW()) 
+      and t.app_etime &gt;= UNIX_TIMESTAMP(NOW())
+      and t.token_etime &gt;= UNIX_TIMESTAMP(NOW())
+      and t.type = #{type} order by t.id limit #{startCount},#{pageSize}
+   	</select>
+	<select id="getLinksusAppaccountToken" resultMap="LinksusAppaccount"
+		parameterType="java.lang.Integer">
+		select * from linksus_appaccount t
+		where t.token !="0"
+        and t.app_stime &lt;= UNIX_TIMESTAMP(NOW()) 
+        and t.app_etime &gt;= UNIX_TIMESTAMP(NOW())
+        and t.token_etime &gt;= UNIX_TIMESTAMP(NOW())
+        and t.type = #{type}
+		and `status`= 1 order by t.token_etime desc limit 1
+	</select>
+	<select id="getUserList" resultMap="LinksusAppaccount"
+		parameterType="java.lang.String">
+		select t.id,t.appid,t.token,t.type,t.institution_id,t1.initial_follow_num,t1.last_follow_num,t1.updt_follow_time from linksus_appaccount t,linksus_task_increment_user t1 where  
+	    t.type=#{account_type} and t.id = t1.account_id and  t.type = t1.app_type  order by t.token_etime desc
+	</select>
+	<!-- 更新机构账号基本信息任务列表 -->
+	<select id ="getInstitutionUserTaskList">
+	    select * from linksus_appaccount where app_etime>app_stime and token_etime >UNIX_TIMESTAMP(now()) and token!="0" and 
+	    type=#{accountType}  order by token_etime desc 
+	</select>
+	<!--关联rpsId 或者 name 和accountType查询appaccount表  -->
+	<select id ="getAppaccountByIdOrName" resultMap="LinksusAppaccount" parameterType="java.util.Map">
+	      select * from linksus_appaccount 
+	      where 1=1 
+	     <if test="rpsId != null" >
+          and appid=#{rpsId:VARCHAR}
+          </if>
+          	  <if test="name != null" >
+          and rps_screen_name=#{name:VARCHAR}
+          </if>
+          	  <if test="accountType != null" >
+          and type=#{accountType:TINYINT}
+          </if>
+          limit 1
+	</select>
+	<!-- 通过主键、合同开始结束日期、授权日期,取得当前账户信息 -->
+	<select id="getLinksusAppaccountTokenById" resultMap="LinksusAppaccount" parameterType="java.lang.Long">
+	   select * from linksus_appaccount 
+	     where app_etime &gt;= UNIX_TIMESTAMP(NOW())
+         and token_etime &gt;= UNIX_TIMESTAMP(NOW())
+         and id=#{id}
+	</select>
+	
+	<!-- 政务版——通过主键、授权日期,取得当前账户信息 -->
+	<select id="getGovLinksusAppaccountTokenById" resultMap="LinksusAppaccount" parameterType="java.lang.Long">
+	   select * from linksus_appaccount 
+	     where token_etime &gt;= UNIX_TIMESTAMP(NOW())
+         and id=#{id}
+	</select>
+	
+	<!-- 通过institution_id、id查询用户Token -->
+	<select id="getLinksusAppaccountTokenByAppid" resultMap="LinksusAppaccount" parameterType="java.util.Map">
+	  select * from linksus_appaccount 
+	   where token !="0"
+         and app_etime &gt;= UNIX_TIMESTAMP(NOW())
+         and token_etime &gt;= UNIX_TIMESTAMP(NOW())
+         and id=#{id,jdbcType=VARCHAR} 
+         and institution_id=#{institutionId,jdbcType=BIGINT}
+         and type=#{type,jdbcType=TINYINT}
+         limit 1
+	</select>
+	
+	<!-- 获取微信用户 -->
+	<select id="getLinksusAppaccountWXUser" resultMap="LinksusAppaccount" parameterType="LinksusAppaccount">
+	  select * from linksus_appaccount 
+	   where type=3
+         and app_etime &gt;= UNIX_TIMESTAMP(NOW())
+         and status=1
+         and app_key !="0"
+         and app_secrect !="0"
+         order by id 
+         limit #{startCount},#{pageSize}
+	</select>
+	
+	<!-- 更新微信用户token -->
+	<update id="updateWXUserToken" parameterType="LinksusAppaccount">
+	   update linksus_appaccount set token=#{token}, token_etime=#{tokenEtime},last_upd_time=#{lastUpdTime} where id=#{id}
+	</update>
+	
+	<!-- 获取已授权微信用户 -->
+	<select id="getAllLinksusAppaccountWXUser" resultMap="LinksusAppaccount" parameterType="LinksusAppaccount">
+	  select * from linksus_appaccount 
+	     where type=3
+	     and token !="0"
+         and app_etime &gt;= UNIX_TIMESTAMP(NOW())
+         and token_etime &gt;= UNIX_TIMESTAMP(NOW())
+         and status=1
+         and app_key !="0"
+         and app_secrect !="0"
+         order by id 
+         limit #{startCount},#{pageSize}
+	</select>
+	
+	<!-- 根据account_name获取微信账户Token 
+	<select id="getLinksusAppaccountWXUserByAccountName" resultMap="LinksusAppaccount" parameterType="LinksusAppaccount">
+	  select * from linksus_appaccount 
+	   where wx_source_id=#{wxSourceId,jdbcType=VARCHAR}
+	     and type=#{type,jdbcType=TINYINT}
+	     and token !="0" 
+	     and status=1
+         and app_etime &gt;= UNIX_TIMESTAMP(NOW())
+         and token_etime &gt;= UNIX_TIMESTAMP(NOW())
+       limit 1
+	</select>
+	-->
+	
+	<select id="getWxAppaccountByAccountName" resultMap="LinksusAppaccount" parameterType="java.lang.String">
+	  select * from linksus_appaccount 
+	   where account_name=#{value} and type=3
+	     and token !="0" 
+	     and status=1
+         and app_etime &gt;= UNIX_TIMESTAMP(NOW())
+         and token_etime &gt;= UNIX_TIMESTAMP(NOW())
+       limit 1
+	</select>
+	
+	<!-- 通过appid查询用户 -->
+	<select id="getAppaccountByAppid" resultMap="LinksusAppaccount" parameterType="java.lang.String">
+	  select * from linksus_appaccount 
+	   where token !="0" 
+	     and status=1
+	     and appid=#{appid:VARCHAR}
+         and token_etime &gt;= UNIX_TIMESTAMP(NOW())
+       limit 1
+	</select>
+	
+	<!-- 通过主键查询用户 -->
+	<select id="getLinksusAppaccountById" resultMap="LinksusAppaccount" parameterType="java.lang.Long">
+	   select * from linksus_appaccount where id=#{id}
+	</select>
+	
+	<!-- 通过主键查询用户、微博账户表userId -->
+	<select id="getLinksusAppaccountAndUserIdById" resultMap="FackAppaccount" parameterType="java.lang.Long">
+	   select a.id,a.institution_id,a.appid,a.token,a.type, b.user_id userId
+	   from linksus_appaccount a,linksus_relation_weibouser b 
+	   where a.id=#{id}
+	     and a.appid = b.rps_id
+	     and a.type = b.user_type
+	</select>
+	
+	<!-- 分页查询腾讯(私信/互动)已授权的账号及互动节点 -->
+	<select id="getTencentInteractAppaccount" resultMap="LinksusAppaccount" parameterType="LinksusAppaccount">
+	   select a.id,a.appid,a.institution_id,a.account_name,a.token,t.max_id,t.pagetime from linksus_appaccount a
+	   left join linksus_task_weibo_interact t on a.id=t.account_id and t.interact_type=#{interactType}
+	   where type=2
+       and app_etime &gt;= UNIX_TIMESTAMP(NOW())
+       and token_etime &gt;= UNIX_TIMESTAMP(NOW())
+       and status=1
+       and token !="0" 
+       and is_gov=0
+	   order by id desc
+       limit #{startCount},#{pageSize}
+	</select>
+	
+	<!-- 查询新浪私信账号及最大消息ID -->
+	<select id="getLinksusAppaccountListWithMsgId" resultMap="LinksusAppaccountWithMsgId" parameterType="LinksusAppaccount">
+	   select a.id,a.institution_id,a.appid,a.token,a.type,b.msg_id from linksus_appaccount a
+		left join (
+		select account_id,max(msg_id) msg_id from linksus_interact_message where account_type=1 and interact_type=1 GROUP BY account_id
+		) b on a.id=b.account_id
+	   where a.type=1
+       and a.app_etime &gt;= UNIX_TIMESTAMP(NOW())
+       and a.token_etime &gt;= UNIX_TIMESTAMP(NOW())
+       and status=1
+       and token !="0"
+       and is_gov=0
+	</select>
+	<select id="getLinksusGovAppaccountListWithMsgId" resultMap="LinksusAppaccountWithMsgId" parameterType="LinksusAppaccount">
+	   select a.id,a.institution_id,a.appid,a.token,a.type,b.msg_id from linksus_appaccount a
+		left join (
+		select account_id,max(msg_id) msg_id from linksus_gov_message where interact_type=1 GROUP BY account_id
+		) b on a.id=b.account_id
+	   where a.type=1
+       and a.token_etime &gt;= UNIX_TIMESTAMP(NOW())
+       and status=1
+       and token !="0"
+       and is_gov=1
+	</select>
+	
+	<!-- 取得系统初始化app_key -->
+	<select id="getSystemDefaultAppKey" resultType="java.util.Map">
+	   select name,app_key,app_secret,type from linksus_defined_source where is_system=1
+	</select>
+	
+</mapper>

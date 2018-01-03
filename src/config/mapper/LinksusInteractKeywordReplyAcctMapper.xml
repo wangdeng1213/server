@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractKeywordReplyAcctMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractKeywordReplyAcct" type="LinksusInteractKeywordReplyAcct" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="keyword_id" property="keywordId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="reply_id" property="replyId" jdbcType="BIGINT" />	
+	</resultMap>
+	
+	<resultMap id="AllKeywordReplyAcct" type="LinksusInteractKeywordReplyAcct" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="keyword_id" property="keywordId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />
+		<result column="reply_id" property="replyId" jdbcType="BIGINT" />	
+		<result column="keyword_name" property="keywordName" jdbcType="CHAR" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,keyword_id,account_id,reply_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractKeywordReplyAcctList"  resultMap="LinksusInteractKeywordReplyAcct">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_keyword_reply_acct
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractKeywordReplyAcctById"  resultMap="LinksusInteractKeywordReplyAcct" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_keyword_reply_acct
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractKeywordReplyAcct" parameterType="LinksusInteractKeywordReplyAcct">
+		INSERT INTO linksus_interact_keyword_reply_acct(
+		pid,keyword_id,account_id,reply_id
+		) VALUES(
+		#{pid:BIGINT},#{keywordId:BIGINT},#{accountId:BIGINT},#{replyId:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractKeywordReplyAcct" parameterType="LinksusInteractKeywordReplyAcct">
+		  UPDATE linksus_interact_keyword_reply_acct SET
+		  pid=#{pid:BIGINT},keyword_id=#{keywordId:BIGINT},account_id=#{accountId:BIGINT},reply_id=#{replyId:BIGINT}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractKeywordReplyAcctById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_keyword_reply_acct 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	
+</mapper>   

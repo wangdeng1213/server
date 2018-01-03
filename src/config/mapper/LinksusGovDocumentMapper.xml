@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusGovDocumentMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusGovDocument" type="LinksusGovDocument" >
+		<result column="document_id" property="documentId" jdbcType="INTEGER" />	
+		<result column="document_content" property="documentContent" jdbcType="VARCHAR" />	
+		<result column="account_id" property="accountId" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		document_id,document_content,account_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusGovDocumentList"  resultMap="LinksusGovDocument">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_document
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusGovDocumentById"  resultMap="LinksusGovDocument" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_document
+		  WHERE 1=1  and document_id=#{documentId:INTEGER}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusGovDocument" parameterType="LinksusGovDocument">
+		INSERT INTO linksus_gov_document(
+		document_id,document_content,account_id
+		) VALUES(
+		#{documentId:INTEGER},#{documentContent:VARCHAR},#{accountId:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusGovDocument" parameterType="LinksusGovDocument">
+		  UPDATE linksus_gov_document SET
+		  document_id=#{documentId:INTEGER},document_content=#{documentContent:VARCHAR},account_id=#{accountId:INTEGER}
+		  WHERE 1=1  and document_id=#{documentId:INTEGER}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusGovDocumentById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_gov_document 
+		  WHERE 1=1  and document_id=#{documentId:INTEGER}
+	</update> 
+	<select id="getLinksusGovDocumentListByAccount"  resultMap="LinksusGovDocument" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_document where account_id=#{accountId:INTEGER}
+	</select> 
+</mapper>   

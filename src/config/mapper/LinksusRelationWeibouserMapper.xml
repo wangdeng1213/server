@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationWeibouserMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationWeibouser" type="LinksusRelationWeibouser" >
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="rps_id" property="rpsId" jdbcType="VARCHAR" />	
+		<result column="user_type" property="userType" jdbcType="TINYINT" />	
+		<result column="person_id" property="personId" jdbcType="BIGINT" />	
+		<result column="rps_screen_name" property="rpsScreenName" jdbcType="VARCHAR" />	
+		<result column="rps_name" property="rpsName" jdbcType="VARCHAR" />	
+		<result column="country_code" property="countryCode" jdbcType="VARCHAR" />	
+		<result column="rps_province" property="rpsProvince" jdbcType="VARCHAR" />	
+		<result column="rps_city" property="rpsCity" jdbcType="VARCHAR" />	
+		<result column="rps_location" property="rpsLocation" jdbcType="VARCHAR" />	
+		<result column="rps_description" property="rpsDescription" jdbcType="VARCHAR" />	
+		<result column="rps_url" property="rpsUrl" jdbcType="VARCHAR" />	
+		<result column="rps_profile_image_url" property="rpsProfileImageUrl" jdbcType="VARCHAR" />	
+		<result column="birth_day" property="birthDay" jdbcType="VARCHAR" />	
+		<result column="rps_domain" property="rpsDomain" jdbcType="VARCHAR" />	
+		<result column="rps_gender" property="rpsGender" jdbcType="VARCHAR" />	
+		<result column="rps_followers_count" property="rpsFollowersCount" jdbcType="BIGINT" />	
+		<result column="rps_friends_count" property="rpsFriendsCount" jdbcType="BIGINT" />	
+		<result column="rps_bi_followers_count" property="rpsBiFollowersCount" jdbcType="BIGINT" />	
+		<result column="rps_statuses_count" property="rpsStatusesCount" jdbcType="BIGINT" />	
+		<result column="rps_favourites_count" property="rpsFavouritesCount" jdbcType="BIGINT" />	
+		<result column="rps_created_at" property="rpsCreatedAt" jdbcType="TINYINT" />	
+		<result column="rps_allow_all_act_msg" property="rpsAllowAllActMsg" jdbcType="TINYINT" />	
+		<result column="rps_geo_enabled" property="rpsGeoEnabled" jdbcType="TINYINT" />	
+		<result column="rps_verified" property="rpsVerified" jdbcType="TINYINT" />	
+		<result column="rps_verified_type" property="rpsVerifiedType" jdbcType="TINYINT" />	
+		<result column="rps_verified_type_flag" property="rpsVerifiedTypeFlag" jdbcType="TINYINT" />	
+		<result column="rps_allow_all_comment" property="rpsAllowAllComment" jdbcType="TINYINT" />	
+		<result column="rps_avatar_large" property="rpsAvatarLarge" jdbcType="VARCHAR" />	
+		<result column="rps_verified_reason" property="rpsVerifiedReason" jdbcType="VARCHAR" />	
+		<result column="rps_comment_num" property="rpsCommentNum" jdbcType="BIGINT" />	
+		<result column="rps_atme_num" property="rpsAtmeNum" jdbcType="BIGINT" />	
+		<result column="rps_coverage_num" property="rpsCoverageNum" jdbcType="BIGINT" />	
+		<result column="industry_code" property="industryCode" jdbcType="VARCHAR" />	
+		<result column="lastweiboid" property="lastweiboid" jdbcType="VARCHAR" />	
+		<result column="lastweibotime" property="lastweibotime" jdbcType="VARCHAR" />	
+		<result column="fans_quality" property="fansQuality" jdbcType="BIGINT" />	
+		<result column="weibo_level" property="weiboLevel" jdbcType="BIGINT" />	
+		<result column="sytime" property="sytime" jdbcType="BIGINT" />	
+		<result column="weibo_create_time" property="weiboCreateTime" jdbcType="BIGINT" />	
+		<result column="weibo_last_sytime" property="weiboLastSytime" jdbcType="BIGINT" />	
+		<result column="weibo_last_mid" property="weiboLastMid" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		user_id,rps_id,user_type,person_id,rps_screen_name,rps_name,country_code,rps_province,rps_city,rps_location,rps_description,rps_url,rps_profile_image_url,birth_day,rps_domain,rps_gender,rps_followers_count,rps_friends_count,rps_bi_followers_count,rps_statuses_count,rps_favourites_count,rps_created_at,rps_allow_all_act_msg,rps_geo_enabled,rps_verified,rps_verified_type,rps_verified_type_flag,rps_allow_all_comment,rps_avatar_large,rps_verified_reason,rps_comment_num,rps_atme_num,rps_coverage_num,industry_code,lastweiboid,lastweibotime,fans_quality,weibo_level,sytime,weibo_create_time,weibo_last_sytime,weibo_last_mid
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationWeibouserList"  resultMap="LinksusRelationWeibouser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_weibouser
+	</select> 
+    
+    <select id="getLinksusTencentWeibouserList"  resultMap="LinksusRelationWeibouser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_weibouser where user_type =2  order by user_id limit #{startCount},#{pageSize}
+	</select> 
+	
+        <!-- 根据更新时间查询列表  --> 
+	<select id="getLinksusWeibouserListByTime"  resultMap="LinksusRelationWeibouser"  parameterType="LinksusRelationWeibouser">
+		  SELECT user_id, rps_id 
+		  FROM linksus_relation_weibouser  where #{sytime:BIGINT} > sytime and user_id>#{lastUserId:BIGINT} and user_type=#{userType:TINYINT} order by user_id
+	      limit #{startCount},#{pageSize}
+	</select> 
+	
+	<!-- 查询指定天数以前未更新的微博粉丝用户 -->
+	<select id="getLinksusWeibouserListByDay"  resultMap="LinksusRelationWeibouser"  parameterType="LinksusRelationWeibouser">
+		  SELECT 
+		  user_id,rps_id,user_type,rps_profile_image_url,rps_screen_name,weibo_last_sytime,weibo_last_mid,weibo_page_time
+		  FROM linksus_relation_weibouser  where #{weiboLastSytime:BIGINT} > weibo_last_sytime and user_id>#{lastUserId:BIGINT} and user_type=#{userType:TINYINT} order by user_id
+	      limit #{pageSize}
+	</select> 
+	
+	<!-- 更新微博粉丝的最后更新时间 -->
+	<update id="updateWeibouserLastSytime" parameterType="LinksusRelationWeibouser">
+		  UPDATE linksus_relation_weibouser SET
+		  weibo_last_sytime=#{weiboLastSytime:BIGINT}
+		  WHERE rps_id=#{rpsId:VARCHAR} and user_type=#{userType:TINYINT}
+	</update> 
+	
+	<!-- 更新微博粉丝的微博最大ID和pageTime -->
+	<update id="updateWeibouserLastWeiboId" parameterType="LinksusRelationWeibouser">
+		  UPDATE linksus_relation_weibouser SET
+		  weibo_last_mid=#{weiboLastMid:VARCHAR}, weibo_page_time=#{weiboPageTime:BIGINT}
+		  WHERE rps_id=#{rpsId:VARCHAR} and user_type=#{userType:TINYINT}
+	</update> 
+	
+    <!-- 主键查询  -->
+	<select id="getLinksusWeiboById"  resultMap="LinksusRelationWeibouser" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_weibouser
+		  WHERE user_id=#{userId:BIGINT}
+	</select> 
+	
+	<select id="checkUserIsExsit"  resultType="java.lang.Integer" parameterType="java.util.Map">
+		  SELECT 
+		  count(*)
+		  FROM linksus_relation_weibouser
+		  WHERE 1=1
+		     <if test="rpsId != null" >
+          and rps_id=#{rpsId:VARCHAR}
+          </if>
+          	  <if test="name != null" >
+          and rps_screen_name=#{name:VARCHAR}
+          </if>
+          	  <if test="accountType != null" >
+          and user_type=#{accountType:TINYINT}
+          </if>
+	</select> 
+	<!-- 新增  -->
+	<update id="insertLinksusRelationWeibouser" parameterType="LinksusRelationWeibouser">
+		INSERT INTO linksus_relation_weibouser(
+		user_id,rps_id,user_type,person_id,rps_screen_name,rps_name,country_code,rps_province,rps_city,rps_location,rps_description,rps_url,rps_profile_image_url,birth_day,rps_domain,rps_gender,rps_followers_count,rps_friends_count,rps_bi_followers_count,rps_statuses_count,rps_favourites_count,rps_created_at,rps_allow_all_act_msg,rps_geo_enabled,rps_verified,rps_verified_type,rps_verified_type_flag,rps_allow_all_comment,rps_avatar_large,rps_verified_reason,rps_comment_num,rps_atme_num,rps_coverage_num,industry_code,lastweiboid,lastweibotime,fans_quality,weibo_level,sytime,weibo_create_time,weibo_last_sytime,weibo_last_mid,tags
+		) VALUES(
+		#{userId:BIGINT},#{rpsId:VARCHAR},#{userType:TINYINT},#{personId:BIGINT},#{rpsScreenName:VARCHAR},#{rpsName:VARCHAR},#{countryCode:VARCHAR},#{rpsProvince:VARCHAR},#{rpsCity:VARCHAR},#{rpsLocation:VARCHAR},#{rpsDescription:VARCHAR},#{rpsUrl:VARCHAR},#{rpsProfileImageUrl:VARCHAR},#{birthDay:VARCHAR},#{rpsDomain:VARCHAR},#{rpsGender:VARCHAR},#{rpsFollowersCount:BIGINT},#{rpsFriendsCount:BIGINT},#{rpsBiFollowersCount:BIGINT},#{rpsStatusesCount:BIGINT},#{rpsFavouritesCount:BIGINT},#{rpsCreatedAt:TINYINT},#{rpsAllowAllActMsg:TINYINT},#{rpsGeoEnabled:TINYINT},#{rpsVerified:TINYINT},#{rpsVerifiedType:TINYINT},#{rpsVerifiedTypeFlag:TINYINT},#{rpsAllowAllComment:TINYINT},#{rpsAvatarLarge:VARCHAR},#{rpsVerifiedReason:VARCHAR},#{rpsCommentNum:BIGINT},#{rpsAtmeNum:BIGINT},#{rpsCoverageNum:BIGINT},#{industryCode:VARCHAR},#{lastweiboid:VARCHAR},#{lastweibotime:VARCHAR},#{fansQuality:BIGINT},#{weiboLevel:BIGINT},#{sytime:BIGINT},#{weiboCreateTime:BIGINT},#{weiboLastSytime:BIGINT},#{weiboLastMid:BIGINT},#{tags:VARCHAR}
+		)
+	</update>
+	<!-- 更新  -->
+	<update id="updateLinksusRelationWeibouserById" parameterType="LinksusRelationWeibouser">
+		  UPDATE linksus_relation_weibouser SET
+		  rps_id=#{rpsId:VARCHAR}
+		  WHERE  user_id=#{userId:BIGINT}
+	</update> 
+	<!-- 更新  --> 
+	<update id="updateLinksusRelationWeibouser" parameterType="LinksusRelationWeibouser">
+		  UPDATE linksus_relation_weibouser SET
+		  rps_id=#{rpsId:VARCHAR},user_type=#{userType:TINYINT},person_id=#{personId:BIGINT},rps_screen_name=#{rpsScreenName:VARCHAR},rps_name=#{rpsName:VARCHAR},country_code=#{countryCode:VARCHAR},rps_province=#{rpsProvince:VARCHAR},rps_city=#{rpsCity:VARCHAR},rps_location=#{rpsLocation:VARCHAR},rps_description=#{rpsDescription:VARCHAR},rps_url=#{rpsUrl:VARCHAR},rps_profile_image_url=#{rpsProfileImageUrl:VARCHAR},birth_day=#{birthDay:VARCHAR},rps_domain=#{rpsDomain:VARCHAR},rps_gender=#{rpsGender:VARCHAR},rps_followers_count=#{rpsFollowersCount:BIGINT},rps_friends_count=#{rpsFriendsCount:BIGINT},rps_bi_followers_count=#{rpsBiFollowersCount:BIGINT},rps_statuses_count=#{rpsStatusesCount:BIGINT},rps_favourites_count=#{rpsFavouritesCount:BIGINT},rps_created_at=#{rpsCreatedAt:TINYINT},rps_allow_all_act_msg=#{rpsAllowAllActMsg:TINYINT},rps_geo_enabled=#{rpsGeoEnabled:TINYINT},rps_verified=#{rpsVerified:TINYINT},rps_verified_type=#{rpsVerifiedType:TINYINT},rps_allow_all_comment=#{rpsAllowAllComment:TINYINT},rps_avatar_large=#{rpsAvatarLarge:VARCHAR},rps_verified_reason=#{rpsVerifiedReason:VARCHAR},rps_comment_num=#{rpsCommentNum:BIGINT},rps_atme_num=#{rpsAtmeNum:BIGINT},rps_coverage_num=#{rpsCoverageNum:BIGINT},industry_code=#{industryCode:VARCHAR},lastweiboid=#{lastweiboid:VARCHAR},lastweibotime=#{lastweibotime:VARCHAR},fans_quality=#{fansQuality:BIGINT},weibo_level=#{weiboLevel:BIGINT},sytime=#{sytime:BIGINT},weibo_create_time=#{weiboCreateTime:BIGINT},weibo_last_sytime=#{weiboLastSytime:BIGINT},weibo_last_mid=#{weiboLastMid:BIGINT}
+		  WHERE rps_id=#{rpsId:VARCHAR} and  user_type=#{userType:TINYINT}
+	</update> 
+	<!-- 更新 新浪数据 -->
+	<update id="updateSinaLinksusRelationWeibouser" parameterType="LinksusRelationWeibouser">
+		  UPDATE linksus_relation_weibouser SET
+		  rps_id=#{rpsId:VARCHAR},user_type=#{userType:TINYINT},person_id=#{personId:BIGINT},rps_screen_name=#{rpsScreenName:VARCHAR},rps_name=#{rpsName:VARCHAR},country_code=#{countryCode:VARCHAR},rps_province=#{rpsProvince:VARCHAR},rps_city=#{rpsCity:VARCHAR},rps_location=#{rpsLocation:VARCHAR},rps_description=#{rpsDescription:VARCHAR},rps_url=#{rpsUrl:VARCHAR},rps_profile_image_url=#{rpsProfileImageUrl:VARCHAR},rps_domain=#{rpsDomain:VARCHAR},rps_gender=#{rpsGender:VARCHAR},rps_followers_count=#{rpsFollowersCount:BIGINT},rps_friends_count=#{rpsFriendsCount:BIGINT},rps_bi_followers_count=#{rpsBiFollowersCount:BIGINT},rps_statuses_count=#{rpsStatusesCount:BIGINT},rps_favourites_count=#{rpsFavouritesCount:BIGINT},rps_created_at=#{rpsCreatedAt:TINYINT},rps_allow_all_act_msg=#{rpsAllowAllActMsg:TINYINT},rps_geo_enabled=#{rpsGeoEnabled:TINYINT},rps_verified=#{rpsVerified:TINYINT},rps_verified_type=#{rpsVerifiedType:TINYINT},rps_allow_all_comment=#{rpsAllowAllComment:TINYINT},rps_avatar_large=#{rpsAvatarLarge:VARCHAR},rps_verified_reason=#{rpsVerifiedReason:VARCHAR},lastweiboid=#{lastweiboid:VARCHAR},lastweibotime=#{lastweibotime:VARCHAR},fans_quality=#{fansQuality:BIGINT},sytime=#{sytime:BIGINT},tags=#{tags:VARCHAR}
+		  WHERE rps_id=#{rpsId:VARCHAR} and  user_type=#{userType:TINYINT}
+	</update> 
+	<!-- 更新 腾讯数据 -->
+	<update id="updateCententLinksusRelationWeibouser" parameterType="LinksusRelationWeibouser">
+		  UPDATE linksus_relation_weibouser SET
+		  rps_id=#{rpsId:VARCHAR},user_type=#{userType:TINYINT},rps_screen_name=#{rpsScreenName:VARCHAR},
+		  rps_name=#{rpsName:VARCHAR},country_code=#{countryCode:VARCHAR},rps_province=#{rpsProvince:VARCHAR},rps_city=#{rpsCity:VARCHAR},rps_location=#{rpsLocation:VARCHAR},rps_description=#{rpsDescription:VARCHAR},rps_url=#{rpsUrl:VARCHAR},rps_profile_image_url=#{rpsProfileImageUrl:VARCHAR},birth_day=#{birthDay:VARCHAR},rps_gender=#{rpsGender:VARCHAR},rps_followers_count=#{rpsFollowersCount:BIGINT},rps_friends_count=#{rpsFriendsCount:BIGINT},rps_bi_followers_count=#{rpsBiFollowersCount:BIGINT},rps_statuses_count=#{rpsStatusesCount:BIGINT},rps_favourites_count=#{rpsFavouritesCount:BIGINT},rps_created_at=#{rpsCreatedAt:TINYINT},rps_allow_all_act_msg=#{rpsAllowAllActMsg:TINYINT},rps_verified=#{rpsVerified:TINYINT},rps_verified_reason=#{rpsVerifiedReason:VARCHAR},industry_code=#{industryCode:VARCHAR},lastweiboid=#{lastweiboid:VARCHAR},lastweibotime=#{lastweibotime:VARCHAR},fans_quality=#{fansQuality:BIGINT},weibo_level=#{weiboLevel:BIGINT},sytime=#{sytime:BIGINT},tags=#{tags:VARCHAR}
+		  WHERE rps_id=#{rpsId:VARCHAR} and  user_type=#{userType:TINYINT}
+	</update> 
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationWeibouserById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_weibouser 
+		  WHERE user_id=#{userId:BIGINT}
+	</update> 
+	
+	<select id="getCountByrpsIdAndType"  resultType="java.lang.Integer">
+		  SELECT 
+		  count(*)
+		  FROM linksus_relation_weibouser where rps_id=#{rpsId:VARCHAR} and user_type=#{userType:TINYINT}
+	</select> 
+	
+		<select id="getWeibouserByrpsIdAndType"  resultMap="LinksusRelationWeibouser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_weibouser where rps_id=#{rpsId:VARCHAR} and user_type=#{userType:TINYINT} limit 1
+	</select> 
+	
+	<select id="getLinksusRelationWeibouser"  resultMap="LinksusRelationWeibouser" parameterType="LinksusRelationWeibouser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_weibouser
+		  WHERE rps_id=#{rpsId} and user_type=#{userType} 
+		  limit 0,1
+	</select> 
+	
+		<!-- 通过主键获取微博用户信息 -->
+	<select id="getRelationWeibouserByUserId" resultMap="LinksusRelationWeibouser" parameterType="java.lang.Long">
+	   select * from linksus_relation_weibouser where user_id=#{userId}
+	</select>
+			<!-- 只更新personid  -->
+	<update id="updatePersonId" parameterType="LinksusRelationWeibouser">
+		  UPDATE linksus_relation_weibouser 
+		  	SET person_id=#{personId}
+		  WHERE user_id=#{userId:BIGINT}
+	</update> 
+		
+	<select id="getLinksusWeibouserListByMap"  resultMap="LinksusRelationWeibouser" parameterType="java.util.Map">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_weibouser
+		  WHERE  person_id = #{personId}	  
+	</select> 
+</mapper>   

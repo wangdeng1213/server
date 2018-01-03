@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractWxMenuItemMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractWxMenuItem" type="LinksusInteractWxMenuItem" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="menu_id" property="menuId" jdbcType="BIGINT" />	
+		<result column="prarent_id" property="prarentId" jdbcType="BIGINT" />	
+		<result column="item_type" property="itemType" jdbcType="TINYINT" />	
+		<result column="item_name" property="itemName" jdbcType="VARCHAR" />	
+		<result column="redirect_url" property="redirectUrl" jdbcType="VARCHAR" />	
+		<result column="reply_type" property="replyType" jdbcType="TINYINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="material_id" property="materialId" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,menu_id,prarent_id,item_type,item_name,redirect_url,reply_type,content,material_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractWxMenuItemList"  resultMap="LinksusInteractWxMenuItem">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_menu_item
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractWxMenuItemById"  resultMap="LinksusInteractWxMenuItem" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_menu_item
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractWxMenuItem" parameterType="LinksusInteractWxMenuItem">
+		INSERT INTO linksus_interact_wx_menu_item(
+		pid,menu_id,prarent_id,item_type,item_name,redirect_url,reply_type,content,material_id
+		) VALUES(
+		#{pid:BIGINT},#{menuId:BIGINT},#{prarentId:BIGINT},#{itemType:TINYINT},#{itemName:VARCHAR},#{redirectUrl:VARCHAR},#{replyType:TINYINT},#{content:VARCHAR},#{materialId:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractWxMenuItem" parameterType="LinksusInteractWxMenuItem">
+		  UPDATE linksus_interact_wx_menu_item SET
+		  pid=#{pid:BIGINT},menu_id=#{menuId:BIGINT},prarent_id=#{prarentId:BIGINT},item_type=#{itemType:TINYINT},item_name=#{itemName:VARCHAR},redirect_url=#{redirectUrl:VARCHAR},reply_type=#{replyType:TINYINT},content=#{content:VARCHAR},material_id=#{materialId:BIGINT}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractWxMenuItemById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_wx_menu_item 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 根据菜单id读取一级菜单内容 -->
+	<select id="getLinksusInteractWxMenuItemByMenuId"  resultMap="LinksusInteractWxMenuItem" parameterType="java.lang.Long">
+	  select * from linksus_interact_wx_menu_item where menu_id=#{menuId:BIGINT} and prarent_id=0 order by pid
+	</select>
+	
+	<!-- 查询一级菜单是否有二级内容 -->
+	<select id="getLinksusInteractWxMenuItemByPrarentId"  resultMap="LinksusInteractWxMenuItem" parameterType="java.lang.Long">
+       select * from linksus_interact_wx_menu_item where prarent_id=#{prarentId:BIGINT} order by pid	
+    </select>
+	
+</mapper>   

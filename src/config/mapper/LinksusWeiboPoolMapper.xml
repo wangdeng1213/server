@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusWeiboPoolMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusWeiboPool" type="LinksusWeiboPool" >
+		<result column="mid" property="mid" jdbcType="BIGINT" />	
+		<result column="weibo_type" property="weiboType" jdbcType="TINYINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="pic_original_url" property="picOriginalUrl" jdbcType="VARCHAR" />	
+		<result column="pic_middle_url" property="picMiddleUrl" jdbcType="VARCHAR" />	
+		<result column="pic_thumb_url" property="picThumbUrl" jdbcType="VARCHAR" />	
+		<result column="music_url" property="musicUrl" jdbcType="VARCHAR" />	
+		<result column="video_url" property="videoUrl" jdbcType="VARCHAR" />	
+		<result column="comment_count" property="commentCount" jdbcType="INTEGER" />	
+		<result column="repost_count" property="repostCount" jdbcType="INTEGER" />	
+		<result column="src_mid" property="srcMid" jdbcType="BIGINT" />	
+		<result column="geo" property="geo" jdbcType="VARCHAR" />	
+		<result column="uid" property="uid" jdbcType="BIGINT" />	
+		<result column="uname" property="uname" jdbcType="VARCHAR" />	
+		<result column="uprofile_url" property="uprofileUrl" jdbcType="VARCHAR" />	
+		<result column="publish_type" property="publishType" jdbcType="TINYINT" />	
+		<result column="source" property="source" jdbcType="VARCHAR" />	
+		<result column="created_time" property="createdTime" jdbcType="INTEGER" />	
+		<result column="current_url" property="currentUrl" jdbcType="VARCHAR" />	
+	</resultMap>
+
+	<resultMap id="LinksusWeibo" type="LinksusWeibo">
+		<result column="MID" property="mid" jdbcType="BIGINT" />
+		<result column="repost_count" property="repostCount"
+			jdbcType="INTEGER" />
+		<result column="comment_count" property="commentCount"
+			jdbcType="INTEGER" />
+		<result column="account_type" property="accountType"
+			jdbcType="TINYINT" />
+	</resultMap>
+	<!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		mid,weibo_type,content,pic_original_url,pic_middle_url,pic_thumb_url,music_url,video_url,comment_count,repost_count,src_mid,geo,uid,uname,uprofile_url,publish_type,source,created_time,current_url
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusWeiboPoolList"  resultMap="LinksusWeiboPool" >
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_weibo_pool
+	</select> 
+    <!-- 检查微博是否存在 -->
+    
+    <select id="checkWeiboPoolIsExsit"  resultMap="LinksusWeiboPool" parameterType="java.util.Map">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_weibo_pool where mid=#{mid:BIGINT} and  weibo_type=#{weiboType:TINYINT} limit 1
+	</select>
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWeiboPoolById"  resultMap="LinksusWeiboPool"  parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_weibo_pool
+		 WHERE mid=#{mid:BIGINT} and weibo_type=#{weiboType:TINYINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusWeiboPool" parameterType="LinksusWeiboPool">
+		INSERT INTO linksus_weibo_pool(
+		mid,weibo_type,content,pic_original_url,pic_middle_url,pic_thumb_url,music_url,video_url,comment_count,repost_count,src_mid,geo,uid,uname,uprofile_url,publish_type,source,created_time,current_url
+		) VALUES(
+		#{mid:BIGINT},#{weiboType:TINYINT},#{content:VARCHAR},#{picOriginalUrl:VARCHAR},#{picMiddleUrl:VARCHAR},#{picThumbUrl:VARCHAR},#{musicUrl:VARCHAR},#{videoUrl:VARCHAR},#{commentCount:INTEGER},#{repostCount:INTEGER},#{srcMid:BIGINT},#{geo:VARCHAR},#{uid:BIGINT},#{uname:VARCHAR},#{uprofileUrl:VARCHAR},#{publishType:TINYINT},#{source:VARCHAR},#{createdTime:INTEGER},#{currentUrl:VARCHAR}
+		)
+	</update>
+	<!-- 更新  -->
+	<update id="updateLinksusWeiboPool" parameterType="LinksusWeiboPool">
+		  UPDATE linksus_weibo_pool SET
+		  mid=#{mid:BIGINT},weibo_type=#{weiboType:TINYINT},content=#{content:VARCHAR},pic_original_url=#{picOriginalUrl:VARCHAR},pic_middle_url=#{picMiddleUrl:VARCHAR},pic_thumb_url=#{picThumbUrl:VARCHAR},music_url=#{musicUrl:VARCHAR},video_url=#{videoUrl:VARCHAR},comment_count=#{commentCount:INTEGER},repost_count=#{repostCount:INTEGER},src_mid=#{srcMid:BIGINT},geo=#{geo:VARCHAR},uid=#{uid:BIGINT},uname=#{uname:VARCHAR},uprofile_url=#{uprofileUrl:VARCHAR},publish_type=#{publishType:TINYINT},source=#{source:VARCHAR},created_time=#{createdTime:INTEGER},current_url=#{currentUrl:VARCHAR}
+		  WHERE 1=1  and mid=#{mid:BIGINT} and weibo_type=#{weiboType:TINYINT}
+	</update> 
+	
+	<!-- 互动更新微博评论数和转发数  -->
+	<update id="updateLinksusWeiboPoolDataCount" parameterType="LinksusWeiboPool">
+		  UPDATE linksus_weibo_pool SET
+		  comment_count=#{commentCount:INTEGER},repost_count=#{repostCount:INTEGER}
+		  WHERE 1=1  and mid=#{mid:BIGINT} and weibo_type=#{weiboType:TINYINT}
+	</update> 
+	<!-- 主键删除 -->
+	<update id="deleteLinksusWeiboPoolById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_weibo_pool 
+		  WHERE 1=1  and mid=#{mid:BIGINT} and weibo_type=#{weiboType:TINYINT}
+	</update> 
+	 
+	 <update id="updateLinksusWeiboPoolCount" parameterType="LinksusWeibo" >
+     update linksus_weibo_pool
+        set comment_count=#{commentCount,jdbcType=INTEGER},repost_count = #{repostCount,jdbcType=INTEGER}
+     where mid=#{mid} and weibo_type=#{accountType}
+  	</update>  
+  
+    <select id="getLinksusWeiboPoolSend" parameterType="LinksusWeibo" resultMap="LinksusWeibo">
+	   select  mid as mid,repost_count as repostCount,comment_count as commentCount,weibo_type as accountType
+		  from linksus_weibo_pool where weibo_type = #{accountType} order by mid  limit #{startCount},#{pageSize}
+	</select> 
+	
+	  <select id="getLinksusWeiboPoolByMap" parameterType="java.util.Map" resultMap="LinksusWeibo">
+	   select  mid as mid,repost_count as repostCount,comment_count as commentCount,weibo_type as accountType
+		  from linksus_weibo_pool where weibo_type =  #{weiboType,jdbcType=TINYINT} and mid=#{mid:BIGINT} limit 1
+	</select> 
+</mapper>   

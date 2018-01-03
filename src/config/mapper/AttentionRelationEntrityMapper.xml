@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.AttentionRelationEntrityMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="AttentionRelationEntrity" type="AttentionRelationEntrity" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="account_type" property="accountType" jdbcType="BIGINT" />	
+		<result column="token" property="token" jdbcType="VARCHAR" />	
+		<result column="open_id" property="openId" jdbcType="VARCHAR" />
+		<result column="rps_id" property="rpsId" jdbcType="VARCHAR" />
+		<result column="person_id" property="personId" jdbcType="BIGINT" />
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+	id,user_id,app_type,token,open_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getAttentionRelationEntrityList"  resultMap="AttentionRelationEntrity" parameterType="java.util.Map">
+		    SELECT
+			a.pid,
+			a.account_id,
+			c.user_id,
+			a.account_type,
+			b.token,
+			b.appid as open_id,
+			b.institution_id,
+			c.rps_id,
+			c.person_id
+		FROM  
+			linksus_relation_operate a,
+			linksus_appaccount b,
+	        (select n.pid ,n.operate_id , n.user_id ,n.task_status ,m.rps_id,m.person_id
+			 from linksus_relation_operate_item n
+            ,linksus_relation_weibouser m where n.user_id = m.user_id)c
+		WHERE
+			a.task_type = #{taskType}
+		AND a.STATUS = 3
+		AND a.account_type = #{appType}
+		AND c.task_status = 1
+		AND a.account_id = b.id 
+		AND c.operate_id = a.pid
+		order by a.pid
+		limit #{startCount},#{pageSize}
+	</select> 
+	<select id="getRelationAttentionTask"  resultMap="AttentionRelationEntrity" parameterType="java.util.Map">
+	    select 
+        m.pid, m.account_id,m.account_type,
+        b.token,b.appid as open_id,b.institution_id,
+        t.user_id ,n.rps_id ,n.person_id
+		from 
+		linksus_relation_operate_item t 
+		LEFT JOIN linksus_relation_weibouser n ON  t.user_id = n.user_id  
+		LEFT JOIN linksus_relation_operate m ON  t.operate_id = m.pid
+		LEFT JOIN linksus_appaccount b ON  m.account_id=b.id
+        WHERE m.pid =#{pid} and t.task_status =1
+	</select>
+    
+</mapper>   

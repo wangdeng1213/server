@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusWxMassGroupMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusWxMassGroup" type="LinksusWxMassGroup" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="msg_id" property="msgId" jdbcType="BIGINT" />	
+		<result column="wx_id" property="wxId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="group_id" property="groupId" jdbcType="BIGINT" />	
+		<result column="group_name" property="groupName" jdbcType="VARCHAR" />	
+		<result column="group_count" property="groupCount" jdbcType="INTEGER" />	
+		<result column="filter_count" property="filterCount" jdbcType="INTEGER" />	
+		<result column="sent_count" property="sentCount" jdbcType="INTEGER" />	
+		<result column="error_count" property="errorCount" jdbcType="INTEGER" />	
+		<result column="create_time" property="createTime" jdbcType="INTEGER" />	
+		<result column="last_time" property="lastTime" jdbcType="INTEGER" />	
+		<result column="status_msg" property="statusMsg" jdbcType="VARCHAR" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,msg_id,wx_id,account_id,group_id,group_name,group_count,filter_count,sent_count,error_count,create_time,last_time,status_msg
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusWxMassGroupList"  resultMap="LinksusWxMassGroup">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_wx_mass_group
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWxMassGroupById"  resultMap="LinksusWxMassGroup" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_wx_mass_group
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusWxMassGroup" parameterType="LinksusWxMassGroup">
+		INSERT INTO linksus_wx_mass_group(
+		pid,msg_id,wx_id,account_id,group_id,group_name,group_count,filter_count,sent_count,error_count,create_time,last_time,status_msg
+		) VALUES(
+		#{pid:BIGINT},#{msgId:BIGINT},#{wxId:BIGINT},#{accountId:BIGINT},#{groupId:BIGINT},#{groupName:VARCHAR},#{groupCount:INTEGER},#{filterCount:INTEGER},#{sentCount:INTEGER},#{errorCount:INTEGER},#{createTime:INTEGER},#{lastTime:INTEGER},#{statusMsg:VARCHAR}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusWxMassGroup" parameterType="LinksusWxMassGroup">
+		  UPDATE linksus_wx_mass_group SET
+		  pid=#{pid:BIGINT},msg_id=#{msgId:BIGINT},wx_id=#{wxId:BIGINT},account_id=#{accountId:BIGINT},group_id=#{groupId:BIGINT},group_name=#{groupName:VARCHAR},group_count=#{groupCount:INTEGER},filter_count=#{filterCount:INTEGER},sent_count=#{sentCount:INTEGER},error_count=#{errorCount:INTEGER},create_time=#{createTime:INTEGER},last_time=#{lastTime:INTEGER},status_msg=#{statusMsg:VARCHAR}
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusWxMassGroupById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_wx_mass_group 
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 更新群发结果  -->
+	<update id="updateMassResultGroup" parameterType="LinksusWxMassGroup">
+		  UPDATE linksus_wx_mass_group SET
+		  filter_count=#{filterCount:INTEGER},sent_count=#{sentCount:INTEGER},error_count=#{errorCount:INTEGER},last_time=#{lastTime:INTEGER},status_msg=#{statusMsg:VARCHAR}
+		  WHERE msg_id=#{msgId:BIGINT} and account_id=#{accountId:BIGINT}
+	</update>
+	
+	<!-- 通过消息msgid获取wx_id -->
+	<select id="getLinksusWxMassGroupByMsgId" resultMap="LinksusWxMassGroup" parameterType="java.util.Map">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_wx_mass_group
+		  WHERE msg_id=#{msgId:BIGINT} and account_id=#{accountId:BIGINT}
+	</select> 
+	
+	<!-- 通过消息wx_id获取msgid-->
+	<select id="getLinksusWxMassGroupByWxId" resultMap="LinksusWxMassGroup" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_wx_mass_group
+		  WHERE wx_id=#{wxId:BIGINT}
+	</select> 
+</mapper>   

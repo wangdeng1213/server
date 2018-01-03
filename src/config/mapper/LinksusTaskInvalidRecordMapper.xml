@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTaskInvalidRecordMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusTaskInvalidRecord" type="LinksusTaskInvalidRecord" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="error_code" property="errorCode" jdbcType="VARCHAR" />	
+		<result column="error_msg" property="errorMsg" jdbcType="VARCHAR" />	
+		<result column="oper_type" property="operType" jdbcType="TINYINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="sms_inst_persons" property="smsInstPersons" jdbcType="VARCHAR" />	
+		<result column="email_inst_persons" property="emailInstPersons" jdbcType="VARCHAR" />	
+		<result column="record_id" property="recordId" jdbcType="BIGINT" />	
+		<result column="source_ip" property="sourceIp" jdbcType="VARCHAR" />	
+		<result column="add_time" property="addTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,error_code,error_msg,oper_type,institution_id,sms_inst_persons,email_inst_persons,record_id,source_ip,add_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusTaskInvalidRecordList"  resultMap="LinksusTaskInvalidRecord">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_invalid_record
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusTaskInvalidRecordById"  resultMap="LinksusTaskInvalidRecord" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_invalid_record
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusTaskInvalidRecord" parameterType="LinksusTaskInvalidRecord">
+		INSERT INTO linksus_task_invalid_record(
+		pid,error_code,error_msg,oper_type,institution_id,sms_inst_persons,email_inst_persons,record_id,source_ip,add_time
+		) VALUES(
+		#{pid:BIGINT},#{errorCode:VARCHAR},#{errorMsg:VARCHAR},#{operType:TINYINT},#{institutionId:BIGINT},#{smsInstPersons:VARCHAR},#{emailInstPersons:VARCHAR},#{recordId:BIGINT},#{sourceIp:VARCHAR},#{addTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusTaskInvalidRecord" parameterType="LinksusTaskInvalidRecord">
+		  UPDATE linksus_task_invalid_record SET
+		  pid=#{pid:BIGINT},error_code=#{errorCode:VARCHAR},error_msg=#{errorMsg:VARCHAR},oper_type=#{operType:TINYINT},institution_id=#{institutionId:BIGINT},sms_inst_persons=#{smsInstPersons:VARCHAR},email_inst_persons=#{emailInstPersons:VARCHAR},record_id=#{recordId:BIGINT},source_ip=#{sourceIp:VARCHAR},add_time=#{addTime:INTEGER}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusTaskInvalidRecordById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_task_invalid_record 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+</mapper>   

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractWxArticleMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractWxArticle" type="LinksusInteractWxArticle" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="material_id" property="materialId" jdbcType="BIGINT" />	
+		<result column="title" property="title" jdbcType="VARCHAR" />	
+		<result column="auther_name" property="autherName" jdbcType="VARCHAR" />	
+		<result column="summary" property="summary" jdbcType="VARCHAR" />	
+		<result column="pic_original_url" property="picOriginalUrl" jdbcType="VARCHAR" />	
+		<result column="pic_middle_url" property="picMiddleUrl" jdbcType="VARCHAR" />	
+		<result column="pic_thumb_url" property="picThumbUrl" jdbcType="VARCHAR" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="conent_url" property="conentUrl" jdbcType="VARCHAR" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,material_id,title,auther_name,summary,pic_original_url,pic_middle_url,pic_thumb_url,content,conent_url
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractWxArticleList"  resultMap="LinksusInteractWxArticle">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_article
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractWxArticleById"  resultMap="LinksusInteractWxArticle" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_article
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractWxArticle" parameterType="LinksusInteractWxArticle">
+		INSERT INTO linksus_interact_wx_article(
+		pid,material_id,title,auther_name,summary,pic_original_url,pic_middle_url,pic_thumb_url,content,conent_url
+		) VALUES(
+		#{pid:BIGINT},#{materialId:BIGINT},#{title:VARCHAR},#{autherName:VARCHAR},#{summary:VARCHAR},#{picOriginalUrl:VARCHAR},#{picMiddleUrl:VARCHAR},#{picThumbUrl:VARCHAR},#{content:VARCHAR},#{conentUrl:VARCHAR}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractWxArticle" parameterType="LinksusInteractWxArticle">
+		  UPDATE linksus_interact_wx_article SET
+		  pid=#{pid:BIGINT},material_id=#{materialId:BIGINT},title=#{title:VARCHAR},auther_name=#{autherName:VARCHAR},summary=#{summary:VARCHAR},pic_original_url=#{picOriginalUrl:VARCHAR},pic_middle_url=#{picMiddleUrl:VARCHAR},pic_thumb_url=#{picThumbUrl:VARCHAR},content=#{content:VARCHAR},conent_url=#{conentUrl:VARCHAR}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractWxArticleById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_wx_article 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 通过material_id获取微信图文表内容 -->
+	<select id="getLinksusInteractWxArticleByMaterialId" resultMap="LinksusInteractWxArticle" parameterType="java.lang.Long">
+	   select * from linksus_interact_wx_article where material_id=#{materialId:BIGINT} order by pid limit 10
+	</select>
+</mapper>   

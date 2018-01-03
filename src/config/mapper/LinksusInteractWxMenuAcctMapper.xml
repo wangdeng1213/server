@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractWxMenuAcctMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractWxMenuAcct" type="LinksusInteractWxMenuAcct" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="menu_id" property="menuId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,menu_id,account_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractWxMenuAcctList"  resultMap="LinksusInteractWxMenuAcct">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_menu_acct
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractWxMenuAcctById"  resultMap="LinksusInteractWxMenuAcct" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_menu_acct
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractWxMenuAcct" parameterType="LinksusInteractWxMenuAcct">
+		INSERT INTO linksus_interact_wx_menu_acct(
+		pid,menu_id,account_id
+		) VALUES(
+		#{pid:BIGINT},#{menuId:BIGINT},#{accountId:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractWxMenuAcct" parameterType="LinksusInteractWxMenuAcct">
+		  UPDATE linksus_interact_wx_menu_acct SET
+		  pid=#{pid:BIGINT},menu_id=#{menuId:BIGINT},account_id=#{accountId:BIGINT}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractWxMenuAcctById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_wx_menu_acct 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 根据account_id查询菜单id信息  -->
+	<select id="getLinksusInteractWxMenuAcctByAccountId"  resultMap="LinksusInteractWxMenuAcct" parameterType="java.lang.Long">
+	  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_menu_acct
+		  WHERE account_id=#{accountId:BIGINT} order by pid
+	</select>
+</mapper>   

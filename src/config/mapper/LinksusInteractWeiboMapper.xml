@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractWeiboMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractWeibo" type="LinksusInteractWeibo" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="record_id" property="recordId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="comment_id" property="commentId" jdbcType="BIGINT" />	
+		<result column="weibo_id" property="weiboId" jdbcType="BIGINT" />	
+		<result column="source_weibo_id" property="sourceWeiboId" jdbcType="BIGINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="reply_msg_id" property="replyMsgId" jdbcType="BIGINT" />	
+		<result column="send_type" property="sendType" jdbcType="TINYINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="send_time" property="sendTime" jdbcType="INTEGER" />	
+		<result column="inst_person_id" property="instPersonId" jdbcType="BIGINT" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="TINYINT" />	
+	</resultMap>
+	
+	<resultMap id="SendWeibo" type="LinksusInteractWeibo" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="record_id" property="recordId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="comment_id" property="commentId" jdbcType="BIGINT" />	
+		<result column="weibo_id" property="weiboId" jdbcType="BIGINT" />	
+		<result column="source_weibo_id" property="sourceWeiboId" jdbcType="BIGINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="reply_msg_id" property="replyMsgId" jdbcType="BIGINT" />	
+		<result column="send_type" property="sendType" jdbcType="TINYINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="send_time" property="sendTime" jdbcType="INTEGER" />	
+		<result column="inst_person_id" property="instPersonId" jdbcType="BIGINT" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="TINYINT" />	
+		<result column="reply_id" property="replyId" jdbcType="BIGINT" />
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,record_id,user_id,account_id,account_type,comment_id,weibo_id,source_weibo_id,content,interact_type,reply_msg_id,send_type,status,send_time,inst_person_id,interact_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractWeiboList"  resultMap="LinksusInteractWeibo">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_weibo
+	</select> 
+    
+    <!-- 取出回复消息的任务列表  -->
+    <select id="getLinksusInteractWeiboTaskList"  resultMap="SendWeibo" parameterType="LinksusInteractWeibo">
+		 SELECT a.pid,a.record_id,a.user_id,a.account_id,a.account_type,a.comment_id,a.weibo_id,
+		        a.source_weibo_id, b.content, a.interact_type,b.reply_msg_id,b.send_type,
+		        b.status,b.send_time,b.inst_person_id,b.interact_time,b.pid reply_id
+         FROM linksus_interact_weibo a,linksus_interact_weibo b
+        WHERE a.pid = b.reply_msg_id
+		AND b.status = 1
+		AND b.interact_type = 7
+		AND b.send_type = #{sendType:TINYINT}
+		ORDER BY b.pid
+		limit #{startCount},#{pageSize}
+	</select>
+	 
+	<!-- 定时回复评论任务列表 -->
+	<select id="getWeiboReplyPrepare"  resultMap="SendWeibo" parameterType="LinksusInteractWeibo">
+		 select t.content,n.pid, n.comment_id as commentId,n.account_type as accountType,n.weibo_id as weiboId, n.interact_type as interactType 
+		 from  linksus_interact_weibo t ,
+		 linksus_interact_weibo n
+		 where n.pid = t.reply_msg_id 
+		 and t.`status` = 1 
+		 and t.interact_type = 7 
+		 AND TIMESTAMPDIFF(SECOND,now(),FROM_UNIXTIME(send_time)) > 0
+		 AND TIMESTAMPDIFF(SECOND,now(),FROM_UNIXTIME(send_time)) &lt; 86400
+		 order by n.pid
+		 limit #{startCount},#{pageSize}
+	</select> 
+	
+	
+	<!-- 更新回复评论状态   -->
+	<update id="updateSendReplyStatus" parameterType="LinksusInteractWeibo">
+          UPDATE linksus_interact_weibo SET status=#{status:TINYINT} WHERE pid=#{pid:BIGINT}
+	</update> 
+    <!-- 更新返回的评论信息  -->
+    <update id="updateSendReplySucc" parameterType="LinksusInteractWeibo">
+    	  UPDATE linksus_interact_weibo SET status=#{status:TINYINT},interact_time=#{interactTime:INTEGER},	comment_id=#{commentId:BIGINT},send_time=#{sendTime:INTEGER}
+		  WHERE pid=#{pid:BIGINT}		  
+	</update> 
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractWeiboById"  resultMap="LinksusInteractWeibo" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_weibo
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractWeibo" parameterType="LinksusInteractWeibo">
+		INSERT INTO linksus_interact_weibo(
+		pid,record_id,user_id,account_id,account_type,comment_id,weibo_id,source_weibo_id,content,interact_type,reply_msg_id,send_type,status,send_time,inst_person_id,interact_time
+		) VALUES(
+		#{pid:BIGINT},#{recordId:BIGINT},#{userId:BIGINT},#{accountId:BIGINT},#{accountType:TINYINT},#{commentId:BIGINT},#{weiboId:BIGINT},#{sourceWeiboId:BIGINT},#{content:VARCHAR},#{interactType:TINYINT},#{replyMsgId:BIGINT},#{sendType:TINYINT},#{status:TINYINT},#{sendTime:INTEGER},#{instPersonId:BIGINT},#{interactTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractWeibo" parameterType="LinksusInteractWeibo">
+		  UPDATE linksus_interact_weibo SET
+		  pid=#{pid:BIGINT},record_id=#{recordId:BIGINT},user_id=#{userId:BIGINT},account_id=#{accountId:BIGINT},account_type=#{accountType:TINYINT},comment_id=#{commentId:BIGINT},weibo_id=#{weiboId:BIGINT},source_weibo_id=#{sourceWeiboId:BIGINT},content=#{content:VARCHAR},interact_type=#{interactType:TINYINT},reply_msg_id=#{replyMsgId:BIGINT},send_type=#{sendType:TINYINT},status=#{status:TINYINT},send_time=#{sendTime:INTEGER},inst_person_id=#{instPersonId:BIGINT},interact_time=#{interactTime:INTEGER}
+		  WHERE pid=#{pid:BIGINT}
+	</update>
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractWeiboById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_weibo 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+   <!-- comment_id和account_type 删除 -->
+	<update id="deleteLinksusInteractWeiboByMap" parameterType="java.util.Map">
+		  DELETE FROM linksus_interact_weibo 
+		  WHERE comment_id = #{id} and account_type = #{account_type}
+	</update>
+	
+	<!-- 查询微博互动记录是否存在 -->
+	<select id="getInteractWeiboIsExists" resultMap="LinksusInteractWeibo" parameterType="java.util.Map">
+	   select * from linksus_interact_weibo where user_id=#{userId:BIGINT} and account_id=#{accountId:BIGINT}
+	      and account_type=#{accountType:TINYINT} and comment_id=#{commentId:BIGINT}
+	      and weibo_id=#{weiboId:BIGINT} and source_weibo_id=#{sourceWeiboId:BIGINT}
+	</select>
+	
+	<!-- 列表查询  -->
+	<select id="getInteractWeiboListByMid"  resultType="java.util.Map" parameterType="java.util.Map">
+		  SELECT 
+		  pid,record_id,i.user_id,r.rps_id,r.rps_screen_name,rps_profile_image_url,
+		  rps_verified_reason,rps_gender,rps_verified_type_flag,
+		  account_id,account_type,CAST(comment_id AS CHAR) comment_id,CAST(weibo_id AS CHAR) weibo_id,
+		  CAST(source_weibo_id AS CHAR) source_weibo_id,content,interact_type,
+		  reply_msg_id,send_type,status,send_time,inst_person_id,interact_time
+		  FROM linksus_interact_weibo i,linksus_relation_weibouser r
+		  where i.user_id=r.user_id
+		  and weibo_id=#{weibo_id} and account_type=#{account_type}
+		  order by interact_time desc
+		  limit #{startCount},#{pageSize}
+	</select> 
+	
+	<!-- 根据主键查询需要回复评论的微博 -->
+	<select id="getReplyWeiboById" resultMap="SendWeibo" parameterType="java.lang.Long">
+	SELECT a.pid,a.record_id,a.user_id,a.account_id,a.account_type,a.comment_id,a.weibo_id,
+		        a.source_weibo_id, b.content, a.interact_type,b.reply_msg_id,b.send_type,
+		        b.status,b.send_time,b.inst_person_id,b.interact_time,b.pid reply_id
+         FROM linksus_interact_weibo a,linksus_interact_weibo b
+        WHERE a.pid = b.reply_msg_id
+		AND b.status = 1
+		AND b.interact_type = 7
+		AND b.send_type = 1
+		AND a.pid=#{value}
+	</select>
+	
+	<!-- 列表查询  -->
+	<select id="getInteractWeiboListByIds"  resultType="java.util.Map"  parameterType="java.util.List">
+	SELECT m.record_id,m.content,
+	  case 
+	    when m.interact_type in (2,3) and m.source_weibo_id != 0 then m.source_weibo_id 
+	    else m.weibo_id
+	    end sourceId,
+	w.rps_screen_name screenName,w.rps_profile_image_url imageUrl
+	  FROM linksus_interact_weibo m,linksus_relation_weibouser w
+     WHERE m.user_id = w.user_id 
+       and pid in
+       		  <foreach collection="list" index="index" item="item" separator="," open="(" close=")">  
+        		#{item}
+       		</foreach>
+	</select>
+</mapper>   

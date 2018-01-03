@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusGovRunningMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusGovRunning" type="LinksusGovRunning" >
+		<result column="run_id" property="runId" jdbcType="INTEGER" />	
+		<result column="gid" property="gid" jdbcType="INTEGER" />	
+		<result column="is_finish" property="isFinish" jdbcType="TINYINT" />	
+		<result column="create_time" property="createTime" jdbcType="INTEGER" />	
+		<result column="dis_time" property="disTime" jdbcType="INTEGER" />	
+		<result column="delay_time" property="delayTime" jdbcType="INTEGER" />	
+		<result column="audit_time" property="auditTime" jdbcType="INTEGER" />	
+		<result column="tag_id" property="tagId" jdbcType="INTEGER" />	
+		<result column="merge_cot" property="mergeCot" jdbcType="INTEGER" />	
+		<result column="op_type" property="opType" jdbcType="INTEGER" />	
+		<result column="type_context" property="typeContext" jdbcType="VARCHAR" />	
+		<result column="org_id" property="orgId" jdbcType="INTEGER" />	
+		<result column="is_multiterm" property="isMultiterm" jdbcType="TINYINT" />	
+		<result column="is_mulsplit_id" property="isMulsplitId" jdbcType="INTEGER" />	
+		<result column="gop_status" property="gopStatus" jdbcType="CHAR" />	
+		<result column="update_time" property="updateTime" jdbcType="INTEGER" />	
+		<result column="gov_status_two" property="govStatusTwo" jdbcType="TINYINT" />	
+		<result column="user_id" property="userId" jdbcType="INTEGER" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="interact_mode" property="interactMode" jdbcType="TINYINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		run_id,gid,is_finish,create_time,dis_time,delay_time,audit_time,tag_id,merge_cot,op_type,type_context,org_id,is_multiterm,is_mulsplit_id,gop_status,update_time,gov_status_two,user_id,interact_type,interact_mode
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusGovRunningList"  resultMap="LinksusGovRunning">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_running
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusGovRunningById"  resultMap="LinksusGovRunning" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_running
+		  WHERE 1=1  and run_id=#{runId:INTEGER}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusGovRunning" parameterType="LinksusGovRunning">
+		INSERT INTO linksus_gov_running(
+		run_id,gid,is_finish,create_time,dis_time,delay_time,audit_time,tag_id,merge_cot,op_type,type_context,org_id,is_multiterm,is_mulsplit_id,gop_status,update_time,gov_status_two,user_id,interact_type,interact_mode
+		) VALUES(
+		#{runId:INTEGER},#{gid:INTEGER},#{isFinish:TINYINT},#{createTime:INTEGER},#{disTime:INTEGER},#{delayTime:INTEGER},#{auditTime:INTEGER},#{tagId:INTEGER},#{mergeCot:INTEGER},#{opType:INTEGER},#{typeContext:VARCHAR},#{orgId:INTEGER},#{isMultiterm:TINYINT},#{isMulsplitId:INTEGER},#{gopStatus:CHAR},#{updateTime:INTEGER},#{govStatusTwo:TINYINT},#{userId:INTEGER},#{interactType:TINYINT},#{interactMode:TINYINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusGovRunning" parameterType="LinksusGovRunning">
+		  UPDATE linksus_gov_running SET
+		  run_id=#{runId:INTEGER},gid=#{gid:INTEGER},is_finish=#{isFinish:TINYINT},create_time=#{createTime:INTEGER},dis_time=#{disTime:INTEGER},delay_time=#{delayTime:INTEGER},audit_time=#{auditTime:INTEGER},tag_id=#{tagId:INTEGER},merge_cot=#{mergeCot:INTEGER},op_type=#{opType:INTEGER},type_context=#{typeContext:VARCHAR},org_id=#{orgId:INTEGER},is_multiterm=#{isMultiterm:TINYINT},is_mulsplit_id=#{isMulsplitId:INTEGER},gop_status=#{gopStatus:CHAR},update_time=#{updateTime:INTEGER},gov_status_two=#{govStatusTwo:TINYINT},user_id=#{userId:INTEGER},interact_type=#{interactType:TINYINT},interact_mode=#{interactMode:TINYINT}
+		  WHERE run_id=#{runId:INTEGER}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusGovRunningById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_gov_running 
+		  WHERE run_id=#{runId:INTEGER}
+	</update> 
+</mapper>   

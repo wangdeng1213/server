@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationUserAccountMapper" >
+  <resultMap id="LinksusRelationUserAccount" type="LinksusRelationUserAccount" >
+     <id column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="account_id" property="accountId" jdbcType="BIGINT" />
+    <result column="account_type" property="accountType" jdbcType="TINYINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="institution_id" property="institutionId" jdbcType="BIGINT" />
+    <result column="person_id" property="personId" jdbcType="BIGINT" />
+    <result column="flag_relation" property="flagRelation" jdbcType="TINYINT" />
+    <!-- 
+    <result column="flag_blacklist" property="flagBlacklist" jdbcType="TINYINT" />
+    <result column="flag_add" property="flagAdd" jdbcType="TINYINT" />
+     -->
+    <result column="flag_push_matrix" property="flagPushMatrix" jdbcType="TINYINT" />
+    <result column="flag_push_publico" property="flagPushPublico" jdbcType="TINYINT" />
+    <result column="flag_push_1510" property="flagPush1510" jdbcType="TINYINT" />
+    <result column="interact_type" property="interactType" jdbcType="VARCHAR" />
+    <result column="interact_num" property="interactNum" jdbcType="TINYINT" />
+    <result column="uptime" property="uptime" jdbcType="INTEGER" />
+    <result column="new_touch_time" property="newTouchTime" jdbcType="BIGINT" />
+    <result column="recommend_relation_reason" property="recommendRelationReason" jdbcType="TINYINT" />
+    <result column="is_relation_by_wbcloud" property="isRelationByWbcloud" jdbcType="TINYINT" />
+    <result column="max_id" property="maxId" jdbcType="BIGINT" />
+     <result column="rps_id" property="rpsId" jdbcType="BIGINT" />
+     <result column="created_time" property="createdTime" jdbcType="INTEGER" />
+  </resultMap>
+   <sql id="Base_Column_List" >
+     pid, account_id, account_type, user_id, institution_id, person_id, flag_relation, 
+     flag_push_matrix, flag_push_publico, flag_push_1510, tencent_ids, uptime, 
+    new_touch_time, recommend_relation_reason, is_relation_by_wbcloud,max_id
+  </sql>
+   <select id="getLinksysWeiboRelationByFlag" parameterType="java.lang.String" resultMap="LinksusRelationUserAccount">
+	select t.* ,n.max_id , m.rps_id,n.created_time from linksus_relation_user_account t ,
+	   linksus_relation_weibouser m ,
+	   (
+		select t.*,l.created_time from linksus_weibo_data_sync t left join linksus_attention_weibo l 
+		on t.institution_id = l.institution_id and t.account_id =l.account_id and t.account_type =l.account_type
+		and t.max_id = l.MID
+		) n
+	 where 
+	 n.institution_id=t.institution_id
+	and m.user_id = t.user_id
+    and n.account_id =t.account_id
+	and n.account_type =t.account_type
+	and t.account_type=#{accountType}
+	and t.flag_relation in(2,3)
+	 </select>
+	 <select id="getNumByAccountId" parameterType="java.util.Map" resultType="java.lang.Integer">
+	 select count(*) from linksus_relation_user_account where user_id = #{userId:BIGINT} and  account_type = #{accountType:TINYINT}
+	 and account_id = #{accountId:BIGINT} and institution_id =#{institutionId:BIGINT}
+	 </select>
+	  <select id="getCountLinksusRelationUserAccount" parameterType="java.util.Map" resultType="java.lang.Integer">
+	  select count(*) from linksus_relation_user_account where user_id = #{userId:BIGINT} and 
+	  institution_id =#{institutionId:BIGINT}
+	 </select>
+	 
+	  <select id="getIsExsitWeiboUserAccount" parameterType="java.util.Map" resultMap="LinksusRelationUserAccount">
+	 select * from linksus_relation_user_account where user_id = #{userId:BIGINT} 
+	 and account_id = #{accountId:BIGINT}  limit 1
+	 </select>
+	 
+	 <update id="updateRelationUserAccount">
+	 update linksus_relation_user_account set flag_relation = #{flagRelation} where user_id = #{userId} and account_id =#{accountId}
+	 </update>
+	 
+	 <select id="getLinksusRelationUserAccountList" parameterType="LinksusRelationUserAccount" resultMap="LinksusRelationUserAccount">
+		select 1 from linksus_relation_user_account 
+				 where  account_id = #{accountId,jdbcType=Long} 
+				 and user_id = #{userId,jdbcType=Long} 
+				 and account_type = #{accountType,jdbcType=INTEGER}
+	 </select>
+	 
+	 <select id="getRelationUser" parameterType="java.util.Map" resultMap="LinksusRelationUserAccount">
+		select * from linksus_relation_user_account 
+				 where  account_id = #{accountId:BIGINT} 
+				 and user_id = #{userId:BIGINT} 
+				 and account_type = #{accountType:BIGINT}
+	 </select>
+	<insert id="insertLinksusRelationUserAccount" parameterType="LinksusRelationUserAccount">
+        INSERT INTO linksus_relation_user_account(
+		pid,account_id,account_type,user_id,institution_id,person_id,flag_relation,flag_push_matrix,flag_push_publico,flag_push_1510,uptime,new_touch_time,recommend_relation_reason,is_relation_by_wbcloud
+		) VALUES(
+		#{pid:BIGINT},#{accountId:BIGINT},#{accountType:TINYINT},#{userId:BIGINT},#{institutionId:BIGINT},#{personId:BIGINT},#{flagRelation:TINYINT},#{flagPushMatrix:TINYINT},#{flagPushPublico:TINYINT},#{flagPush1510:TINYINT},#{uptime:BIGINT},#{newTouchTime:BIGINT},#{recommendRelationReason:TINYINT},#{isRelationByWbcloud:TINYINT}
+		)
+    </insert>
+   
+	 <update id="updateLinksusWeiboDataSyncList" parameterType="LinksusRelationUserAccount">
+	    update linksus_relation_user_account set 
+        	flag_relation = #{flagRelation,jdbcType=INTEGER}
+        where account_id = #{accountId,jdbcType=Long} and user_id = #{userId,jdbcType=Long} and account_type = #{accountType,jdbcType=INTEGER}
+	 </update>
+	 <delete id="deleteLinksusRelationUserAccount">
+	  delete from  linksus_relation_user_account  where pid=#{pid:BIGINT}
+	 </delete>
+	 
+	 <update id="dealFlagRelation" parameterType="java.util.Map">
+	  update linksus_relation_user_account set 
+        	flag_relation = #{relationFlag,jdbcType=INTEGER}
+        where  pid=#{pid:BIGINT}
+	 </update>
+	 
+	 <select id="getLinksusWeiboRelation" parameterType="LinksusRelationUserAccount" resultMap="LinksusRelationUserAccount">
+		select * from linksus_relation_user_account 
+				 where  account_id = #{accountId} 
+				 and user_id = #{userId} 
+				 and account_type = #{accountType}
+				 limit 0,1
+	 </select>
+	 <update id="updateLinksusRelationUserAccount">
+	 	update linksus_relation_user_account set flag_relation = #{flagRelation},uptime = #{uptime} where account_type = #{accountType} and user_id = #{userId} and account_id =#{accountId}
+	 </update>
+	  <update id="updateLinksusRelationUserAccountNum" parameterType="LinksusRelationUserAccount">
+	 	update linksus_relation_user_account 
+	 	set interact_type =#{interactType:VARCHAR} , interact_num = interact_num+#{interactNum},interact_time=#{interactTime:BIGINT}
+	 	where  account_id = #{accountId} and user_id = #{userId}
+	 </update>
+	 <!-- 插入微信新用户 -->
+	 <insert id="insertWeiXineToLinksusRelationUserAccount" parameterType="LinksusRelationUserAccount">
+        INSERT INTO linksus_relation_user_account(
+		pid,account_id,account_type,user_id,institution_id,person_id,flag_relation,uptime
+		) VALUES(
+		#{pid:BIGINT},#{accountId:BIGINT},#{accountType:TINYINT},#{userId:BIGINT},#{institutionId:BIGINT},#{personId:BIGINT},#{flagRelation:TINYINT},#{uptime:BIGINT}
+		)
+    </insert>
+    
+    <!-- 根据account_id、account_type、user_id删除此记录 -->
+     <delete id="deleteLinksusRelationUserAccountByKey" parameterType="java.util.Map">
+	   delete from linksus_relation_user_account  
+	    where account_id=#{accountId:BIGINT} 
+	      and user_id=#{userId:BIGINT}
+	 </delete>
+	 
+	 <!-- 根据主键修改账户用户关系表中关系状态 -->
+	 <update id="updateFlagRelationByPid" parameterType="LinksusRelationUserAccount">
+	   	update linksus_relation_user_account set flag_relation = #{flagRelation:TINYINT}
+	   	<if test="attentionTime != null" >
+          , attention_time=#{attentionTime:BIGINT}
+        </if>
+	   	<if test="fansTime != null" >
+          , fans_time=#{fansTime:BIGINT}
+        </if>
+        <if test="interactTime != null" >
+          , interact_time=#{interactTime:BIGINT}
+        </if>
+	   	 where account_id=#{accountId:BIGINT} 
+	      and user_id=#{userId:BIGINT}
+	 </update>	 
+	 
+	<select id="getALLRelationUserAccountMap" parameterType="java.util.Map" resultMap="LinksusRelationUserAccount">
+		select institution_id,account_id ,account_type
+			from linksus_relation_user_account 
+			  where 1=1
+			  group by account_id
+	 </select>
+</mapper>

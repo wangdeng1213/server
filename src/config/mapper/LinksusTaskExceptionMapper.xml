@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTaskExceptionMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusTaskException" type="LinksusTaskException" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="type" property="type" jdbcType="TINYINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="source_ip" property="sourceIp" jdbcType="VARCHAR" />	
+		<result column="add_time" property="addTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,type,content,source_ip,add_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusTaskExceptionList"  resultMap="LinksusTaskException">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_exception
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusTaskExceptionById"  resultMap="LinksusTaskException" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_exception
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusTaskException" parameterType="LinksusTaskException">
+		INSERT INTO linksus_task_exception(
+		pid,type,content,source_ip,add_time
+		) VALUES(
+		#{pid:BIGINT},#{type:TINYINT},#{content:VARCHAR},#{sourceIp:VARCHAR},#{addTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusTaskException" parameterType="LinksusTaskException">
+		  UPDATE linksus_task_exception SET
+		  pid=#{pid:BIGINT},type=#{type:TINYINT},content=#{content:VARCHAR},source_ip=#{sourceIp:VARCHAR},add_time=#{addTime:INTEGER}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusTaskExceptionById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_task_exception 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+</mapper>   

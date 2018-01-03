@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusGovStructureMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusGovStructure" type="LinksusGovStructure" >
+		<result column="org_id" property="orgId" jdbcType="INTEGER" />	
+		<result column="account_id" property="accountId" jdbcType="INTEGER" />	
+		<result column="gid" property="gid" jdbcType="INTEGER" />	
+		<result column="account_name" property="accountName" jdbcType="VARCHAR" />	
+		<result column="level_id" property="levelId" jdbcType="INTEGER" />	
+		<result column="father_id" property="fatherId" jdbcType="INTEGER" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="appid" property="appid" jdbcType="VARCHAR" />	
+		<result column="org_name" property="orgName" jdbcType="VARCHAR" />	
+		<result column="update_time" property="updateTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		org_id,account_id,gid,account_name,level_id,father_id,institution_id,appid,org_name,update_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusGovStructureList"  resultMap="LinksusGovStructure">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_structure
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusGovStructureById"  resultMap="LinksusGovStructure" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_structure
+		  WHERE 1=1  and gid=#{gid:INTEGER}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusGovStructure" parameterType="LinksusGovStructure">
+		 INSERT INTO linksus_gov_structure(
+		org_id,account_id,gid,account_name,level_id,father_id,institution_id,appid,org_name,update_time
+		) VALUES(
+		#{orgId:INTEGER},#{accountId:INTEGER},#{gid:INTEGER},#{accountName:VARCHAR},#{levelId:INTEGER},#{fatherId:INTEGER},#{institutionId:BIGINT},#{appid:VARCHAR},#{orgName:VARCHAR},#{updateTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusGovStructure" parameterType="LinksusGovStructure">
+		  UPDATE linksus_gov_structure SET
+		  org_id=#{orgId:INTEGER},account_id=#{accountId:INTEGER},gid=#{gid:INTEGER},account_name=#{accountName:VARCHAR},level_id=#{levelId:INTEGER},father_id=#{fatherId:INTEGER},institution_id=#{institutionId:BIGINT},appid=#{appid:VARCHAR},org_name=#{orgName:VARCHAR},update_time=#{updateTime:INTEGER}
+		  WHERE 1=1  and gid=#{gid:INTEGER}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusGovStructureById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_gov_structure 
+		  WHERE 1=1  and gid=#{gid:INTEGER}
+	</update> 
+	 <!-- 根据OrgId查询  -->
+	<select id="getLinksusGovStructureByOrgId"  resultMap="LinksusGovStructure">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_structure  where gid in(select min(gid) FROM linksus_gov_structure group by account_id)
+	</select> 
+	
+	<select id="getMinGidByAccountId"  resultMap="LinksusGovStructure" parameterType="java.lang.Long">
+		  select account_id ,min(gid) gid FROM linksus_gov_structure WHERE account_id =#{accountId:INTEGER}
+	</select> 
+</mapper>   

@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<interfaces><!-- 服务端接口 -->
+		<interface>
+			<taskType>1</taskType><!-- 任务类型 不能重复  -->
+			<taskName>微博即时发布</taskName><!-- 任务名称 描述信息 -->
+			<className>TaskSendWeiboInterface</className><!-- 接口任务类 需要继承BaseInterface -->
+			<status>1</status><!-- 启用状态 0不启用,1启用 -->
+			<params><!-- url参数 -->
+				<!-- required:1-必填,dataType:参数类型Long/Integer,String时不使用 -->
+				<param name="pid" required="1" dataType="Long">主键</param>
+			</params>
+			<fields>
+				<field name="sendType">0</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>2</taskType>
+			<taskName>微博定时发布</taskName>
+			<className>TaskSendWeiboInterface</className>
+			<status>1</status>
+			<params>
+				<param name="pid" required="1" dataType="Long">主键</param>
+				<param name="sendTime" required="1">发送时间</param>
+				<param name="status" required="1">微博状态</param>
+			</params>
+			<fields>
+				<field name="sendType">1</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>3</taskType>
+			<taskName>HTML转图片</taskName>
+			<className>TaskHtmlToImageInterface</className>
+			<status>1</status>
+			<params>
+				<param name="htmlstr">HTML内容</param>
+				<param name="urlstr">URL地址</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>4</taskType>
+			<taskName>发短信</taskName>
+			<className>TaskSendSmsInMarketingInterface</className>
+			<status>1</status>
+			<params>
+				<param name="institutionId">机构号</param>
+				<param name="phoneNumber" required="1">电话号码</param>
+				<param name="pContent" required="1">短信内容</param>
+				<param name="isSystem" required="1">是否系统发送</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>5</taskType>
+			<taskName>发邮件</taskName>
+			<className>TaskSendEmailInMarketingInterface</className>
+			<status>1</status>
+			<params>
+				<param name="institutionId">机构号</param>
+				<param name="emailAdd" required="1">邮箱地址</param>
+				<param name="emailTitle" required="1">邮件标题</param>
+				<param name="emailContent" required="1">邮件内容</param>
+				<param name="isSystem" required="1">是否系统发送</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>6</taskType>
+			<taskName>获取微博用户的详细信息</taskName>
+			<className>TaskUpdateWeiboUserInterface</className>			           
+			<status>1</status>
+			<params>
+				<param name="accountType" required="1">帐号类型</param>
+				<param name="rpsId">微博用户id</param>
+				<param name="name">微博用户昵称</param>
+				<param name="authorize">授权时调用使用</param>
+			</params>
+			<fields>
+				<field name="jobType">6</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>7</taskType>
+			<taskName>添加关注</taskName>
+			<className>TaskAddAttentionInterface</className>
+			<status>1</status>
+			<params>
+				<param name="pid" required="1">主键</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>8</taskType>
+			<taskName>取消关注</taskName>
+			<className>TaskCancelAttentionInterface</className>
+			<status>1</status>
+			<params>
+				<param name="pid" required="1">主键</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>9</taskType>
+			<taskName>移除粉丝</taskName>
+			<className>TaskRemoveFanInterface</className>
+			<status>1</status>
+			<params>
+				<param name="pid" required="1">主键</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>10</taskType>
+			<taskName>删除微博</taskName>
+			<className>TaskDeleteWeiboInterface</className>
+			<status>1</status>
+			<params>
+				<param name="pid" required="1">主键</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>11</taskType>
+			<taskName>主键生成</taskName>
+			<className>TaskPrimaryKeyGenInterface</className>
+			<status>1</status>
+			<params>
+				<param name="idType" required="1">主键类型</param>
+				<param name="cacheSize" dataType="Integer">缓存大小</param>
+			</params>
+			<fields>
+				<field name="interfaceType">1</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>12</taskType>
+			<taskName>微信授权获取</taskName>
+			<className>TaskUpdateWXUserTokenInterface</className>
+			<status>1</status>
+			<params>
+				<param name="appid" required="1">微信appid</param>
+				<param name="secret" required="1">微信secret</param>
+			</params>
+		</interface>
+		<!--  
+			<interface>
+			<taskType>13</taskType>
+			<taskName>导入用户数据</taskName>
+			<className>TaskPersonDataInfoImportInterface</className>
+			<status>0</status>
+			<params>
+			<param name="pid" required="1">主键</param>
+			</params>
+			</interface>
+		-->
+		<interface>
+			<taskType>14</taskType>
+			<taskName>通过微博id更新微博的详细信息</taskName>
+			<className>TaskUpdateWeiboInfoInterface</className>
+			<status>1</status>
+			<params>
+				<param name="mid" required="1">微博ID</param>
+				<param name="accountType" required="1">账号类型</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>15</taskType>
+			<taskName>删除新浪微博评论</taskName>
+			<className>TaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="id" required="1">评论ID</param>
+				<param name="account_id" required="1">平台账号id</param>
+				<param name="switcher" required="1">是否删除新浪平台数据开关</param>
+			</params>
+			<fields>
+				<field name="jobType">15</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>17</taskType>
+			<taskName>根据名称查询新浪/腾讯用户信息</taskName>
+			<className>TaskUpdateWeiboUserInterface</className>
+			<status>1</status>
+			<params>
+				<param name="userType">帐号类型</param>
+				<param name="userName" required="1">昵称</param>
+			</params>
+			<fields>
+				<field name="jobType">17</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>18</taskType>
+			<taskName>通过微博mid和类型查询评论列表</taskName>
+			<className>TaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="mid" required="1">微博mid</param>
+				<param name="type" required="1">帐号类型</param>
+				<param name="page" required="1" dataType="Integer">所需页数</param>
+				<param name="pageSize" required="1" dataType="Integer">每页记录数</param>
+			</params>
+			<fields>
+				<field name="jobType">18</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>19</taskType>
+			<taskName>根据rpsId与 账号id建立"我添加的"关系</taskName>
+			<className>TaskSearchUserAddInterface</className>
+			<status>1</status>
+			<params>
+				<param name="rpsId" required="1">微博帐号id</param>
+				<param name="userType" required="1">帐号类型</param>
+				<param name="institutionId" required="1">机构号</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>20</taskType>
+			<taskName>微博评论发布接口/进行常用回复统计</taskName>
+			<className>TaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="replyId" dataType="Long">互动消息id</param>
+				<param name="mid" dataType="Long">微博id</param>
+				<param name="content" required="1">发布内容</param>
+				<param name="accountId" required="1" dataType="Long">平台帐号id</param>
+				<param name="instPersonId" required="1" dataType="Long">运维人员ID</param>
+				<param name="commonReplyIds">常用回复pid</param>
+				<param name="sendType" required="1" dataType="Integer">发布类型</param>
+				<param name="sendTime" dataType="Integer">定时发送时间</param>
+			</params>
+			<fields>
+				<field name="jobType">20</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>21</taskType>
+			<taskName>新浪私信回复</taskName>
+			<className>TaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="replyId" required="1" dataType="Long">互动消息id</param>
+				<param name="msgType" required="1" dataType="Integer">私息类型</param>
+				<param name="accountId" required="1" dataType="Long">平台帐号id</param>
+				<param name="instPersonId" required="1" dataType="Long">运维人员ID</param>
+				<param name="sendType" required="1" dataType="Integer">发布类型</param>
+				<param name="commonReplyIds">常用回复pid</param>
+				<param name="content">发布内容</param>
+				<param name="articles">私信图文信息</param>
+				<param name="sendTime" dataType="Integer">定时发送时间</param>
+			</params>
+			<fields>
+				<field name="jobType">21</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>22</taskType>
+			<taskName>前台评论发布接口(微信)</taskName>
+			<className>TaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="content">发布内容</param>
+				<param name="accountId" required="1" dataType="Long">平台帐号id</param>
+				<param name="instPersonId" required="1" dataType="Long">运维人员ID</param>
+				<param name="userId" required="1" dataType="Long">用户ID</param>
+				<param name="sendType" required="1" dataType="Integer">发布类型</param>
+				<param name="msgType" required="1" dataType="Integer">信息类型</param>
+				<param name="articles">微信图文信息</param>
+				<param name="sendTime" dataType="Integer">定时发送时间</param>
+			</params>
+			<fields>
+				<field name="jobType">22</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>23</taskType>
+			<taskName>互动列表页面</taskName>
+			<className>TaskInteractListInterface</className>
+			<status>1</status>
+			<params>
+				<param name="paramJson" required="1">查询条件</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>24</taskType>
+			<taskName>微信创建/修改自定义菜单</taskName>
+			<className>TaskWeixinMenuInterface</className>
+			<status>1</status>
+			<params>
+				<param name="accountIds" required="1">平台帐号id</param><!-- 多个账号用,分隔 -->
+			</params>
+		</interface>
+		<interface>
+			<taskType>25</taskType>
+			<taskName>微博评论重发接口</taskName>
+			<className>TaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="replyId" dataType="Long" required="1">互动消息id</param>
+			</params>
+			<fields>
+				<field name="jobType">25</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>26</taskType>
+			<taskName>保存微博用户信息</taskName>
+			<className>TaskWeiboUserInsertInterface</className>
+			<status>0</status>
+			<params>
+				<param name="userJsonData" required="1">json用户信息</param>
+				<param name="userType" required="1">用户类型</param>
+				<param name="institutionId">机构ID</param>
+				<param name="tagStr">新浪标签信息</param>
+		    </params>
+		</interface>
+		<interface>
+			<taskType>27</taskType>
+			<taskName>微信重发接口</taskName>
+			<className>TaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="replyId" dataType="Long" required="1">互动消息id</param>
+			</params>
+			<fields>
+				<field name="jobType">27</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>28</taskType>
+			<taskName>私信重发接口</taskName>
+			<className>TaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="replyId" dataType="Long" required="1">互动消息id</param>
+			</params>
+			<fields>
+				<field name="jobType">28</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>29</taskType>
+			<taskName>政务版评论回复接口</taskName>
+			<className>GovTaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="interactId" dataType="Long" required="1">主键ID</param>
+				<param name="content" dataType="String" required="1">评论内容</param>
+			</params>
+			<fields>
+				<field name="jobType">1</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>30</taskType>
+			<taskName>政务版私信回复接口</taskName>
+			<className>GovTaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="accountId" dataType="Long" required="1">帐号id</param>
+				<param name="replyId" dataType="Long" required="1">私信ID</param>
+				<param name="content">回复内容</param>
+				<param name="msgType" dataType="Integer" required="1">私信类型</param>
+				<param name="articles">回复内容</param>
+				<param name="sendType" required="1" dataType="Integer">发布类型</param>
+			</params>
+			<fields>
+				<field name="jobType">2</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>31</taskType>
+			<taskName>政务版公示发布</taskName>
+			<className>GovTaskCommentInterface</className>
+			<status>1</status>
+			<params>
+				<param name="runId" dataType="Long" required="1">流水id</param>
+				<param name="accountId" dataType="Long" required="1">客户id</param>
+				<param name="content" dataType="String" required="1">发布内容</param>
+				<param name="contentType" dataType="String" required="1">内容类型</param>
+				<param name="picOriginalUrl">原始图片URL</param>
+				<param name="picMiddleUrl">图片URL</param>
+				<param name="musicUrl">音乐URL</param>
+				<param name="videoUrl">视频URL</param>
+				<param name="authorId">作者id</param>
+				<param name="authorName">作者名称</param>
+				<param name="srcid">微博id</param>
+			</params>
+			<fields>
+				<field name="jobType">3</field>
+			</fields>
+		</interface>
+		
+		<interface>
+			<taskType>32</taskType>
+			<taskName>更新微博评论数转发数</taskName>
+			<className>TaskWeiboDynaDataInterface</className>
+			<status>1</status>
+			<params>
+				<param name="mid" dataType="String" required="1">微博mid</param>
+				<param name="weiboType" dataType="String" required="1">微博类型</param>
+				<param name="tableType" dataType="String" required="1">微博来源表</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>99</taskType>
+			<taskName>加入队列数据</taskName>
+			<className>TaskAddQueueInterface</className>
+			<status>1</status>
+			<params>
+				<param name="queueType" required="1">队列类型</param>
+				<param name="queueObj" required="1">对象字符串</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>33</taskType>
+			<taskName>微信群发功能</taskName>
+			<className>TaskMassWeChatInterface</className>
+			<status>1</status>
+			<params>
+				<param name="ids" dataType="String" required="1">微信发布信息主键</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>55</taskType>
+			<taskName>新互动列表页面</taskName>
+			<className>TaskNewInteractListInterface</className>
+			<status>1</status>
+			<params>
+				<param name="paramJson" required="1">查询条件</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>100</taskType>
+			<taskName>刷新服务端配置文件</taskName>
+			<className>TaskServerToolInterface</className>
+			<status>1</status>
+			<params/>
+			<fields>
+				<field name="toolType">1</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>101</taskType>
+			<taskName>取得主键</taskName>
+			<className>TaskPrimaryKeyGenInterface</className>
+			<status>0</status>
+			<params>
+				<param name="tableName" required="1">表名</param>
+				<param name="columnName" required="1">主键字段名</param>
+				<param name="cacheSize" required="1" dataType="Integer">缓存大小</param>
+			</params>
+			<fields>
+				<field name="interfaceType">2</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>103</taskType>
+			<taskName>查看任务统计数据</taskName>
+			<className>TaskServerToolInterface</className>
+			<status>1</status>
+			<fields>
+				<field name="toolType">4</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>104</taskType>
+			<taskName>发送任务统计邮件</taskName>
+			<className>TaskServerToolInterface</className>
+			<status>1</status>
+			<params>
+				<param name="email" required="1">邮件地址</param>
+			</params>
+			<fields>
+				<field name="toolType">2</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>105</taskType>
+			<taskName>刷新系统缓存</taskName>
+			<className>TaskServerToolInterface</className>
+			<status>1</status>
+			<fields>
+				<field name="toolType">3</field>
+			</fields>
+		</interface>
+		<interface>
+			<taskType>106</taskType>
+			<taskName>添加/删除跑批客户端IP地址(单个)</taskName>
+			<className>TaskServerToolInterface</className>
+			<status>0</status>
+			<fields>
+				<field name="toolType">5</field>
+			</fields>
+			<params>
+				<param name="add">添加地址</param>
+				<param name="remove">移除地址</param>
+			</params>
+		</interface>
+		<interface>
+			<taskType>110</taskType>
+			<taskName>测试接口</taskName>
+			<className>TaskServerToolInterface</className>
+			<status>1</status>
+			<fields>
+				<field name="toolType">99</field>
+			</fields>
+			<params>
+				<param name="pid" required="1">增量任务表主键</param>
+			</params>
+		</interface>
+	</interfaces>
+</root>

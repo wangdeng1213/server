@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<workbook> 
+   <worksheet name="template">     
+    <loop startRow="1" endRow="1" items="personInfoList" var="person" varType="com.linksus.entity.PersonInfo"> 
+		    <section startRow="1" endRow="1"> 
+								<mapping row="1" col="0" nullAllowed="true">	person.person_name	</mapping>
+								<mapping row="1" col="1" nullAllowed="true">	person.gender	</mapping>
+								<mapping row="1" col="2" nullAllowed="true">	person.birth_day	</mapping>
+								<mapping row="1" col="3" nullAllowed="true">	person.state_code	</mapping>
+								<mapping row="1" col="4" nullAllowed="true">	person.city_code	</mapping>
+								<mapping row="1" col="5" nullAllowed="true">	person.verified_info	</mapping>
+								<mapping row="1" col="6" nullAllowed="true">	person.contact_mobile	</mapping>
+								<mapping row="1" col="7" nullAllowed="true">	person.contact_tel	</mapping>
+								<mapping row="1" col="8" nullAllowed="true">	person.contact_tel_office	</mapping>
+								<mapping row="1" col="9" nullAllowed="true">	person.contact_tel_home	</mapping>
+								<mapping row="1" col="10" nullAllowed="true">	person.contact_fax	</mapping>
+								<mapping row="1" col="11" nullAllowed="true">	person.email_office	</mapping>
+								<mapping row="1" col="12" nullAllowed="true">	person.email_personal	</mapping>
+								<mapping row="1" col="13" nullAllowed="true">	person.email_other	</mapping>
+								<mapping row="1" col="14" nullAllowed="true">	person.edu_info	</mapping>
+								<mapping row="1" col="15" nullAllowed="true">	person.job_info	</mapping>
+								<mapping row="1" col="16" nullAllowed="true">	person.group_info	</mapping>
+								<mapping row="1" col="17" nullAllowed="true">	person.tag_info	</mapping>
+								<mapping row="1" col="18" nullAllowed="true">	person.sina_uids	</mapping>
+								<mapping row="1" col="19" nullAllowed="true">	person.sina_names	</mapping>
+								<mapping row="1" col="20" nullAllowed="true">	person.tencent_uids	</mapping>
+								<mapping row="1" col="21" nullAllowed="true">	person.tencent_names	</mapping>
+								<mapping row="1" col="22" nullAllowed="true">	person.weixin_infos	</mapping>
+		   </section> 
+		    <loopbreakcondition> 
+			      <rowcheck offset="0"> 
+			        <cellcheck offset="0"></cellcheck>
+			      </rowcheck> 
+		    </loopbreakcondition> 
+    </loop> 
+    </worksheet> 
+</workbook>

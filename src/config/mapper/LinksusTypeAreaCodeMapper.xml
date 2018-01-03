@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTypeAreaCodeMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusTypeAreaCode" type="LinksusTypeAreaCode" >
+		<result column="area_code" property="areaCode" jdbcType="BIGINT" />	
+		<result column="parent_code" property="parentCode" jdbcType="BIGINT" />	
+		<result column="area_name" property="areaName" jdbcType="VARCHAR" />	
+		<result column="sina_area_code" property="sinaAreaCode" jdbcType="VARCHAR" />	
+		<result column="tencent_area_code" property="tencentAreaCode" jdbcType="VARCHAR" />	
+		<result column="ordervalue" property="ordervalue" jdbcType="TINYINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		area_code,parent_code,area_name,sina_area_code,tencent_area_code,ordervalue
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusTypeAreaCodeList"  resultMap="LinksusTypeAreaCode">
+		  SELECT area_code,sina_area_code,tencent_area_code,area_name
+		  FROM linksus_type_area_code
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusTypeAreaCodeById"  resultMap="LinksusTypeAreaCode" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_type_area_code
+		  WHERE area_code=#{areaCode:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusTypeAreaCode" parameterType="LinksusTypeAreaCode">
+		INSERT INTO linksus_type_area_code(
+		area_code,parent_code,area_name,sina_area_code,tencent_area_code,ordervalue
+		) VALUES(
+		#{areaCode:BIGINT},#{parentCode:BIGINT},#{areaName:VARCHAR},#{sinaAreaCode:VARCHAR},#{tencentAreaCode:VARCHAR},#{ordervalue:TINYINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusTypeAreaCode" parameterType="LinksusTypeAreaCode">
+		  UPDATE linksus_type_area_code SET
+		  area_code=#{areaCode:BIGINT},parent_code=#{parentCode:BIGINT},area_name=#{areaName:VARCHAR},sina_area_code=#{sinaAreaCode:VARCHAR},tencent_area_code=#{tencentAreaCode:VARCHAR},ordervalue=#{ordervalue:TINYINT}
+		  WHERE area_code=#{areaCode:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusTypeAreaCodeById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_type_area_code 
+		  WHERE area_code=#{areaCode:BIGINT}
+	</update> 
+	
+    <!-- 查询地区信息 -->
+    
+    <select id="getLinksusTypeAreaCodeListByCode"  resultMap="LinksusTypeAreaCode" parameterType="java.util.Map">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_type_area_code
+		  where 1=1  
+		   <if test="sinaCode != null" >
+          and sina_area_code in (${sinaCode})
+           </if>
+		  
+		   <if test="tencentCode != null" >
+          and tencent_area_code in (#{tencentCode:VARCHAR})
+           </if>
+		  
+	</select> 	
+		
+	<!-- 批量插入数据 --> 
+	<update id="replaceLinksusTypeAreaCodeInfo" parameterType="java.util.List">
+	  replace into linksus_type_area_code (area_code,parent_code,area_name,sina_area_code,tencent_area_code,ordervalue) VALUES
+	  <foreach collection="list" index="index" item="item"  separator=","> 
+	    (#{item.areaCode},#{item.parentCode},#{item.areaName},#{item.sinaAreaCode},#{item.tencentAreaCode},#{item.ordervalue})
+	  </foreach>
+	</update>
+	
+	 <!-- 查询地区代码 -->
+    
+    <select id="getLinksusTypeAreaCode"  resultMap="LinksusTypeAreaCode" parameterType="java.util.Map">
+		  SELECT  area_code FROM linksus_type_area_code
+		  where 1=1  
+		   <if test="area_code != null" >
+          		and area_code = (${area_code})
+           </if>		  
+		   <if test="parent_code != null" >
+          		and parent_code = (#{parent_code})
+           </if>
+            <if test="area_name != null" >
+          		and area_name = (#{area_name})
+           </if>
+		  
+	</select> 
+	
+	<!-- 根据省份名称查询城市 -->
+	<select id="getProvicesInfo" resultMap="LinksusTypeAreaCode" parameterType="java.util.Map">
+		Select * from
+		 (SELECT b.* FROM
+		linksus_type_area_code a,
+		linksus_type_area_code b
+	 where a.area_name=#{proviceName}
+	  and a.area_code = b.parent_code) t where t.area_name = #{cityName}
+	</select>
+	
+	<!-- 根据主键更新新浪编码 -->
+	<update id="updateSinaAreaCodeByCode" parameterType="java.util.Map">
+	   update linksus_type_area_code set sina_area_code=#{sinaAreaCode} where area_code=#{areaCode}
+	</update>
+	
+</mapper>   

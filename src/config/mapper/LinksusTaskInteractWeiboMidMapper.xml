@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTaskInteractWeiboMidMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusTaskInteractWeiboMid" type="LinksusTaskInteractWeiboMid" >
+		<result column="rps_id" property="rpsId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="person_id" property="personId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="comment_id" property="commentId" jdbcType="BIGINT" />	
+		<result column="reply_id" property="replyId" jdbcType="BIGINT" />	
+		<result column="mid" property="mid" jdbcType="BIGINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		rps_id,user_id,person_id,account_id,comment_id,reply_id,mid,source_mid,source_rps_id,content,interact_type,interact_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusTaskInteractWeiboMidList"  resultMap="LinksusTaskInteractWeiboMid">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_interact_weibo_mid
+	</select> 
+     <select id="getWeiboMidTempListByMap"  resultMap="LinksusTaskInteractWeiboMid" parameterType="java.util.Map">
+		  select *
+		  from linksus_task_interact_weibo_mid  where  account_id= #{accountId,jdbcType=BIGINT}  limit #{countPage,jdbcType=BIGINT},200 
+	</select> 
+    <!-- 主键查询  -->
+	<select id="getLinksusTaskInteractWeiboMidById"  resultMap="LinksusTaskInteractWeiboMid" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_interact_weibo_mid
+		  WHERE account_id=#{accountId:BIGINT} and comment_id=#{commentId:BIGINT} and mid=#{mid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusTaskInteractWeiboMid" parameterType="LinksusTaskInteractWeiboMid">
+		INSERT INTO linksus_task_interact_weibo_mid(
+		rps_id,user_id,person_id,account_id,comment_id,reply_id,mid,content,interact_type,interact_time
+		) VALUES(
+		#{rpsId:BIGINT},#{userId:BIGINT},#{personId:BIGINT},#{accountId:BIGINT},#{commentId:BIGINT},#{replyId:BIGINT},#{mid:BIGINT},#{content:VARCHAR},#{interactType:TINYINT},#{interactTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusTaskInteractWeiboMid" parameterType="LinksusTaskInteractWeiboMid">
+		  UPDATE linksus_task_interact_weibo_mid SET
+		  rps_id=#{rpsId:BIGINT},account_id=#{accountId:BIGINT},comment_id=#{commentId:BIGINT},reply_id=#{replyId:BIGINT},mid=#{mid:BIGINT},content=#{content:VARCHAR},interact_type=#{interactType:TINYINT},interact_time=#{interactTime:INTEGER}
+		  WHERE account_id=#{accountId:BIGINT} and comment_id=#{commentId:BIGINT} and mid=#{mid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusTaskInteractWeiboMidById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_task_interact_weibo_mid 
+		  WHERE account_id=#{accountId:BIGINT} and comment_id=#{commentId:BIGINT} and mid=#{mid:BIGINT}
+	</update> 
+	
+	<!-- 清除临时表中数据 -->
+	<update id="deleteLinksusTaskInteractWeiboMid">
+		  DELETE FROM linksus_task_interact_weibo_mid 
+	</update> 
+</mapper>   

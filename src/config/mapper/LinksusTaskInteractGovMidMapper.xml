@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTaskInteractGovMidMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusTaskInteractGovMid" type="LinksusTaskInteractGovMid" >
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="comment_id" property="commentId" jdbcType="BIGINT" />	
+		<result column="mid" property="mid" jdbcType="BIGINT" />	
+		<result column="rps_id" property="rpsId" jdbcType="BIGINT" />	
+		<result column="person_id" property="personId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="reply_id" property="replyId" jdbcType="BIGINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />	
+		<result column="replyCommentId" property="replyCommentId" jdbcType="INTEGER" />
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		account_id,comment_id,mid,rps_id,person_id,user_id,reply_id,content,interact_type,interact_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusTaskInteractGovMidList"  resultMap="LinksusTaskInteractGovMid">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_interact_gov_mid
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusTaskInteractGovMidById"  resultMap="LinksusTaskInteractGovMid" parameterType="LinksusTaskInteractGovMid">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_interact_gov_mid
+		  WHERE 1=1  and account_id=#{accountId:BIGINT} and comment_id=#{commentId:BIGINT} and mid=#{mid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusTaskInteractGovMid" parameterType="LinksusTaskInteractGovMid">
+		INSERT INTO linksus_task_interact_gov_mid(
+		account_id,comment_id,mid,rps_id,person_id,user_id,reply_id,content,interact_type,interact_time
+		) VALUES(
+		#{accountId:BIGINT},#{commentId:BIGINT},#{mid:BIGINT},#{rpsId:BIGINT},#{personId:BIGINT},#{userId:BIGINT},#{replyId:BIGINT},#{content:VARCHAR},#{interactType:TINYINT},#{interactTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusTaskInteractGovMid" parameterType="LinksusTaskInteractGovMid">
+		  UPDATE linksus_task_interact_gov_mid SET
+		  account_id=#{accountId:BIGINT},comment_id=#{commentId:BIGINT},mid=#{mid:BIGINT},rps_id=#{rpsId:BIGINT},person_id=#{personId:BIGINT},user_id=#{userId:BIGINT},reply_id=#{replyId:BIGINT},content=#{content:VARCHAR},interact_type=#{interactType:TINYINT},interact_time=#{interactTime:INTEGER}
+		  WHERE 1=1  and account_id=#{accountId:BIGINT} and comment_id=#{commentId:BIGINT} and mid=#{mid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusTaskInteractGovMidById" parameterType="LinksusTaskInteractGovMid">
+		  DELETE FROM linksus_task_interact_gov_mid 
+		  WHERE 1=1  and account_id=#{accountId:BIGINT} and comment_id=#{commentId:BIGINT} and mid=#{mid:BIGINT}
+	</update> 
+	
+	<update id="deleteLinksusTaskInteractGovMid" parameterType="java.lang.Long">
+		  DELETE FROM linksus_task_interact_gov_mid 
+		  WHERE 1=1 
+	</update> 
+	
+	
+	<select id="getGovMidTempListByMap"  resultMap="LinksusTaskInteractGovMid" parameterType="java.util.Map">
+		  select *
+		  from linksus_task_interact_gov_mid  where  account_id= #{accountId,jdbcType=BIGINT}  limit #{countPage,jdbcType=BIGINT},200 
+	</select> 
+	
+	<select id="getLinksusTaskInteractGovMidListByMid"  resultMap="LinksusTaskInteractGovMid" parameterType="java.lang.Long">
+		 SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_interact_gov_mid  where mid=#{mid:BIGINT}
+	</select> 
+	<!-- 根据mid删除 -->
+	<update id="deleteLinkSusTaskInteractGovMidByMid" parameterType="java.lang.Long">
+		  DELETE FROM linksus_task_interact_gov_mid 
+		  WHERE mid=#{mid:BIGINT}
+	</update> 
+	
+	<select id="getDuoWenInteractGovMid"  resultType="java.lang.Long" >
+		 select  mid  from linksus_task_interact_gov_mid where interact_type='3' group by mid ,comment_id having count(account_id)>1
+	</select>  
+	
+	<select id="getLinksusCommentAndRelayGovMidList"  resultMap="LinksusTaskInteractGovMid">
+		  SELECT a.*,b.comment_id replyCommentId from linksus_task_interact_gov_mid a inner join linksus_task_interact_gov_mid b
+		   on a.reply_id=b.mid  and a.account_id=b.account_id and a.rps_id=b.rps_id and a.interact_time=b.interact_time
+	</select> 
+	
+	<!-- 更新互动类型-->
+	<update id="updateInteractType" parameterType="java.lang.Long">
+		  update linksus_task_interact_gov_mid  set interact_type=#{interactType:TINYINT}
+		  WHERE mid=#{mid:BIGINT}  and account_id=#{accountId:BIGINT} and comment_id=#{commentId:BIGINT}
+	</update> 
+</mapper>   

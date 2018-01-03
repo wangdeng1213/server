@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusGovTagMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusGovTag" type="LinksusGovTag" >
+		<result column="tag_id" property="tagId" jdbcType="INTEGER" />	
+		<result column="context" property="context" jdbcType="VARCHAR" />	
+		<result column="account_id" property="accountId" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		tag_id,context,account_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusGovTagList"  resultMap="LinksusGovTag">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_tag
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusGovTagById"  resultMap="LinksusGovTag" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_tag
+		  WHERE 1=1  and tag_id=#{tagId:INTEGER}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusGovTag" parameterType="LinksusGovTag">
+		INSERT INTO linksus_gov_tag(
+		tag_id,context,account_id
+		) VALUES(
+		#{tagId:INTEGER},#{context:VARCHAR},#{accountId:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusGovTag" parameterType="LinksusGovTag">
+		  UPDATE linksus_gov_tag SET
+		  tag_id=#{tagId:INTEGER},context=#{context:VARCHAR},account_id=#{accountId:INTEGER}
+		  WHERE 1=1  and tag_id=#{tagId:INTEGER}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusGovTagById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_gov_tag 
+		  WHERE 1=1  and tag_id=#{tagId:INTEGER}
+	</update> 
+</mapper>   

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusWxObjectSupplyMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusWxObjectSupply" type="LinksusWxObjectSupply" >
+		<result column="wx_id" property="wxId" jdbcType="BIGINT" />	
+		<result column="title" property="title" jdbcType="VARCHAR" />	
+		<result column="auther_name" property="autherName" jdbcType="VARCHAR" />	
+		<result column="pic_original_url" property="picOriginalUrl" jdbcType="VARCHAR" />	
+		<result column="pic_middle_url" property="picMiddleUrl" jdbcType="VARCHAR" />	
+		<result column="pic_thumb_url" property="picThumbUrl" jdbcType="VARCHAR" />	
+		<result column="summary" property="summary" jdbcType="VARCHAR" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="conent_url" property="conentUrl" jdbcType="VARCHAR" />	
+		<result column="is_first" property="isFirst" jdbcType="TINYINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		wx_id,title,auther_name,pic_original_url,pic_middle_url,pic_thumb_url,summary,content,conent_url,is_first
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusWxObjectSupplyList"  resultMap="LinksusWxObjectSupply">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_wx_object_supply
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWxObjectSupplyById"  resultMap="LinksusWxObjectSupply" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_wx_object_supply
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusWxObjectSupply" parameterType="LinksusWxObjectSupply">
+		INSERT INTO linksus_wx_object_supply(
+		wx_id,title,auther_name,pic_original_url,pic_middle_url,pic_thumb_url,summary,content,conent_url,is_first
+		) VALUES(
+		#{wxId:BIGINT},#{title:VARCHAR},#{autherName:VARCHAR},#{picOriginalUrl:VARCHAR},#{picMiddleUrl:VARCHAR},#{picThumbUrl:VARCHAR},#{summary:VARCHAR},#{content:VARCHAR},#{conentUrl:VARCHAR},#{isFirst:TINYINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusWxObjectSupply" parameterType="LinksusWxObjectSupply">
+		  UPDATE linksus_wx_object_supply SET
+		  wx_id=#{wxId:BIGINT},title=#{title:VARCHAR},auther_name=#{autherName:VARCHAR},pic_original_url=#{picOriginalUrl:VARCHAR},pic_middle_url=#{picMiddleUrl:VARCHAR},pic_thumb_url=#{picThumbUrl:VARCHAR},summary=#{summary:VARCHAR},content=#{content:VARCHAR},conent_url=#{conentUrl:VARCHAR},is_first=#{isFirst:TINYINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusWxObjectSupplyById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_wx_object_supply 
+	</update> 
+	
+	<!-- 查询单个发送微信内容 -->
+	<select id="getSingleLinksusWxObjectSupplyById" resultMap="LinksusWxObjectSupply" parameterType="java.lang.Long">
+	 SELECT * FROM linksus_wx_object_supply where wx_id=#{wxId} order by is_first desc limit 1
+	</select>
+	
+	<!-- 查询多个发送微信内容 -->
+	<select id="getMoreLinksusWxObjectSupplyById" resultMap="LinksusWxObjectSupply" parameterType="java.lang.Long">
+	 SELECT * FROM linksus_wx_object_supply where wx_id=#{wxId} order by is_first desc limit 10
+	</select>
+	
+</mapper>   

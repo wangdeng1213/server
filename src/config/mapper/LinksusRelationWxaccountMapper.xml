@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationWxaccountMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationWxaccount" type="LinksusRelationWxaccount" >
+		<result column="openid" property="openid" jdbcType="VARCHAR" />	
+		<result column="appid" property="appid" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />	
+		<result column="sex" property="sex" jdbcType="VARCHAR" />	
+		<result column="city" property="city" jdbcType="VARCHAR" />	
+		<result column="country" property="country" jdbcType="VARCHAR" />	
+		<result column="province" property="province" jdbcType="VARCHAR" />	
+		<result column="language" property="language" jdbcType="VARCHAR" />	
+		<result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />	
+		<result column="msg_md5" property="msgMd5" jdbcType="VARCHAR" />	
+		<result column="subscribe_time" property="subscribeTime" jdbcType="INTEGER" />	
+		<result column="last_updt_time" property="lastUpdtTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		openid,appid,user_id,nickname,sex,city,country,province,language,headimgurl,msg_md5,subscribe_time,last_updt_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationWxaccountList"  resultMap="LinksusRelationWxaccount">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_wxaccount
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusRelationWxaccountById"  resultMap="LinksusRelationWxaccount" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_wxaccount
+		  WHERE openid=#{openid:VARCHAR} and appid=#{appid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationWxaccount" parameterType="LinksusRelationWxaccount">
+		INSERT INTO linksus_relation_wxaccount(
+		openid,appid,user_id,nickname,sex,city,country,province,language,headimgurl,msg_md5,subscribe_time,last_updt_time
+		) VALUES(
+		#{openid:VARCHAR},#{appid:BIGINT},#{userId:BIGINT},#{nickname:VARCHAR},#{sex:VARCHAR},#{city:VARCHAR},#{country:VARCHAR},#{province:VARCHAR},#{language:VARCHAR},#{headimgurl:VARCHAR},#{msgMd5:VARCHAR},#{subscribeTime:INTEGER},#{lastUpdtTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationWxaccount" parameterType="LinksusRelationWxaccount">
+		  UPDATE linksus_relation_wxaccount SET
+		  nickname=#{nickname:VARCHAR},sex=#{sex:VARCHAR},city=#{city:VARCHAR},country=#{country:VARCHAR},province=#{province:VARCHAR},language=#{language:VARCHAR},headimgurl=#{headimgurl:VARCHAR},msg_md5=#{msgMd5:VARCHAR},subscribe_time=#{subscribeTime:INTEGER},last_updt_time=#{lastUpdtTime:INTEGER}
+		  WHERE openid=#{openid:VARCHAR} and appid=#{appid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationWxaccountById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_wxaccount 
+		  WHERE openid=#{openid:VARCHAR} and appid=#{appid:BIGINT}
+	</update> 
+	
+	<!--  查询Msg_MD5是否存在-->
+	<select id="getLinksusRelationWxaccountByMsgMD5" resultMap="LinksusRelationWxaccount" parameterType="java.lang.String">
+	   select * from linksus_relation_wxaccount where msg_md5=#{msgMd5} limit 1
+	</select>
+	
+	<!-- 根据复合主键查询 -->
+	<select id="getLinksusRelationWxaccountByPrimary"  resultMap="LinksusRelationWxaccount" parameterType="java.util.Map">
+	 select * from linksus_relation_wxaccount where openid=#{openid:VARCHAR} and appid=#{appid:BIGINT}
+	</select>
+</mapper>   

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractWxMenuMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractWxMenu" type="LinksusInteractWxMenu" >
+		<result column="menu_id" property="menuId" jdbcType="BIGINT" />	
+		<result column="menu_name" property="menuName" jdbcType="VARCHAR" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		menu_id,menu_name,institution_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractWxMenuList"  resultMap="LinksusInteractWxMenu">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_menu
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractWxMenuById"  resultMap="LinksusInteractWxMenu" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_menu
+		  WHERE menu_id=#{menuId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractWxMenu" parameterType="LinksusInteractWxMenu">
+		INSERT INTO linksus_interact_wx_menu(
+		menu_id,menu_name,institution_id
+		) VALUES(
+		#{menuId:BIGINT},#{menuName:VARCHAR},#{institutionId:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractWxMenu" parameterType="LinksusInteractWxMenu">
+		  UPDATE linksus_interact_wx_menu SET
+		  menu_id=#{menuId:BIGINT},menu_name=#{menuName:VARCHAR},institution_id=#{institutionId:BIGINT}
+		  WHERE menu_id=#{menuId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractWxMenuById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_wx_menu 
+		  WHERE menu_id=#{menuId:BIGINT}
+	</update> 
+</mapper>   

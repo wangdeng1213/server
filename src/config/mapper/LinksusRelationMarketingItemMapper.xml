@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationMarketingItemMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationMarketingItem" type="LinksusRelationMarketingItem" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="marketing_id" property="marketingId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,marketing_id,user_id,status
+	</sql>
+    
+    <!-- 根据营销主键查询营销对象 -->
+    <select id="getItemsByMarketingID" resultMap="LinksusRelationMarketingItem" parameterType="java.lang.Long">
+       select * from linksus_relation_marketing_item t where t.status = 0 and t.marketing_id=#{marketingId}
+    </select>
+    
+    <!-- 更新营销状态 -->
+    <update id="updateMarketingItemStatus" parameterType="LinksusRelationMarketingItem">
+      update linksus_relation_marketing_item t set t.status=#{status} where t.pid=#{pid}
+    </update>
+    
+    <!-- 批量更新营销子表状态 -->
+    <update id="updateMoreMarketingItemStatus" parameterType="LinksusRelationMarketingItem">
+      update linksus_relation_marketing_item t set t.status=#{status} where t.marketing_id=#{marketingId}
+    </update>
+   
+</mapper>   

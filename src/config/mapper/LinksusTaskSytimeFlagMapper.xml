@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTaskSytimeFlagMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusTaskSytimeFlag" type="LinksusTaskSytimeFlag" >
+		<result column="task_type" property="taskType" jdbcType="TINYINT" />	
+		<result column="last_send_time" property="lastSendTime" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		task_type,last_send_time
+	</sql>
+    
+    <!-- 查询最后一次微博发送时间 -->
+    <select id="getWeiboTopicLastTime"  resultMap="LinksusTaskSytimeFlag" parameterType="java.lang.Integer">
+       select * 
+        from linksus_task_sytime_flag 
+        where task_type=#{taskType,jdbcType=TINYINT}
+    </select>
+    
+    <!-- 插入最后一条微博发送时间 -->
+    <insert id="insertWeiboTopicLastTime" parameterType="LinksusTaskSytimeFlag">
+      insert into linksus_task_sytime_flag values(#{taskType,jdbcType=TINYINT}, #{lastSendTime,jdbcType=BIGINT})
+    </insert>
+    
+    <!-- 更新最后一次微博发送时间 -->
+    <update id="updateWeiboTopicLastTime" parameterType="LinksusTaskSytimeFlag">
+      update linksus_task_sytime_flag set last_send_time=#{lastSendTime,jdbcType=BIGINT} where task_type = '${taskType}'
+   </update>
+    
+   
+</mapper>   

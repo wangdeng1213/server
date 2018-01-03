@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractRecordMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractRecord" type="LinksusInteractRecord" >
+		<result column="record_id" property="recordId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="weibo_id" property="weiboId" jdbcType="BIGINT" />	
+		<result column="fake_flag" property="fakeFlag" jdbcType="TINYINT" />
+		<result column="new_msg_flag" property="newMsgFlag" jdbcType="TINYINT" />
+		<result column="message_id" property="messageId" jdbcType="BIGINT" />	
+		<result column="update_time" property="updateTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		record_id,user_id,account_id,account_type,interact_type,weibo_id,fake_flag,new_msg_flag,message_id,update_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractRecordList"  resultMap="LinksusInteractRecord">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_record
+	</select> 
+    
+    <select id="checkIsExsitRecord"  resultMap="LinksusInteractRecord">
+		  SELECT 
+		   <include refid="Base_Column_List" />
+		  FROM linksus_interact_record 
+		  WHERE user_id = #{userId:BIGINT}
+		  and account_id = #{accountId:BIGINT}
+		   <if test="weiboId != null" >
+          and weibo_id = #{weiboId:BIGINT}
+          </if>
+		 
+	</select> 
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractRecordById"  resultMap="LinksusInteractRecord" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_record
+		  WHERE record_id=#{recordId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractRecord" parameterType="LinksusInteractRecord">
+		INSERT INTO linksus_interact_record(
+		record_id,user_id,account_id,account_type,interact_type,weibo_id,fake_flag,new_msg_flag,message_id,update_time
+		) VALUES(
+		#{recordId:BIGINT},#{userId:BIGINT},#{accountId:BIGINT},#{accountType:TINYINT},#{interactType:TINYINT},#{weiboId:BIGINT},#{fakeFlag:TINYINT},#{newMsgFlag:TINYINT},#{messageId:BIGINT},#{updateTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractRecord" parameterType="LinksusInteractRecord">
+		  UPDATE linksus_interact_record SET
+		  interact_type=#{interactType:TINYINT},message_id=#{messageId:BIGINT},update_time=#{updateTime:INTEGER},new_msg_flag=#{newMsgFlag:TINYINT}
+		  WHERE record_id=#{recordId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractRecordById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_record 
+		  WHERE record_id=#{recordId:BIGINT}
+	</update> 
+	
+	<!-- 根据主键更新记录时间及用户最新互动消息ID  -->
+	<update id="updateLinksusInteractRecordById" parameterType="java.util.Map">
+		  UPDATE linksus_interact_record SET
+		  message_id=#{messageId:BIGINT},update_time=#{updateTime:INTEGER},new_msg_flag=#{newMsgFlag:TINYINT}
+		  WHERE record_id=#{recordId:BIGINT}
+	</update> 
+</mapper>   

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTaskIncrementUserMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusTaskIncrementUser" type="LinksusTaskIncrementUser" >
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="app_type" property="appType" jdbcType="TINYINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="initial_fans_num" property="initialFansNum" jdbcType="INTEGER" />	
+		<result column="last_fans_num" property="lastFansNum" jdbcType="INTEGER" />	
+		<result column="updt_fans_time" property="updtFansTime" jdbcType="INTEGER" />	
+		<result column="initial_follow_num" property="initialFollowNum" jdbcType="INTEGER" />	
+		<result column="last_follow_num" property="lastFollowNum" jdbcType="INTEGER" />	
+		<result column="updt_follow_time" property="updtFollowTime" jdbcType="INTEGER" />	
+		<result column="is_system_user" property="isSystemUser" jdbcType="TINYINT" />	
+		<result column="appid" property="rpsId" jdbcType="TINYINT" />	
+		<result column="token" property="token" jdbcType="VARCHAR" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		account_id,app_type,institution_id,initial_fans_num,last_fans_num,updt_fans_time,initial_follow_num,last_follow_num,updt_follow_time,is_system_user
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusTaskIncrementUserList"  resultMap="LinksusTaskIncrementUser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_increment_user
+	</select> 
+    
+    <!-- 判断增量表中是否存在  -->
+	<select id="getCountByaccountId"  resultType="java.lang.Integer">
+		  SELECT 
+		  count(*)
+		  FROM linksus_task_increment_user where account_id=#{accountId:BIGINT}
+	</select> 
+     <!-- 列表查询  -->
+	<select id="getIncrementalUserTaskList"  resultMap="LinksusTaskIncrementUser" parameterType="LinksusTaskIncrementUser">
+		        select n.appid,n.token, t.*
+				from linksus_task_increment_user  t 
+				left join linksus_appaccount n 
+				on t.account_id=n.id 
+				where t.app_type = #{appType:BIGINT}
+				and n.token !="0" 
+                and n.token_etime &gt;= UNIX_TIMESTAMP(NOW())
+				order by t.account_id 
+				limit #{startCount},#{pageSize}
+	</select> 
+    <!-- 主键查询  -->
+	<select id="getTaskIncrementUserByAccountId"  resultMap="LinksusTaskIncrementUser" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_increment_user
+		  WHERE account_id=#{accountId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusTaskIncrementUser" parameterType="LinksusTaskIncrementUser">
+		INSERT INTO linksus_task_increment_user(
+		account_id,app_type,institution_id,initial_fans_num,last_fans_num,updt_fans_time,initial_follow_num,last_follow_num,updt_follow_time,is_system_user
+		) VALUES(
+		#{accountId:BIGINT},#{appType:TINYINT},#{institutionId:BIGINT},#{initialFansNum:INTEGER},#{lastFansNum:INTEGER},#{updtFansTime:INTEGER},#{initialFollowNum:INTEGER},#{lastFollowNum:INTEGER},#{updtFollowTime:INTEGER},#{isSystemUser:TINYINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusTaskIncrementUser" parameterType="LinksusTaskIncrementUser">
+		  UPDATE linksus_task_increment_user SET
+		  account_id=#{accountId:BIGINT},app_type=#{appType:TINYINT},institution_id=#{institutionId:BIGINT},initial_fans_num=#{initialFansNum:INTEGER},last_fans_num=#{lastFansNum:INTEGER},updt_fans_time=#{updtFansTime:INTEGER},initial_follow_num=#{initialFollowNum:INTEGER},last_follow_num=#{lastFollowNum:INTEGER},updt_follow_time=#{updtFollowTime:INTEGER},is_system_user=#{isSystemUser:TINYINT}
+		  WHERE account_id=#{accountId:BIGINT} AND app_type=#{appType:TINYINT}
+	</update> 
+		<!-- 更新  -->
+	<update id="updateLinksusTaskIncrementFans" parameterType="LinksusTaskIncrementUser">
+		  UPDATE linksus_task_increment_user SET
+		  account_id=#{accountId:BIGINT},app_type=#{appType:TINYINT},institution_id=#{institutionId:BIGINT},initial_fans_num=#{initialFansNum:INTEGER},last_fans_num=#{lastFansNum:INTEGER},updt_fans_time=#{updtFansTime:INTEGER},is_system_user=#{isSystemUser:TINYINT}
+		  WHERE account_id=#{accountId:BIGINT} AND app_type=#{appType:TINYINT}
+	</update> 
+	<update id="updateLinksusTaskIncrementFollow" parameterType="LinksusTaskIncrementUser">
+		  UPDATE linksus_task_increment_user SET
+		  account_id=#{accountId:BIGINT},app_type=#{appType:TINYINT},institution_id=#{institutionId:BIGINT},initial_follow_num=#{initialFollowNum:INTEGER},last_follow_num=#{lastFollowNum:INTEGER},updt_follow_time=#{updtFollowTime:INTEGER},is_system_user=#{isSystemUser:TINYINT}
+		  WHERE account_id=#{accountId:BIGINT} AND app_type=#{appType:TINYINT}
+	</update> 
+	
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusTaskIncrementUserById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_task_increment_user 
+		  WHERE account_id=#{accountId:BIGINT} AND app_type=#{appType:TINYINT}
+	</update> 
+	
+	
+		<!-- 更新  -->
+	<update id="updateLinksusTaskIncrementUserInfo" parameterType="LinksusTaskIncrementUser">
+		  UPDATE linksus_task_increment_user SET
+		  institution_id=#{institutionId:BIGINT},last_follow_num=#{lastFollowNum:INTEGER},updt_follow_time=#{updtFollowTime:INTEGER}
+		  WHERE account_id=#{accountId:BIGINT} AND app_type=#{appType:TINYINT}
+	</update> 
+	
+</mapper>   

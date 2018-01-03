@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusTaskErrorCodeMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="BaseResultMap" type="LinksusTaskErrorCode" >
+		<result column="error_code" property="errorCode" jdbcType="BIGINT" />	
+		<result column="error_type" property="errorType" jdbcType="TINYINT" />	
+		<result column="error_msg" property="errorMsg" jdbcType="VARCHAR" />	
+		<result column="src_code" property="srcCode" jdbcType="VARCHAR" />	
+		<result column="src_msg" property="srcMsg" jdbcType="VARCHAR" />	
+		<result column="display_type" property="displayType" jdbcType="TINYINT" />
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		error_code,error_type,error_msg,src_code,src_msg,display_type
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusTaskErrorCodeList"  resultMap="BaseResultMap">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_error_code
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWeiboById"  resultMap="BaseResultMap" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_task_error_code
+		  WHERE error_code=#{errorCode:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusTaskErrorCode" parameterType="LinksusTaskErrorCode">
+		INSERT INTO linksus_task_error_code(
+		error_code,error_type,error_msg,src_code,src_msg,display_type
+		) VALUES(
+		#{errorCode:BIGINT},#{errorType:TINYINT},#{errorMsg:VARCHAR},#{srcCode:VARCHAR},#{srcMsg:VARCHAR},#{displayType:TINYINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusTaskErrorCode" parameterType="LinksusTaskErrorCode">
+		  UPDATE linksus_task_error_code SET
+		  error_code=#{errorCode:BIGINT},error_type=#{errorType:TINYINT},error_msg=#{errorMsg:VARCHAR},src_code=#{srcCode:VARCHAR},src_msg=#{srcMsg:VARCHAR},display_type=#{displayType:TINYINT}
+		  WHERE error_code=#{errorCode:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusTaskErrorCodeById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_task_error_code 
+		  WHERE error_code=#{errorCode:BIGINT}
+	</update> 
+</mapper>   

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationUserTagCountMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationUserTagCount" type="LinksusRelationUserTagCount" >
+		<result column="tag" property="tag" jdbcType="VARCHAR" />	
+		<result column="tag_type" property="tagType" jdbcType="TINYINT" />	
+		<result column="use_count" property="useCount" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		tag,tag_type,use_count
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationUserTagCountList"  resultMap="LinksusRelationUserTagCount">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_user_tag_count
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWeiboById"  resultMap="LinksusRelationUserTagCount" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_user_tag_count
+		  WHERE tag=#{tag:VARCHAR} and tag_type=#{tagType:TINYINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationUserTagCount" parameterType="LinksusRelationUserTagCount">
+		INSERT INTO linksus_relation_user_tag_count(
+		tag,tag_type,use_count
+		) VALUES(
+		#{tag:VARCHAR},#{tagType:TINYINT},#{useCount:INTEGER}
+		)
+	</update>
+	<!-- 更新  -->
+	<update id="updateLinksusRelationUserTagCount" parameterType="LinksusRelationUserTagCount">
+		  UPDATE linksus_relation_user_tag_count SET
+		  tag=#{tag:VARCHAR},tag_type=#{tagType:TINYINT},use_count=#{useCount:INTEGER}
+		  WHERE tag=#{tag:VARCHAR} and tag_type=#{tagType:TINYINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationUserTagCountById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_user_tag_count 
+		  WHERE tag=#{tag:VARCHAR} and tag_type=#{tagType:TINYINT}
+	</update> 
+	
+	<!-- 全表删除 -->
+	<update id="deleteALLLinksusRelationUserTagCount">
+		  DELETE FROM linksus_relation_user_tag_count 
+	</update> 
+	
+		<!-- 新增  -->
+	<update id="insertALLLinksusRelationUserTagCount">
+		INSERT INTO linksus_relation_user_tag_count(tag,tag_type,use_count)
+		SELECT  t.tag,t.user_type,COUNT(*) 
+		   FROM linksus_relation_user_tag t
+				GROUP BY t.tag,t.user_type  
+	</update>
+</mapper>   

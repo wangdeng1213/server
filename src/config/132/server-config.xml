@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<configs>
+	    <config name="weiboCount" value="10" desc="新授权用户抓取微博条数"/>
+		<config name="trialFlag" value="1" desc="试运行标志,微博发布跑批判断"/>
+		
+		<config name="queueServer" value="0" desc="队列服务器标志"/>
+		<config name="taskServer" value="1" desc="服务端任务标志"/>
+		<config name="interfaceServer" value="1" desc="接口服务器标志"/>
+		
+		<config name="serverIPAddr" value="10.10.2.131" desc="队列服务器IP"/>
+		<config name="serverPort" value="8050" desc="队列服务器端口"/>
+		<config name="pkCacheSize" value="200" desc="主键缓存数"/>
+
+		<config name="tempFilePath" value="/home/batch/tempData" desc="临时文件存放路径"/>
+		<config name="sinaPassword" value="1510CLoud2014" desc="私信读取密码"/>
+		<config name="saveExceptionToDb" value="1" desc="系统异常写入数据库标志"/>
+		<config name="sinaCookieUrl" value="http://115.28.164.179/api/sinacookie/" desc="新浪COOKIE获取地址"/>
+		<config name="reSendCount" value="3" desc="新浪微博定时发布系统错误重发次数"/>
+		<config name="reSendErrorCode" value="10001,10002,10003,10009,10010" desc="新浪微博定时发布重发错误代码"/>
+		<config name="WeiboInteractFirstSyncDay" value="1" desc="微博互动初次同步日期限制"/>
+		<config name="commitNum" value="100" desc="最小批量提交数"/>
+		<config name="commitInterval" value="5000" desc="最大提交间隔时间 毫秒"/>
+		<config name="userAcctcommitInterval" value="60000" desc="互动账号关系最大提交间隔时间 (毫秒)"/>
+		<config name="dataSaveThreadPoolNum" value="5" desc="批量提交线程数"/>
+		<config name="readWeiboFrequencyDay" value="30" desc="粉丝微博同步间隔(天)"/>
+		<config name="updateWeiboUserHour" value="24" desc="用户信息更新间隔(小时)"/>
+		
+		<config name="intementNum" value="50" desc="增量粉丝回溯个数 " client="1"/>
+		<config name="clientReqInterval" value="60000" desc="客户端请求超时时间(毫秒)" client="1"/>
+		<config name="saveExceptionToServer" value="1" desc="客户端异常发送回服务端标志 " client="1"/>
+		<config name="attentionWeiboFirstSyncDay" value="1" desc="关注用户微博初次同步回溯时间(天)" client="1"/>
+		<config name="readWeiboWithDayAfter" value="30" desc="微博初次同步回溯时间(天)" client="1"/>
+		
+		<config name="sendWeiBoPerHour1" value="120" desc="新浪微博发布每小时次数"/>
+		<config name="sendCommentPerHour2" value="240" desc="新浪评论每小时次数"/>
+		<config name="addFollowerPerHour3" value="240" desc="新浪添加关注每小时次数"/>
+		<config name="addFollowerPerDay4" value="300" desc="新浪添加关注每天次数"/>
+		
+		<config name ="sinaBusinessPerHour" value ="50000" desc="新浪全量粉丝每小时调用次数" client="1"/>
+		<config name="sinaLimitPerHour" value="40000" desc="新浪每小时调用总次数" client="1"/>
+		<config name="tencentReadLimitPerHour" value="40000" desc="腾讯读接口每小时次数" client="1"/>
+		<config name="tencentWriteLimitPerHour" value="20000" desc="腾讯写接口每小时次数" client="1"/>
+		<!-- 无效操作监测 '1111' 分别代表:账户运维人员邮件\短信,平台管理人员邮件\短信 -->
+		<config name="invalid_1" value="1111" desc="无效操作监测-微博发布"/>
+		<config name="invalid_2" value="0010" desc="无效操作监测-微博营销@"/>
+		<config name="invalid_3" value="0010" desc="无效操作监测-微博营销评论"/>
+		<config name="invalid_4" value="0010" desc="无效操作监测-微博互动"/>
+		<config name="invalid_5" value="0010" desc="无效操作监测-私信回复"/>
+		<config name="invalid_6" value="0010" desc="无效操作监测-微信回复"/>
+		<config name="invalid_7" value="0011" desc="无效操作监测-增加关注"/>
+		<config name="invalid_8" value="0010" desc="无效操作监测-取消关注"/>
+		<config name="invalid_9" value="0011" desc="无效操作监测-移除粉丝"/>
+		<config name="invalid_10" value="0000" desc="无效操作监测-仅插入无效记录表"/>
+		
+		<config name="TaskManagerEmail" value="9603599@qq.com,249608484@qq.com,313500728@qq.com,75633309@qq.com,975543139@qq.com" desc="平台运维人员邮箱"/>
+		<config name="TaskManagerTel" value="13810339183" desc="平台运维人员短信号码"/>
+		<!-- 关于易信的配置 -->
+		<config name="yixinConnection.Url" value="http://localhost:8080/linksusServer/services/yiXinReceiveService?wsdl" desc="易信提供的webService地址"/>
+	</configs>
+	<urls>
+		<sina>
+			<baseUrl suffix=".json" limitType="1">https://api.weibo.com/2/</baseUrl><!-- 新浪总限制 -->
+			<baseUrl urlType="2" suffix=".json">https://m.api.weibo.com/2/</baseUrl>
+			<baseUrl urlType="3">https://upload.api.weibo.com/2/</baseUrl>
+			<baseUrl urlType="4" suffix=".json">https://c.api.weibo.com/2/</baseUrl>
+			<baseUrl urlType="5" limitType="1" suffix=".json">https://upload.api.weibo.com/2/</baseUrl>
+			<url name="fensiinfo" desc="获取用户信息">users/show</url>
+			<url name="zengliangfengsi" desc="获取用户粉丝列表">friendships/followers</url>
+			<url name="zengliangfriend" desc="获取用户的关注列表">friendships/friends</url>
+			<url name="WeiBoDynamicData" desc="微博的转发评论数">statuses/count</url>
+			<url name="WeiBoTagData" desc="指定用户的标签列表">tags</url>
+			<url name="WeiBoData" desc="获取用户发布的微博">statuses/user_timeline</url>
+			<url name="RemoveFans" desc="移除登录用户的粉丝">friendships/followers/destroy</url>
+			<url name="TaskFollows" desc="关注某用户">friendships/create</url>
+			<url name="InteractDataSync" desc="获取@当前用户的最新微博">statuses/mentions</url>
+			<url name="InteractDataSyncTrans" desc="根据ID获取单条微博">statuses/show</url>
+			<url name="InteractDataSyncComments" desc="获取@到我的评论">comments/mentions</url>
+			<url name="InteractDataSyncComToMe" desc="我收到的评论列表">comments/to_me</url>
+			<url name="replyComments" desc="回复一条评论">comments/reply</url>
+			<url name="replyWeibo" desc="评论一条微博">comments/create</url>
+			<url name="SendWeibo" desc="发布一条微博">statuses/update</url>
+			<url name="GetWeiboMid" desc="通过mid获取id" use="0">statuses/querymid</url>
+			<url name="SetTopStatus" desc="置顶微博" use="0">users/set_top_status</url>
+			<url name="SendResponseWeibo" desc="转发一条微博">statuses/repost</url>
+			<url name="cancelAttention" desc="取消关注某用户">friendships/destroy</url>
+			<url name="deleteWeibo" desc="删除微博">statuses/destroy</url>
+			<url name="deletesinaWeiboComment" desc="删除评论">comments/destroy</url>
+			
+			<url name="AttentionWeiBoData" desc="关注用户微博">statuses/friends_timeline</url>
+			<url name="Attentionuserlistatsina" desc="关注用户列表">friendships/friends</url>
+			<url name="sinaBusinessIds" desc="全量粉丝ID列表" urlType="4">friendships/followers/all/ids</url>
+			
+			<url name="readLetter" desc="接收用户私信" urlType="2">messages/receive</url>
+			<url name="replyLetter" desc="回复私信" urlType="2">messages/reply</url>
+			<url name="letterData" desc="下载私信图片/附件" urlType="3">mss/msget</url>
+			<url name="SendUrlImgWeibo" desc="发图片微博" urlType="5">statuses/upload</url>
+		</sina>
+		<tencent>
+			<baseUrl limitType="2">https://open.t.qq.com/api/</baseUrl><!-- 腾讯读限制 -->
+			<baseUrl urlType="2" limitType="3">https://open.t.qq.com/api/</baseUrl><!-- 腾讯写限制 -->
+			<url name="TCDeleteWeibo" desc="删除微博" urlType="2">t/del</url>
+			<url name="TCSendWeibo" desc="发表微博" urlType="2">t/add</url>
+			<url name="TCSendImgWeibo" desc="发表带图片微博" urlType="2">t/add_pic</url>
+			<url name="TCResponseWeibo" desc="转发微博" urlType="2">t/re_add</url>
+			<url name="TCWeiboList" desc="当前用户发表的最新微博">statuses/broadcast_timeline</url>
+			<url name="TCUserLastWeiboID" desc="获取用户发表的最新微博ID">statuses/user_timeline_ids</url>
+			<url name="TCWeiboByID" desc="获取微博数据">t/show</url>
+			<url name="TCUerInfo" desc="获取用户信息">user/other_info</url>
+			<url name="TCaddAttention" desc="添加关注" urlType="2">friends/add</url>
+			<url name="TCcancelAttention" desc="取消关注" urlType="2">friends/del</url>
+			<url name="TCremovefans" desc="加入黑名单" urlType="2">friends/addblacklist</url>
+			<url name="TCLetterRead" desc="读取私信">private/recv</url>
+			<url name="tencentMentionsTimeline" desc="获取@当前用户的微博">statuses/mentions_timeline</url>
+			<url name="TCreplyWeibo" desc="评论微博" urlType="2">t/comment</url>
+			
+			<url name="TCAttentionWeiBo" desc="用户及所关注用户的微博">statuses/home_timeline</url>
+			<url name="TCWeiboListByID" desc="根据ID获取微博内容">t/list</url>
+			<url name="TCWeiboData" desc="获取用户最新微博">statuses/user_timeline</url>
+			<url name="TCUserData" desc="获取用户详细信息">user/info</url>
+			<url name="TCFansList" desc="获取我的粉丝列表">friends/fanslist</url>
+			<url name="TCWeibocount" desc="转播数或点评数">t/re_count</url>
+			<url name="TCAttentionUsers" desc="获取我的关注列表">friends/idollist</url>
+		</tencent>
+		<weixin>
+			<baseUrl>https://api.weixin.qq.com/cgi-bin/</baseUrl>
+			<baseUrl urlType="2">http://file.api.weixin.qq.com/cgi-bin/</baseUrl>
+			<url name="getwxUserToken" desc="获取token">token</url>
+			<url name="sendCustomerServiceInfo" desc="发送客服信息">message/custom/send</url>
+			<url name="getwxUserMedia" desc="下载多媒体文件" urlType="2">media/get</url>
+			<url name="deleteWeixinMenu" desc="删除自定义菜单">menu/delete</url>
+			<url name="createWeixinMenu" desc="创建自定义菜单">menu/create</url>
+			<url name="WeiXinUserIds" desc="获取微信关注用户">user/get</url>
+			<url name="WeiXinUserInfo" desc="用户信息">user/info</url>
+			<url name="WeiXinGroupInfo" desc="所有分组信息">groups/get</url>
+			<url name="WeiXinUploadnews" desc="上传群发图文信息">media/uploadnews</url>
+			<url name="WeiXinSendAll" desc="群发">message/mass/sendall</url>
+			<url name="uploadWxUserMedia" desc="上传多媒体文件" urlType="2">media/upload</url>
+		</weixin>
+		<other>
+			<baseUrl urlType="1" suffix=".php">http://static.wbcloud.com.cn:8081/service/</baseUrl>
+			<baseUrl urlType="2">http://10.10.2.131:8080/</baseUrl>
+			<url name="imageServerUrl" desc="上传图片服务器" urlType="1">upload</url>
+			<url name="remoteUrl" desc="远程主键获取" urlType="2">linksusServer/batch</url>
+		</other>
+	</urls>
+</root>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractMessageMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractMessage" type="LinksusInteractMessage" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="record_id" property="recordId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="msg_id" property="msgId" jdbcType="BIGINT" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="img" property="img" jdbcType="VARCHAR" />	
+		<result column="img_name" property="imgName" jdbcType="VARCHAR" />	
+		<result column="img_thumb" property="imgThumb" jdbcType="VARCHAR" />	
+		<result column="attatch" property="attatch" jdbcType="VARCHAR" />	
+		<result column="attatch_name" property="attatchName" jdbcType="VARCHAR" />	
+		<result column="send_type" property="sendType" jdbcType="TINYINT" />	
+		<result column="reply_msg_id" property="replyMsgId" jdbcType="BIGINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="send_time" property="sendTime" jdbcType="INTEGER" />	
+		<result column="inst_person_id" property="instPersonId" jdbcType="BIGINT" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />	
+		<result column="msg_type" property="msgType" jdbcType="INTEGER" />
+		<result column="reply_count" property="replyCount" jdbcType="INTEGER" />
+	</resultMap>
+    
+    <resultMap id="sendMessages" type="LinksusInteractMessage" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="record_id" property="recordId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="msg_id" property="msgId" jdbcType="BIGINT" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="img" property="img" jdbcType="VARCHAR" />	
+		<result column="img_name" property="imgName" jdbcType="VARCHAR" />	
+		<result column="img_thumb" property="imgThumb" jdbcType="VARCHAR" />	
+		<result column="attatch" property="attatch" jdbcType="VARCHAR" />	
+		<result column="attatch_name" property="attatchName" jdbcType="VARCHAR" />	
+		<result column="send_type" property="sendType" jdbcType="TINYINT" />	
+		<result column="reply_msg_id" property="replyMsgId" jdbcType="BIGINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="send_time" property="sendTime" jdbcType="INTEGER" />	
+		<result column="inst_person_id" property="instPersonId" jdbcType="BIGINT" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />
+		<result column="last_interact_time" property="lastInteractTime" jdbcType="INTEGER" />
+		<result column="reply_id" property="replyId" jdbcType="INTEGER" />
+		<result column="msg_type" property="msgType" jdbcType="INTEGER" />
+		<result column="reply_count" property="replyCount" jdbcType="INTEGER" />
+	</resultMap>
+	
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,record_id,user_id,account_id,account_type,msg_id,interact_type,content,img,img_name,
+		img_thumb,attatch,attatch_name,send_type,reply_msg_id,status,send_time,inst_person_id,
+		interact_time,msg_type,reply_count
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractMessageList"  resultMap="LinksusInteractMessage">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_message
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractMessageById"  resultMap="LinksusInteractMessage" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_message
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 根据消息ID查询记录数   -->
+	<select id="getLinksusInteractMessageByMsgId"  resultType="java.lang.Integer" parameterType="java.lang.Long">
+		  SELECT count(*) FROM linksus_interact_message
+		  WHERE msg_id=#{msg_id:BIGINT}
+	</select>
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractMessage" parameterType="LinksusInteractMessage">
+		INSERT INTO linksus_interact_message(
+		pid,record_id,user_id,account_id,account_type,msg_id,interact_type,msg_type,content,img,img_name,img_thumb,attatch,attatch_name,send_type,reply_msg_id,status,send_time,inst_person_id,interact_time
+		) VALUES(
+		#{pid:BIGINT},#{recordId:BIGINT},#{userId:BIGINT},#{accountId:BIGINT},#{accountType:TINYINT},#{msgId:BIGINT},#{interactType:TINYINT},#{msgType:INTEGER},#{content:VARCHAR},#{img:VARCHAR},#{imgName:VARCHAR},#{imgThumb:VARCHAR},#{attatch:VARCHAR},#{attatchName:VARCHAR},#{sendType:TINYINT},#{replyMsgId:BIGINT},#{status:TINYINT},#{sendTime:INTEGER},#{instPersonId:BIGINT},#{interactTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 私信读数据  -->
+	<update id="addInteractReadMessage" parameterType="LinksusInteractMessage">
+		INSERT INTO linksus_interact_message(
+		pid,record_id,user_id,account_id,account_type,msg_id,interact_type,msg_type,content,img,img_name,img_thumb,attatch,attatch_name,interact_time
+		) VALUES(
+		#{pid:BIGINT},#{recordId:BIGINT},#{userId:BIGINT},#{accountId:BIGINT},#{accountType:TINYINT},#{msgId:BIGINT},#{interactType:TINYINT},#{msgType:INTEGER},#{content:VARCHAR},#{img:VARCHAR},#{imgName:VARCHAR},#{imgThumb:VARCHAR},#{attatch:VARCHAR},#{attatchName:VARCHAR},#{interactTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractMessage" parameterType="LinksusInteractMessage">
+		  UPDATE linksus_interact_message SET
+		  pid=#{pid:BIGINT},record_id=#{recordId:BIGINT},user_id=#{userId:BIGINT},account_id=#{accountId:BIGINT},account_type=#{accountType:TINYINT},msg_id=#{msgId:BIGINT},interact_type=#{interactType:TINYINT},content=#{content:VARCHAR},img=#{img:VARCHAR},img_name=#{imgName:VARCHAR},img_thumb=#{imgThumb:VARCHAR},attatch=#{attatch:VARCHAR},attatch_name=#{attatchName:VARCHAR},send_type=#{sendType:TINYINT},reply_msg_id=#{replyMsgId:BIGINT},status=#{status:TINYINT},send_time=#{sendTime:INTEGER},inst_person_id=#{instPersonId:BIGINT},interact_time=#{interactTime:INTEGER}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 更新回复的私信状态 -->
+	<update id="updateInteractMessageStatus" parameterType="java.util.Map">
+		  UPDATE linksus_interact_message SET
+		  `status`=#{status:TINYINT},interact_time=#{interactTime:INTEGER} WHERE pid=#{pid:BIGINT}
+	</update>
+	
+	<!-- 更新私信的回复次数 -->
+	<update id="updateInteractMessageReplyCount" parameterType="java.lang.Long">
+		  UPDATE linksus_interact_message SET
+		  reply_count=reply_count+1 WHERE pid=#{value}
+	</update>
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractMessageById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_message 
+		  WHERE pid=#{value}
+	</update> 
+	
+	<!-- 查询需要发送的私信数据   -->
+	<select id="getSendMessageList"  resultMap="sendMessages" parameterType="LinksusInteractMessage">
+		  SELECT 
+		  a.pid,a.record_id,a.user_id,a.account_id,a.account_type,a.msg_id,a.interact_type,a.content,a.img,a.img_name,a.img_thumb,
+		  a.attatch,a.attatch_name,a.send_type,a.send_time,a.reply_msg_id,a.status,a.interact_time,
+		  a.inst_person_id,b.interact_time last_interact_time,b.msg_id reply_id,b.msg_type,b.reply_count
+		  FROM linksus_interact_message a,linksus_interact_message b
+		  where a.interact_type=2 and a.account_type=1 and a.send_type=0 and a.status=1 and a.reply_msg_id=b.pid
+		  order by a.pid limit #{startCount},#{pageSize}
+	</select>
+	
+	<!-- 查询私信是否已存在 -->
+	<select id="getMessageIsExists" resultMap="LinksusInteractMessage" parameterType="java.util.Map">
+	   select * from linksus_interact_message where user_id=#{userId:BIGINT} and account_id=#{accountId:BIGINT}
+	   and account_type=#{accountType:TINYINT} and msg_id=#{msgId:BIGINT} and interact_type=#{interactType:TINYINT}
+	</select>
+	
+	<!-- 查询需要发送的私信数据   -->
+	<select id="getMessagePrepareList"  resultType="java.util.Map" parameterType="LinksusInteractMessage">
+		  SELECT 
+ 			a.pid,a.send_time
+		  FROM linksus_interact_message a,linksus_interact_message b
+		  where a.interact_type=2 and a.account_type=1 and a.send_type=1 and a.status=1 and a.reply_msg_id=b.pid
+		  order by a.pid limit #{startCount},#{pageSize}
+	</select>
+	
+	<!-- 根据主键查询需要发送的私信数据   -->
+	<select id="getSendMessageById"  resultMap="sendMessages" parameterType="java.lang.Long">
+		  SELECT 
+		  a.pid,a.record_id,a.user_id,a.account_id,a.account_type,a.msg_id,a.interact_type,a.content,a.img,a.img_name,a.img_thumb,
+		  a.attatch,a.attatch_name,a.send_type,a.send_time,a.reply_msg_id,a.status,a.interact_time,
+		  a.inst_person_id,b.interact_time last_interact_time,b.msg_id reply_id,b.msg_type,b.reply_count
+		  FROM linksus_interact_message a,linksus_interact_message b
+		  where a.interact_type=2 and a.account_type=1 and a.send_type=1 and a.status=1 and a.reply_msg_id=b.pid
+		  and a.pid=#{value}
+	</select>
+	
+	<!-- 根据主键List查询列表  -->
+	<select id="getInteractMessageListByIds"  resultType="java.util.Map" parameterType="java.util.List">
+		  <!--  SELECT record_id,content FROM linksus_interact_message where pid in-->
+		  SELECT m.record_id,m.content,m.msg_type,m.img,w.rps_screen_name screenName,w.rps_profile_image_url imageUrl
+            FROM linksus_interact_message m,linksus_relation_weibouser w
+           WHERE m.user_id = w.user_id 
+             and pid in
+		  <foreach collection="list" index="index" item="item" separator="," open="(" close=")">  
+        		#{item}
+       		</foreach>
+	</select>
+</mapper>   

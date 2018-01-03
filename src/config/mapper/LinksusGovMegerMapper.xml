@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusGovMegerMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusGovMeger" type="LinksusGovMeger" >
+		<result column="run_id" property="runId" jdbcType="BIGINT" />	
+		<result column="father_run_id" property="fatherRunId" jdbcType="BIGINT" />	
+		<result column="gid" property="gid" jdbcType="INTEGER" />	
+		<result column="is_finish" property="isFinish" jdbcType="INTEGER" />	
+		<result column="create_time" property="createTime" jdbcType="INTEGER" />	
+		<result column="audit_time" property="auditTime" jdbcType="INTEGER" />	
+		<result column="tag_id" property="tagId" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		run_id,father_run_id,gid,is_finish,create_time,audit_time,tag_id
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusGovMegerList"  resultMap="LinksusGovMeger">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_meger
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusGovMegerById"  resultMap="LinksusGovMeger" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_meger
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusGovMeger" parameterType="LinksusGovMeger">
+		INSERT INTO linksus_gov_meger(
+		run_id,father_run_id,gid,is_finish,create_time,audit_time,tag_id
+		) VALUES(
+		#{runId:BIGINT},#{fatherRunId:BIGINT},#{gid:INTEGER},#{isFinish:INTEGER},#{createTime:INTEGER},#{auditTime:INTEGER},#{tagId:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusGovMeger" parameterType="LinksusGovMeger">
+		  UPDATE linksus_gov_meger SET
+		  run_id=#{runId:BIGINT},father_run_id=#{fatherRunId:BIGINT},gid=#{gid:INTEGER},is_finish=#{isFinish:INTEGER},create_time=#{createTime:INTEGER},audit_time=#{auditTime:INTEGER},tag_id=#{tagId:INTEGER}
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusGovMegerById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_gov_meger 
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</update> 
+	<select id="getLinksusGovMegerListByFather"  resultMap="LinksusGovMeger"  parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_meger  where father_run_id=#{fatherRunId:BIGINT}
+	</select> 
+</mapper>   

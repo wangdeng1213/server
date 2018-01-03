@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationGroupMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationGroup" type="LinksusRelationGroup" >
+		<result column="group_id" property="groupId" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="group_name" property="groupName" jdbcType="VARCHAR" />	
+		<result column="group_type" property="groupType" jdbcType="TINYINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="add_date" property="addDate" jdbcType="VARCHAR" />	
+		<result column="fans_num" property="fansNum" jdbcType="VARCHAR" />	
+		<result column="account_id_qq" property="accountIdQq" jdbcType="VARCHAR" />	
+		<result column="account_id_sina" property="accountIdSina" jdbcType="VARCHAR" />	
+		<result column="rps_gender" property="rpsGender" jdbcType="VARCHAR" />	
+		<result column="fans_quality" property="fansQuality" jdbcType="VARCHAR" />	
+		<result column="relation_type" property="relationType" jdbcType="VARCHAR" />	
+		<result column="relation_source" property="relationSource" jdbcType="VARCHAR" />	
+		<result column="area_code" property="areaCode" jdbcType="BIGINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="last_update_time" property="lastUpdateTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		group_id,institution_id,group_name,group_type,account_type,account_id,add_date,fans_num,account_id_qq,account_id_sina,rps_gender,fans_quality,relation_type,relation_source,area_code,status,last_update_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationGroupList"  resultMap="LinksusRelationGroup" >
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_group
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWeiboById"  resultMap="LinksusRelationGroup"  parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_group
+		  WHERE group_id=#{groupId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationGroup" parameterType="LinksusRelationGroup">
+		INSERT INTO linksus_relation_group(
+		group_id,institution_id,group_name,group_type,account_type,account_id,add_date,fans_num,account_id_qq,account_id_sina,rps_gender,fans_quality,relation_type,relation_source,area_code,status,last_update_time
+		) VALUES(
+		#{groupId:BIGINT},#{institutionId:BIGINT},#{groupName:VARCHAR},#{groupType:TINYINT},#{accountType:VARCHAR},#{accountId:VARCHAR},#{addDate:VARCHAR},#{fansNum:VARCHAR},#{accountIdQq:VARCHAR},#{accountIdSina:VARCHAR},#{rpsGender:VARCHAR},#{fansQuality:VARCHAR},#{relationType:VARCHAR},#{relationSource:VARCHAR},#{areaCode:BIGINT},#{status:TINYINT},#{lastUpdateTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationGroup" parameterType="LinksusRelationGroup">
+		  UPDATE linksus_relation_group SET
+		  group_id=#{groupId:BIGINT},institution_id=#{institutionId:BIGINT},group_name=#{groupName:VARCHAR},group_type=#{groupType:TINYINT},account_type=#{accountType:VARCHAR},account_id=#{accountId:VARCHAR},add_date=#{addDate:VARCHAR},fans_num=#{fansNum:VARCHAR},account_id_qq=#{accountIdQq:VARCHAR},account_id_sina=#{accountIdSina:VARCHAR},rps_gender=#{rpsGender:VARCHAR},fans_quality=#{fansQuality:VARCHAR},relation_type=#{relationType:VARCHAR},relation_source=#{relationSource:VARCHAR},area_code=#{areaCode:BIGINT},status=#{status:TINYINT},last_update_time=#{lastUpdateTime:INTEGER}
+		  WHERE group_id=#{groupId:BIGINT}
+	</update>  
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationGroupById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_group 
+		  WHERE group_id=#{groupId:BIGINT}
+	</update> 
+	
+	<!-- 主键单独查询  -->
+	<select id="getLinksusRelationGroup"  resultMap="LinksusRelationGroup"  parameterType="LinksusRelationGroup">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_group
+		  WHERE 1=1
+		  and institution_id = #{institutionId}
+		  and group_name = #{groupName}
+	</select> 
+	
+	<!-- 查询该机构是否存在"未分组"等组 -->
+	<select id="getPersonGroupInfoByInstIdAndGroupType" resultMap="LinksusRelationGroup"  parameterType="java.util.Map">
+	  select * from linksus_relation_group where institution_id=#{institutionId:BIGINT} and  group_type=#{groupType:TINYINT}
+	</select>
+	
+		<!-- 查询该机构是否存在"我添加的"组 -->
+	<select id="getPersonGroupInfoType" resultMap="LinksusRelationGroup"  parameterType="java.util.HashMap">
+	  select * from linksus_relation_group where institution_id=#{institutionId,jdbcType=BIGINT} and  group_type=#{groupType:TINYINT}
+	</select>
+	<!-- 插入未分组信息 -->
+	<insert id="insertNoGroupInfo" parameterType="LinksusRelationGroup">
+	  insert into linksus_relation_group(
+	  group_id,institution_id,group_name,group_type,status,last_update_time
+	  ) VALUES(
+		#{groupId:BIGINT},#{institutionId:BIGINT},#{groupName:VARCHAR},#{groupType:TINYINT}, #{status:TINYINT},last_update_time=#{lastUpdateTime:INTEGER}
+	  )
+	</insert>
+</mapper>   

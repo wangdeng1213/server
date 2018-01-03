@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationOperateMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationOperate" type="LinksusRelationOperate" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="task_type" property="taskType" jdbcType="BIGINT" />	
+		<result column="oper_success_num" property="operSuccessNum" jdbcType="INTEGER" />	
+		<result column="oper_fail_num" property="operFailNum" jdbcType="INTEGER" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="apply_status" property="applyStatus" jdbcType="TINYINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,account_id,account_type,task_type,oper_success_num,oper_fail_num,status,apply_status
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationOperateList"  resultMap="LinksusRelationOperate">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_operate
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWeiboById"  resultMap="LinksusRelationOperate" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_operate
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationOperate" parameterType="LinksusRelationOperate">
+		INSERT INTO linksus_relation_operate(
+		pid,account_id,account_type,task_type,oper_success_num,oper_fail_num,status,apply_status
+		) VALUES(
+		#{pid:BIGINT},#{accountId:BIGINT},#{accountType:TINYINT},#{taskType:BIGINT},#{operSuccessNum:INTEGER},#{operFailNum:INTEGER},#{status:TINYINT},#{applyStatus:TINYINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationOperate" parameterType="LinksusRelationOperate">
+		  UPDATE linksus_relation_operate SET
+		  pid=#{pid:BIGINT},account_id=#{accountId:BIGINT},account_type=#{accountType:TINYINT},task_type=#{taskType:BIGINT},oper_success_num=#{operSuccessNum:INTEGER},oper_fail_num=#{operFailNum:INTEGER},status=#{status:TINYINT},apply_status=#{applyStatus:TINYINT}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 更新 失败次数 -->
+	<update id="updateLinksusRelationOperFailNum" parameterType="java.lang.Long">
+		  UPDATE linksus_relation_operate SET
+		  oper_fail_num = oper_fail_num + 1
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 更新  成功次数-->
+	<update id="updateLinksusRelationOperSuccessNum" parameterType="java.lang.Long">
+		  UPDATE linksus_relation_operate SET
+		  oper_success_num=oper_success_num + 1
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationOperateById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_operate 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	<!-- 判断主键是否通过审批 -->
+		<select id="checkIsExsitRelationOperate"  parameterType="java.lang.String" resultMap="LinksusRelationOperate" >
+		  SELECT 
+		  *
+		  FROM linksus_relation_operate where pid=#{pid:BIGINT} and status= 3 
+	    </select> 
+	
+</mapper>   

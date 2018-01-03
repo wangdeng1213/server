@@ -1,0 +1,297 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>任务统计</title>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<style type="text/css">
+body {
+    font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #4f6b72;
+    background: #E6EAE9;
+}
+a {
+    color: #c75f3e;
+}
+table{
+    width: 900px;
+    padding: 0;
+    margin: 0;
+}
+ 
+caption {
+    padding: 0 0 5px 0;
+    width: 900px;     
+    font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    text-align: right;
+}
+th {
+    font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #4f6b72;
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    border-top: 1px solid #C1DAD7;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 6px 6px 6px 12px;
+    background: #CAE8EA  no-repeat;
+}
+th.nobg {
+    border-top: 0;
+    border-left: 0;
+    border-right: 1px solid #C1DAD7;
+    background: none;
+}
+
+td {
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    background: #fff;
+    font-size:11px;
+    padding: 6px 6px 6px 12px;
+    color: #4f6b72;
+}
+
+td.alt {
+    background: #F5FAFA;
+    color: #797268;
+}
+
+th.spec {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    background: #fff  no-repeat;
+    font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+th.specalt {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    background: #f5fafa  no-repeat;
+    font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #797268;
+}
+/*---------for IE 5.x bug*/
+html>body td{ font-size:11px;}
+</style>
+<body>
+<table id="mytable1" cellspacing="0">
+<caption> </caption>
+  <tr>
+    <th scope="col">来自:${formIP}</th>
+  </tr>
+  <tr>
+    <th scope="col"><font color="red">统计数据将在每天的23:59重置</font></th>
+  </tr>
+</table>
+<br/>
+<table id="mytable2" cellspacing="0">
+<caption> </caption>
+  <tr>
+    <th scope="col" class="nobg">任务队列刷新统计</th>
+    <th scope="col">任务代码</th>
+    <th scope="col">当前状态</th>
+	<th scope="col">任务循环次数</th>
+	<th scope="col">任务循环间隔(秒)</th>
+    <th scope="col">队列刷新次数</th>
+	<th scope="col">有任务刷新次数</th>
+    <th scope="col">任务总数</th>
+    <th scope="col">异常个数</th>
+  </tr>
+#if($queueList.size()==0)
+  <tr>
+	<td colspan="9"><font color="red">没有刷新过或启动中的任务队列!</font></td>
+  </tr>
+#end
+#set($rowCount = 0) ##用于判断行数
+#foreach($queue in ${queueList})
+  <tr>
+#set($currCount = $rowCount % 2)##判断是否是新一行
+#if($currCount==0)##奇数行
+    <th scope="row" class="spec">${queue.taskName}</th>
+    <td>${queue.taskType}</td>
+    <td>${queue.taskStatus}</td>
+	<td>${queue.taskCount}</td>
+	<td>${queue.taskInterval}</td>
+#if(${queue.noFlushFlag}==1) ##未刷新提示
+	<td colspan="4"><font color="red">队列未刷新,请查看客户端部署情况!</font></td>
+#else
+	<td>${queue.flushCount}</td>
+	<td>${queue.hasTaskCount}</td>
+    <td>${queue.taskSize}</td>
+    <td>${queue.errorCount}</td>
+#end
+#else
+    <th scope="row" class="specalt">${queue.taskName}</th>
+    <td class="alt">${queue.taskType}</td>
+    <td class="alt">${queue.taskStatus}</td>
+	<td class="alt">${queue.taskCount}</td>
+	<td class="alt">${queue.taskInterval}</td>
+#if(${queue.noFlushFlag}==1) ##未刷新提示
+	<td colspan="4" class="alt"><font color="red">队列未刷新,请查看客户端部署情况!</font></td>
+#else
+	<td class="alt">${queue.flushCount}</td>
+	<td class="alt">${queue.hasTaskCount}</td>
+    <td class="alt">${queue.taskSize}</td>
+    <td class="alt">${queue.errorCount}</td>
+#end
+#end
+  </tr>
+#set($rowCount = $rowCount + 1) ##行数加1
+#end
+</table>
+<br/>
+<table id="mytable7" cellspacing="0">
+<caption> </caption>
+  <tr>
+    <th scope="col" class="nobg">服务端任务统计</th>
+    <th scope="col">任务代码</th>
+    <th scope="col">当前状态</th>
+    <th scope="col">间隔设置</th>
+    <th scope="col">完成次数</th>
+	<th scope="col">任务总数</th>
+    <th scope="col">异常个数</th>
+  </tr>
+#if($taskList.size()==0)
+  <tr>
+	<td colspan="7"><font color="red">没有执行过或启用中的服务端任务!</font></td>
+  </tr>
+#end
+#set($rowCount = 0) ##用于判断行数
+#foreach($task in ${taskList})
+  <tr>
+#set($currCount = $rowCount % 2)##判断是否是新一行
+#if($currCount==0)##奇数行
+    <th scope="row" class="spec">${task.taskName}</th>
+    <td>${task.taskType}</td>
+    <td>${task.taskStatus}</td>
+	<td>${task.taskInterval}</td>
+	<td>${task.taskCount}</td>
+	<td>${task.taskSize}</td>
+	<td>${task.errorCount}</td>
+#else
+	<th scope="row" class="specalt">${task.taskName}</th>
+    <td class="alt">${task.taskType}</td>
+    <td class="alt">${task.taskStatus}</td>
+	<td class="alt">${task.taskInterval}</td>
+	<td class="alt">${task.taskCount}</td>
+	<td class="alt">${task.taskSize}</td>
+	<td class="alt">${task.errorCount}</td>
+#end
+  </tr>
+#set($rowCount = $rowCount + 1) ##行数加1
+#end
+</table>
+<br/>
+<table id="mytable5" cellspacing="0">
+<caption> </caption>
+  <tr>
+    <th scope="col" class="nobg">接口调用统计</th>
+    <th scope="col">接口类型</th>
+    <th scope="col">当前状态</th>
+    <th scope="col">调用次数</th>
+    <th scope="col">返回错误次数</th>
+    <th scope="col">异常个数</th>
+  </tr>
+#if($interfaceList.size()==0)
+  <tr>
+	<td colspan="6"><font color="red">没有调用过或启用中的接口!</font></td>
+  </tr>
+#end
+#set($rowCount = 0) ##用于判断行数
+#foreach($interface in ${interfaceList})
+  <tr>
+#set($currCount = $rowCount % 2)##判断是否是新一行
+#if($currCount==0)##奇数行
+    <th scope="row" class="spec">${interface.taskName}</th>
+    <td>${interface.taskType}</td>
+    <td>${interface.taskStatus}</td>
+	<td>${interface.taskSize}</td>
+	<td>${interface.errorCodeCount}</td>
+	<td>${interface.errorCount}</td>
+#else
+	<th scope="row" class="specalt">${interface.taskName}</th>
+    <td class="alt">${interface.taskType}</td>
+    <td class="alt">${interface.taskStatus}</td>
+	<td class="alt">${interface.taskSize}</td>
+	<td class="alt">${interface.errorCodeCount}</td>
+	<td class="alt">${interface.errorCount}</td>
+#end
+  </tr>
+#set($rowCount = $rowCount + 1) ##行数加1
+#end
+</table>
+<br/>
+<table id="mytable3" cellspacing="0">
+<caption> </caption>
+  <tr>
+    <th scope="col" class="nobg">API使用统计</th>
+#foreach($title in ${titleList})
+    <th scope="col">${title}</th>
+#end
+  </tr>
+#set($rowCount = 0) ##用于判断行数
+#foreach($colList in ${urlsList})
+  <tr>
+#set($colCount = 0) ##用于判断列数
+#foreach($rulEntity in ${colList})
+#set($currCount = $rowCount % 2)##判断是否是新一行
+#if($currCount==0)##奇数行
+#if($colCount==0)##第一列
+	<th scope="row" class="spec">${rulEntity.desc}[${rulEntity.urlKey}]</th>
+    <td>${rulEntity.linkTime}</td>
+#else
+	<td>${rulEntity.linkTime}</td>
+#end
+#else
+#if($colCount==0)##第一列
+	<th scope="row" class="specalt">${rulEntity.desc}[${rulEntity.urlKey}]</th>
+    <td class="alt">${rulEntity.linkTime}</td>
+#else
+	<td class="alt">${rulEntity.linkTime}</td>
+#end
+#end
+#set($colCount = $colCount + 1) ##列数加1
+#end
+  </tr>
+#set($rowCount = $rowCount + 1) ##行数加1
+#end
+</table>
+<br/>
+<table id="mytable4" cellspacing="0">
+<caption> </caption>
+  <tr>
+    <th scope="col" class="nobg">API受限时间统计</th>
+#foreach($hour in ${hours})
+	<th scope="col">${hour}</th>
+#end
+  </tr>
+#set($rowCount = 0) ##用于判断行数
+#foreach($clients in ${clientsList})
+  <tr>
+#set($colCount = 0) ##用于判断列数
+#foreach($client in ${clients})
+#set($currCount = $rowCount % 2)##判断是否是新一行
+#if($currCount==0)##奇数行
+#if($colCount==0)##第一列
+  <th scope="row" class="spec">${client}</th>
+#else
+  <td>${client}</td>
+#end
+#else
+#if($colCount==0)##第一列
+  <th scope="row" class="specalt">${client}</th>
+#else
+  <td class="alt">${client}</td>
+#end
+#end
+#set($colCount = $colCount + 1) ##列数加1
+#end
+  </tr>
+#set($rowCount = $rowCount + 1) ##行数加1
+#end
+</table>
+<br/>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationUserEduMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationUserEdu" type="LinksusRelationUserEdu" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="openid" property="openid" jdbcType="VARCHAR" />	
+		<result column="departmentid" property="departmentid" jdbcType="VARCHAR" />	
+		<result column="id" property="id" jdbcType="VARCHAR" />	
+		<result column="level" property="level" jdbcType="VARCHAR" />	
+		<result column="schoolid" property="schoolid" jdbcType="INTEGER" />	
+		<result column="year" property="year" jdbcType="INTEGER" />	
+		<result column="add_time" property="addTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,user_id,openid,departmentid,id,level,schoolid,year,add_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationUserEduList"  resultMap="LinksusRelationUserEdu">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_user_edu
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusRelationUserEduById"  resultMap="LinksusRelationUserEdu" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_user_edu
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationUserEdu" parameterType="LinksusRelationUserEdu">
+		INSERT INTO linksus_relation_user_edu(
+		pid,user_id,openid,departmentid,id,level,schoolid,year,add_time
+		) VALUES(
+		#{pid:BIGINT},#{userId:BIGINT},#{openid:VARCHAR},#{departmentid:VARCHAR},#{id:VARCHAR},#{level:VARCHAR},#{schoolid:INTEGER},#{year:INTEGER},#{addTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationUserEdu" parameterType="LinksusRelationUserEdu">
+		  UPDATE linksus_relation_user_edu SET
+		  pid=#{pid:BIGINT},user_id=#{userId:BIGINT},openid=#{openid:VARCHAR},departmentid=#{departmentid:VARCHAR},id=#{id:VARCHAR},level=#{level:VARCHAR},schoolid=#{schoolid:INTEGER},year=#{year:INTEGER},add_time=#{addTime:INTEGER}
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationUserEduById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_user_edu 
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationUserEduByUserId" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_user_edu 
+		  WHERE 1=1  and user_id=#{userId:BIGINT}
+	</update> 
+</mapper>   

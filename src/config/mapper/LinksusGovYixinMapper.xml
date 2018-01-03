@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusGovYixinMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusGovYixin" type="LinksusGovYixin" >
+		<result column="run_id" property="runId" jdbcType="BIGINT" />	
+		<result column="record_id" property="recordId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="openid" property="openid" jdbcType="VARCHAR" />	
+		<result column="content" property="content" jdbcType="VARCHAR" />	
+		<result column="interact_type" property="interactType" jdbcType="TINYINT" />	
+		<result column="msg_type" property="msgType" jdbcType="TINYINT" />	
+		<result column="send_type" property="sendType" jdbcType="TINYINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="send_time" property="sendTime" jdbcType="INTEGER" />	
+		<result column="inst_person_id" property="instPersonId" jdbcType="BIGINT" />	
+		<result column="interact_time" property="interactTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		run_id,record_id,user_id,account_id,openid,content,interact_type,msg_type,send_type,status,send_time,inst_person_id,interact_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusGovYixinList"  resultMap="LinksusGovYixin">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_yixin
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusGovYixinById"  resultMap="LinksusGovYixin" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_yixin
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusGovYixin" parameterType="LinksusGovYixin">
+		INSERT INTO linksus_gov_yixin(
+		run_id,record_id,user_id,account_id,openid,content,interact_type,msg_type,send_type,status,send_time,inst_person_id,interact_time
+		) VALUES(
+		#{runId:BIGINT},#{recordId:BIGINT},#{userId:BIGINT},#{accountId:BIGINT},#{openid:VARCHAR},#{content:VARCHAR},#{interactType:TINYINT},#{msgType:TINYINT},#{sendType:TINYINT},#{status:TINYINT},#{sendTime:INTEGER},#{instPersonId:BIGINT},#{interactTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusGovYixin" parameterType="LinksusGovYixin">
+		  UPDATE linksus_gov_yixin SET
+		  run_id=#{runId:BIGINT},record_id=#{recordId:BIGINT},user_id=#{userId:BIGINT},account_id=#{accountId:BIGINT},openid=#{openid:VARCHAR},content=#{content:VARCHAR},interact_type=#{interactType:TINYINT},msg_type=#{msgType:TINYINT},send_type=#{sendType:TINYINT},status=#{status:TINYINT},send_time=#{sendTime:INTEGER},inst_person_id=#{instPersonId:BIGINT},interact_time=#{interactTime:INTEGER}
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusGovYixinById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_gov_yixin 
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</update> 
+</mapper>   

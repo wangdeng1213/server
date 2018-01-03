@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.CommonMapper">
+	
+	<select id="getPrimaryKeyFromTable" parameterType="map" resultType="java.lang.Long" statementType="STATEMENT">
+		select max(${columnName}) from ${tableName}
+	</select>
+	<!-- 更新SQL  -->
+	<update id="execUpdateSql" parameterType="java.lang.String" statementType="STATEMENT">
+		 ${value}
+	</update> 
+	<!-- 查询linksus_sequences表中的weiboId -->
+	<select id="getSequencesPrimaryKeyByName" parameterType="map" resultType="java.lang.Long" statementType="STATEMENT">
+		select id  from linksus_Sequences where name = '${paraName}' for update 
+	</select>
+	<!-- 更新linksus_sequences表中的微博Id -->
+	<update id="updateSequencesPrimaryKeyByName" parameterType="map" statementType="STATEMENT">
+		 update linksus_Sequences set id =id + ${size} where  name = '${paraName}'
+	</update> 
+	<!-- 插入linksus_sequences表中的微博Id -->
+	<update id="insertSequencesPrimaryKeyByName" parameterType="map" statementType="STATEMENT">
+		insert linksus_Sequences values ('${paraName}',0,${timestamp})
+	</update> 
+	
+</mapper>

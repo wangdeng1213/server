@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractReplyCountMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractReplyCount" type="LinksusInteractReplyCount" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="reply_id" property="replyId" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="use_count" property="useCount" jdbcType="INTEGER" />	
+		<result column="last_use_time" property="lastUseTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,reply_id,institution_id,use_count,last_use_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractReplyCountList"  resultMap="LinksusInteractReplyCount">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_reply_count
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractReplyCountById"  resultMap="LinksusInteractReplyCount" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_reply_count
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractReplyCount" parameterType="LinksusInteractReplyCount">
+		INSERT INTO linksus_interact_reply_count(
+		pid,reply_id,institution_id,use_count,last_use_time
+		) VALUES(
+		#{pid:BIGINT},#{replyId:BIGINT},#{institutionId:BIGINT},#{useCount:INTEGER},#{lastUseTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractReplyCount" parameterType="LinksusInteractReplyCount">
+		  UPDATE linksus_interact_reply_count SET
+		  pid=#{pid:BIGINT},reply_id=#{replyId:BIGINT},institution_id=#{institutionId:BIGINT},use_count=#{useCount:INTEGER},last_use_time=#{lastUseTime:INTEGER}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractReplyCountById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_reply_count 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	   <!-- 业务组合主键查询  -->
+	<select id="getLinksusInteractReplyCountByMap"  resultMap="LinksusInteractReplyCount" parameterType="java.util.Map">
+		  SELECT  <include refid="Base_Column_List" />
+		  FROM linksus_interact_reply_count
+		  WHERE reply_id=#{reply_id} and institution_id=#{institution_id} limit 0,1
+	</select> 
+</mapper>   

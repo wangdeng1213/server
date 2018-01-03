@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusGovAppraiseMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusGovAppraise" type="LinksusGovAppraise" >
+		<result column="run_id" property="runId" jdbcType="BIGINT" />	
+		<result column="is_appraise" property="isAppraise" jdbcType="TINYINT" />	
+		<result column="appraise_time" property="appraiseTime" jdbcType="INTEGER" />	
+		<result column="quality_level" property="qualityLevel" jdbcType="INTEGER" />	
+		<result column="attitude_level" property="attitudeLevel" jdbcType="INTEGER" />	
+		<result column="appraise_url" property="appraiseUrl" jdbcType="VARCHAR" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		run_id,is_appraise,appraise_time,quality_level,attitude_level,appraise_url
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusGovAppraiseList"  resultMap="LinksusGovAppraise">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_appraise
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusGovAppraiseById"  resultMap="LinksusGovAppraise" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_gov_appraise
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusGovAppraise" parameterType="LinksusGovAppraise">
+		INSERT INTO linksus_gov_appraise(
+		run_id,is_appraise,appraise_time,quality_level,attitude_level,appraise_url
+		) VALUES(
+		#{runId:BIGINT},#{isAppraise:TINYINT},#{appraiseTime:INTEGER},#{qualityLevel:INTEGER},#{attitudeLevel:INTEGER},#{appraiseUrl:VARCHAR}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusGovAppraise" parameterType="LinksusGovAppraise">
+		  UPDATE linksus_gov_appraise SET
+		  run_id=#{runId:BIGINT},is_appraise=#{isAppraise:TINYINT},appraise_time=#{appraiseTime:INTEGER},quality_level=#{qualityLevel:INTEGER},attitude_level=#{attitudeLevel:INTEGER},appraise_url=#{appraiseUrl:VARCHAR}
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusGovAppraiseById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_gov_appraise 
+		  WHERE 1=1  and run_id=#{runId:BIGINT}
+	</update> 
+</mapper>   

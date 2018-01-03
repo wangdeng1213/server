@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<tasks><!-- 服务端任务 -->
+		<task>
+			<taskType>Task001</taskType><!-- 任务类型 不能重复  -->
+			<taskName>微博发布[新浪立即]</taskName><!-- 任务名称 描述信息 -->
+			<className>TaskSendWeibo</className><!-- 任务类 需要继承BaseTask -->
+			<status>1</status><!-- 启用状态 0不启用,1启用 -->
+			<pageSize>1000</pageSize><!-- 查询任务数 -->
+			<taskInterval>60000</taskInterval><!-- 任务刷新间隔  单位毫秒-->
+			<params><!-- 自定义参数 会设置到属性中 需要有set方法 -->
+				<param name="accountType">1</param>
+				<param name="sendType">0</param>
+			</params>
+		</task>
+		<task>
+			<taskType>Task002</taskType>
+			<taskName>微博发布[腾讯立即]</taskName>
+			<className>TaskSendWeibo</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="accountType">2</param>
+				<param name="sendType">0</param>
+			</params>
+		</task>
+		<task>
+			<taskType>Task003</taskType>
+			<taskName>微博发布[定时]</taskName>
+			<className>TaskSendWeibo</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="sendType">1</param>
+			</params>
+		</task>
+		<task>
+			<taskType>Task004</taskType>
+			<taskName>短信发送</taskName>
+			<className>TaskSendSmsInMarketing</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="marketingType">3</param>
+			</params>
+		</task>
+		<task>
+			<taskType>Task005</taskType>
+			<taskName>邮件发送</taskName>
+			<className>TaskSendEmailInMarketing</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="marketingType">4</param>
+			</params>
+		</task>
+		
+		<task>
+			<taskType>Task006</taskType>
+			<taskName>营销——腾讯发评论</taskName>
+			<className>TaskSendCommentsInMarketing</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+			     <param name="accountType">2</param>
+			</params>
+		</task>
+		<task>
+			<taskType>Task007</taskType>
+			<taskName>营销——新浪发评论</taskName>
+			<className>TaskSendCommentsInMarketing</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+			     <param name="accountType">1</param>
+			</params>
+		</task>
+		<task>
+			<taskType>Task008</taskType>
+			<taskName>营销——@新浪用户</taskName>
+			<className>TaskSendMentionsInMarketing</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+			   <param name="accountType">1</param>
+			</params>
+		</task>
+		<task>
+			<taskType>Task009</taskType>
+			<taskName>营销——@腾讯用户</taskName>
+			<className>TaskSendMentionsInMarketing</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+			   <param name="accountType">2</param>
+			</params>
+		</task>
+		<!-- 
+		<task>
+			<taskType>Task010</taskType>
+			<taskName>微信发布[立即]</taskName>
+			<className>TaskReplyWeixins</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="sendType">0</param>
+			</params>
+		</task>
+		 -->
+		<task>
+			<taskType>Task011</taskType>
+			<taskName>微信回复[定时]</taskName>
+			<className>TaskReplyWeixins</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="sendType">1</param>
+			</params>		
+		</task>
+		<task>
+			<taskType>Task012</taskType>
+			<taskName>删除新浪微博任务</taskName>
+			<className>TaskDeleteWeibo</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>		
+		</task>
+		<task>
+			<taskType>Task013</taskType>
+			<taskName>删除腾讯微博任务</taskName>
+			<className>TaskDeleteWeibo</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="accountType">2</param>
+			</params>		
+		</task>
+		<task>
+			<taskType>Task014</taskType>
+			<taskName>新浪私信即时发布任务</taskName>
+			<className>TaskSendSinaLetter</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="sendType">0</param>
+			</params>		
+		</task>
+		<task>
+			<taskType>Task015</taskType>
+			<taskName>新浪私信定时发布任务</taskName>
+			<className>TaskSendSinaLetter</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="sendType">1</param>
+			</params>		
+		</task>
+		<task>
+			<taskType>Task016</taskType>
+			<taskName>微信更新token</taskName>
+			<className>TaskUpdateWXUserToken</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>7100000</taskInterval>
+			<params></params>		
+		</task>
+		<task>
+			<taskType>Task017</taskType>
+			<taskName>微博关注自动回复</taskName>
+			<className>TaskIncrementalAttentionAutoReply</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params></params>		
+		</task>	
+		<task>
+			<taskType>Task018</taskType>
+			<taskName>新浪增加关注任务</taskName>
+			<className>TaskAddAttention</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>		
+		</task>
+		<task>
+			<taskType>Task019</taskType>
+			<taskName>腾讯增加关注任务</taskName>
+			<className>TaskAddAttention</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="accountType">2</param>
+			</params>		
+		</task>
+		<task>
+			<taskType>Task020</taskType>
+			<taskName>新浪微博移除粉丝</taskName>
+			<className>TaskRemoveFan</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>			
+		</task>
+		<task>
+			<taskType>Task021</taskType>
+			<taskName>新浪微博取消关注粉丝</taskName>
+			<className>TaskCancelAttention</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>		
+		</task>
+		<task>
+			<taskType>Task022</taskType>
+			<taskName>腾讯微博取消关注粉丝</taskName>
+			<className>TaskCancelAttention</className>
+			<status>1</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>300000</taskInterval>
+			<params>
+				<param name="accountType">2</param>
+			</params>		
+		</task>
+		<task>
+			<taskType>Task023</taskType>
+			<taskName>抓取新浪互动数据任务</taskName>
+			<className>TaskSinaInteractDataRead</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>		
+		</task>
+		<task>
+			<taskType>Task024</taskType>
+			<taskName>抓取腾讯互动数据任务</taskName>
+			<className>TaskTencentInteractDataRead</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>360000</taskInterval>
+			<params>
+				<param name="accountType">2</param>
+			</params>		
+		</task>
+		
+		 <task>
+			<taskType>Task025</taskType>
+			<taskName>新浪私信互动读取</taskName>
+			<className>TaskLetterSinaRead</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>1000</taskInterval>
+			<params></params>		
+		</task>
+		 <task>
+			<taskType>Task026</taskType>
+			<taskName>腾讯私信互动读取</taskName>
+			<className>TaskLetterTencentRead</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>360000</taskInterval>
+			<params></params>		
+		</task>
+		<task>
+			<taskType>Task027</taskType>
+			<taskName>人员默认值更新</taskName>
+			<className>TaskUpdatePersonInfo</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>36000000</taskInterval>
+			<params></params>
+		</task>
+		<task>
+			<taskType>Task028</taskType>
+			<taskName>标签记录数统计任务</taskName>
+			<className>TaskCountUserTags</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>3600000</taskInterval>
+			<params></params>		
+		</task>
+		<task>
+			<taskType>Task029</taskType>
+			<taskName>更新话题数任务</taskName>
+			<className>TaskTopicStatistic</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>3600000</taskInterval>
+			<params></params>		
+		</task>
+		<task>
+			<taskType>Task031</taskType>
+			<taskName>新浪腾讯回复评论任务[定时]</taskName>
+			<className>TaskReplyComments</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="sendType">1</param>
+			</params>		
+		</task>
+		<!-- 以下为系统或不启用任务90开始 -->
+		<!-- 
+		<task>
+			<taskType>Task090</taskType>
+			<taskName>导入人员信息</taskName>
+			<className>TaskPersonDataInfoImport</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>60000</taskInterval>
+			<params></params>		
+		</task>
+		<task>
+			<taskType>Task091</taskType>
+			<taskName>关系报表统计</taskName>
+			<className>TaskCountAttentionReports</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>21600000</taskInterval>
+			<params></params>		
+		</task>
+		 -->
+		<task>
+			<taskType>Task098</taskType>
+			<taskName>批量统计任务</taskName>
+			<className>TaskQueueStatistic</className>
+			<status>1</status>
+			<methodName>emailTaskStatistic</methodName>
+			<cronExpression>0 1 * * * ?</cronExpression>
+			<params></params>
+		</task>
+		<task>
+			<taskType>Task099</taskType>
+			<taskName>任务统计重置任务</taskName>
+			<className>TaskQueueStatistic</className>
+			<status>1</status>
+			<methodName>clearTaskStatistic</methodName>
+			<cronExpression>0 59 23 * * ?</cronExpression>
+			<params></params>
+		</task>
+		<!-- 以下为政务版,100开始 -->
+		<task>
+			<taskType>GovTask100</taskType>
+			<taskName>政务版抓取新浪互动数据任务</taskName>
+			<className>GovTaskSinaInteractDataRead</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>6000</taskInterval>
+			<params>
+			    <param name="accountType">1</param>
+			</params>
+		</task>
+		<task>
+			<taskType>GovTask101</taskType>
+			<taskName>政务版新浪私信互动读取</taskName>
+			<className>GovTaskLetterSinaRead</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>1000</taskInterval>
+			<params></params>		
+		</task>
+		<!--
+		<task>
+			<taskType>GovTask102</taskType>
+			<taskName>政务版评论回复</taskName>
+			<className>GovTaskComment</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>1000</taskInterval>
+			<params></params>		
+		</task>
+		<task>
+			<taskType>GovTask103</taskType>
+			<taskName>公示发布</taskName>
+			<className>GovTaskSendWeibo</className>
+			<status>0</status>
+			<pageSize>1000</pageSize>
+			<taskInterval>1000</taskInterval>
+			<params></params>		
+		</task>
+		-->
+	</tasks>
+</root>

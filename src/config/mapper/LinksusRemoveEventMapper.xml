@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRemoveEventMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="BaseResultMap" type="LinksusRemoveEvent" >
+		<result column="id" property="id" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="source_id" property="sourceId" jdbcType="BIGINT" />	
+		<result column="dest_id" property="destId" jdbcType="BIGINT" />	
+		<result column="sys_type" property="sysType" jdbcType="TINYINT" />	
+		<result column="type" property="type" jdbcType="TINYINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="created_time" property="createdTime" jdbcType="INTEGER" />	
+		<result column="operate_time" property="operateTime" jdbcType="INTEGER" />	
+		<result column="exec_cmd" property="execCmd" jdbcType="VARCHAR" />	
+	</resultMap>
+	
+    <resultMap id="weiboRemoveWithToken" type="LinksusRemoveEvent" >
+		<result column="id" property="id" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="source_id" property="sourceId" jdbcType="BIGINT" />	
+		<result column="dest_id" property="destId" jdbcType="BIGINT" />	
+		<result column="sys_type" property="sysType" jdbcType="TINYINT" />	
+		<result column="type" property="type" jdbcType="TINYINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="created_time" property="createdTime" jdbcType="INTEGER" />	
+		<result column="operate_time" property="operateTime" jdbcType="INTEGER" />	
+		<result column="exec_cmd" property="execCmd" jdbcType="VARCHAR" />	
+		<result column="token" property="token" jdbcType="VARCHAR" />	
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="mid" property="mid" jdbcType="BIGINT" />
+	</resultMap>
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		id,institution_id,account_id,source_id,dest_id,sys_type,type,status,created_time,operate_time,exec_cmd
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getRemoveWeiboList"  resultMap="weiboRemoveWithToken">
+		  SELECT t.id,t.institution_id,t.account_id,t.source_id,t.dest_id,t.sys_type,t.type,
+		  t.status,t.created_time,t.operate_time,t.exec_cmd,s.token,s.appid,w.mid
+		  FROM linksus_remove_event t,linksus_source_appaccount s,linksus_weibo w
+		  where t.institution_id=s.institution_id and t.source_id=s.source_id and t.account_id=s.account_id
+		  and t.dest_id=w.id
+		  and sys_type=1 and t.status=0 and type=#{type}
+		  order by t.id
+		  limit #{startCount},#{pageSize}
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusRemoveEventById"  resultMap="weiboRemoveWithToken" parameterType="java.lang.Long">
+		  SELECT t.id,t.institution_id,t.account_id,t.source_id,t.dest_id,t.sys_type,t.type,
+		  t.status,t.created_time,t.operate_time,t.exec_cmd,s.token,s.appid,w.mid
+		  FROM linksus_remove_event t,linksus_source_appaccount s,linksus_weibo w
+		  where t.institution_id=s.institution_id and t.source_id=s.source_id and t.account_id=s.account_id
+		  and t.dest_id=w.id
+		  and sys_type=1 and t.id=#{id:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRemoveEvent" parameterType="LinksusRemoveEvent">
+		INSERT INTO linksus_remove_event(
+		id,institution_id,account_id,source_id,dest_id,sys_type,type,status,created_time,operate_time,exec_cmd
+		) VALUES(
+		#{id:BIGINT},#{institutionId:BIGINT},#{accountId:BIGINT},#{sourceId:BIGINT},#{destId:BIGINT},#{sysType:TINYINT},#{type:TINYINT},#{status:TINYINT},#{createdTime:INTEGER},#{operateTime:INTEGER},#{execCmd:VARCHAR}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRemoveEvent" parameterType="LinksusRemoveEvent">
+		  UPDATE linksus_remove_event SET
+		  id=#{id:BIGINT},institution_id=#{institutionId:BIGINT},account_id=#{accountId:BIGINT},source_id=#{sourceId:BIGINT},dest_id=#{destId:BIGINT},sys_type=#{sysType:TINYINT},type=#{type:TINYINT},status=#{status:TINYINT},created_time=#{createdTime:INTEGER},operate_time=#{operateTime:INTEGER},exec_cmd=#{execCmd:VARCHAR}
+		  WHERE id=#{id:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRemoveEventById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_remove_event 
+		  WHERE id=#{id:BIGINT}
+	</update> 
+	
+	<!-- 更新状态  -->
+	<update id="updateRemoveEventStatus" parameterType="LinksusRemoveEvent">
+		  UPDATE linksus_remove_event SET
+		  status=#{status:TINYINT},operate_time=#{operateTime:INTEGER}
+		  WHERE id=#{id:BIGINT}
+	</update> 
+</mapper>   

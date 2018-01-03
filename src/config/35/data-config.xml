@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<queues><!-- 数据批量处理队列 -->
+		<queue>
+			<queueName>新增用户信息</queueName><!-- 队列描述 -->
+			<operType>insert</operType><!-- 操作类型  -->
+			<className>LinksusRelationWeibouser</className><!-- 处理的JavaBean -->
+			<commitNum>100</commitNum><!-- 批量提交任务数 -->
+			<commitInterval>5000</commitInterval><!-- 最大提交间隔 毫秒 -->
+			<redis><!-- 自定义参数 会设置到属性中 需要有set方法 -->
+				<hashKey>relation_weibouser</hashKey>
+				<fieldKey>rpsId</fieldKey>
+				<redisValue separator="#">userId,personId,rpsName</redisValue>
+			</redis>
+		</queue>
+		<queue>
+			<queueName>更新用户信息</queueName>
+			<operType>update</operType>
+			<className>LinksusRelationWeibouser</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+	  <queue>
+			<queueName>更新新浪用户信息</queueName>
+			<operType>updateSinaWeiboUser</operType>
+			<className>LinksusRelationWeibouser</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>更新腾讯用户信息</queueName>
+			<operType>updateCententWeiboUser</operType>
+			<className>LinksusRelationWeibouser</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>新增用户账号关系</queueName>
+			<operType>insert</operType>
+			<className>LinksusRelationUserAccount</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis>
+				<hashKey>relation_user_account</hashKey>
+				<fieldKey separator="#">accountId,userId</fieldKey>
+				<redisValue separator="#">flagRelation,interactType</redisValue>
+			</redis>
+		</queue>
+		<queue>
+			<queueName>修改用户账号关系</queueName>
+			<operType>update</operType>
+			<className>LinksusRelationUserAccount</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis>
+				<hashKey>relation_user_account</hashKey>
+				<fieldKey separator="#">accountId,userId</fieldKey>
+				<redisValue separator="#">flagRelation,interactType</redisValue>
+			</redis>
+		</queue>
+		
+		<queue>
+			<queueName>新增微博池数据</queueName>
+			<operType>insert</operType>
+			<className>LinksusWeiboPool</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis>
+				<hashKey>weibo_pool</hashKey>
+				<fieldKey separator="#">mid,weiboType</fieldKey>
+				<redisValue separator="#">commentCount,repostCount,srcMid</redisValue>
+			</redis>
+		</queue>
+		
+		<queue>
+			<queueName>更新微博池数据</queueName>
+			<operType>update</operType>
+			<className>LinksusWeiboPool</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis>
+				<hashKey>weibo_pool</hashKey>
+				<fieldKey separator="#">mid,weiboType</fieldKey>
+				<redisValue separator="#">commentCount,repostCount,srcMid</redisValue>
+			</redis>
+		</queue>
+		<queue>
+			<queueName>新增微博用户标签</queueName>
+			<operType>insert</operType>
+			<className>LinksusRelationUserTag</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+		</queue>
+		<queue>
+			<queueName>新增微博用户标签定义主表</queueName>
+			<operType>insert</operType>
+			<className>LinksusRelationUserTagdef</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+		</queue>
+		<queue>
+			<queueName>新增人员信息</queueName>
+			<operType>insert</operType>
+			<className>LinksusRelationPerson</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>修改人员信息</queueName>
+			<operType>update</operType>
+			<className>LinksusRelationPerson</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>人员默认值功能——更新人员信息</queueName>
+			<operType>updateInfo</operType>
+			<className>LinksusRelationPerson</className>
+			<commitNum>5</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>新增职业信息</queueName>
+			<operType>insert</operType>
+			<className>LinksusRelationUserCompany</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>新增教育信息</queueName>
+			<operType>insert</operType>
+			<className>LinksusRelationUserEdu</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		
+		<queue>
+			<queueName>更新粉丝信息</queueName>
+			<operType>updatePagetimeAndMid</operType>
+			<className>LinksusRelationWeibouser</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>关注用户微博动态数据</queueName>
+			<operType>update</operType>
+			<className>LinksusAttentionWeibo</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>		
+		<queue>
+			<queueName>微博发布动态数据</queueName>
+			<operType>update</operType>
+			<className>LinksusWeibo</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>更新互动记录</queueName>
+			<operType>update</operType>
+			<className>LinksusInteractRecord</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>新增微博互动信息</queueName>
+			<operType>insert</operType>
+			<className>LinksusInteractWeibo</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>新增腾讯私信互动</queueName>
+			<operType>insert</operType>
+			<className>LinksusInteractMessage</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>更新互动人员</queueName>
+			<operType>update</operType>
+			<className>LinksusInteractPerson</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+		<queue>
+			<queueName>更新互动用户</queueName>
+			<operType>update</operType>
+			<className>LinksusInteractUser</className>
+			<commitNum>100</commitNum>
+			<commitInterval>5000</commitInterval>
+			<redis/>
+		</queue>
+	</queues>
+</root>

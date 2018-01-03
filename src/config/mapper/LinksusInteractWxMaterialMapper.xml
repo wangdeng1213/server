@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractWxMaterialMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractWxMaterial" type="LinksusInteractWxMaterial" >
+		<result column="material_id" property="materialId" jdbcType="BIGINT" />	
+		<result column="material_type" property="materialType" jdbcType="TINYINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="status" property="status" jdbcType="TINYINT" />	
+		<result column="use_count" property="useCount" jdbcType="INTEGER" />	
+		<result column="last_use_time" property="lastUseTime" jdbcType="INTEGER" />	
+		<result column="update_time" property="updateTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		material_id,material_type,institution_id,status,use_count,last_use_time,update_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractWxMaterialList"  resultMap="LinksusInteractWxMaterial">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_material
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractWxMaterialById"  resultMap="LinksusInteractWxMaterial" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_wx_material
+		  WHERE material_id=#{materialId:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractWxMaterial" parameterType="LinksusInteractWxMaterial">
+		INSERT INTO linksus_interact_wx_material(
+		material_id,material_type,institution_id,status,use_count,last_use_time,update_time
+		) VALUES(
+		#{materialId:BIGINT},#{materialType:TINYINT},#{institutionId:BIGINT},#{status:TINYINT},#{useCount:INTEGER},#{lastUseTime:INTEGER},#{updateTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractWxMaterial" parameterType="LinksusInteractWxMaterial">
+		  UPDATE linksus_interact_wx_material SET
+		  material_id=#{materialId:BIGINT},material_type=#{materialType:TINYINT},institution_id=#{institutionId:BIGINT},status=#{status:TINYINT},use_count=#{useCount:INTEGER},last_use_time=#{lastUseTime:INTEGER},update_time=#{updateTime:INTEGER}
+		  WHERE material_id=#{materialId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractWxMaterialById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_wx_material 
+		  WHERE material_id=#{materialId:BIGINT}
+	</update> 
+</mapper>   

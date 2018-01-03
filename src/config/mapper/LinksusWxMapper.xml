@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusWxMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusWx" type="LinksusWx" >
+		<result column="id" property="id" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="created_time" property="createdTime" jdbcType="INTEGER" />	
+		<result column="send_time" property="sendTime" jdbcType="INTEGER" />	
+		<result column="author_id" property="authorId" jdbcType="BIGINT" />	
+		<result column="author_name" property="authorName" jdbcType="VARCHAR" />	
+		<result column="STATUS" property="status" jdbcType="TINYINT" />	
+		<result column="apply_status" property="applyStatus" jdbcType="CHAR" />	
+		<result column="publish_status" property="publishStatus" jdbcType="TINYINT" />	
+		<result column="to_file" property="toFile" jdbcType="TINYINT" />	
+		<result column="mid" property="mid" jdbcType="BIGINT" />	
+		<result column="TYPE" property="type" jdbcType="TINYINT" />	
+		<result column="errmsg" property="errmsg" jdbcType="VARCHAR" />	
+		<result column="token" property="token" jdbcType="VARCHAR" />
+		<result column="app_etime" property="appEtime" jdbcType="INTEGER" />
+		<result column="token_etime" property="tokenEtime" jdbcType="INTEGER" />		
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		id,institution_id,account_id,created_time,send_time,author_id,author_name,STATUS,apply_status,publish_status,to_file,mid,TYPE,errmsg
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusWxList"  resultMap="LinksusWx">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_wx
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWxById"  resultMap="LinksusWx" parameterType="java.lang.Long">
+		  SELECT
+	          wx.*, app.token
+          FROM
+	   		linksus_wx wx
+		  INNER JOIN linksus_appaccount app ON wx.account_id = app.id
+		         AND app.token != "0"
+			     AND app.app_etime &gt;= UNIX_TIMESTAMP(NOW())
+			     AND app.token_etime &gt;= UNIX_TIMESTAMP(NOW())
+		  WHERE wx.id=#{id:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusWx" parameterType="LinksusWx">
+		INSERT INTO linksus_wx(
+		id,institution_id,account_id,created_time,send_time,author_id,author_name,STATUS,apply_status,publish_status,to_file,mid,TYPE,errmsg
+		) VALUES(
+		#{id:BIGINT},#{institutionId:BIGINT},#{accountId:BIGINT},#{createdTime:INTEGER},#{sendTime:INTEGER},#{authorId:BIGINT},#{authorName:VARCHAR},#{status:TINYINT},#{applyStatus:CHAR},#{publishStatus:TINYINT},#{toFile:TINYINT},#{mid:BIGINT},#{type:TINYINT},#{errmsg:VARCHAR}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusWx" parameterType="LinksusWx">
+		  UPDATE linksus_wx SET
+		  id=#{id:BIGINT},institution_id=#{institutionId:BIGINT},account_id=#{accountId:BIGINT},created_time=#{createdTime:INTEGER},send_time=#{sendTime:INTEGER},author_id=#{authorId:BIGINT},author_name=#{authorName:VARCHAR},STATUS=#{status:TINYINT},apply_status=#{applyStatus:CHAR},publish_status=#{publishStatus:TINYINT},to_file=#{toFile:TINYINT},mid=#{mid:BIGINT},TYPE=#{type:TINYINT},errmsg=#{errmsg:VARCHAR}
+		  WHERE id=#{id:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusWxById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_wx 
+		  WHERE id=#{id:BIGINT}
+	</update> 
+	
+	<!-- 查询的微信任务-->
+	<select id="getWeiXinTaskList" resultMap="LinksusWx" parameterType="LinksusWx">
+	   select * from 
+	   linksus_wx 
+	   where STATUS=#{status:TINYINT} 
+	     and publish_status=#{publishStatus:TINYINT}
+	     and apply_status='11'
+	   order by id
+	   limit #{startCount},#{pageSize}
+	</select>
+	
+	<!-- 查询微信定时任务 -->
+	<select id="getWeixinPrepare"  resultMap="LinksusWx" parameterType="LinksusWx">
+		  select
+		  <include refid="Base_Column_List" />
+		  <![CDATA[
+		  from linksus_weibo
+		  WHERE STATUS=#{status:TINYINT} 
+		    AND publish_status=#{publishStatus:TINYINT}
+			AND TIMESTAMPDIFF(SECOND,now(),FROM_UNIXTIME(send_time)) > 0
+			AND TIMESTAMPDIFF(SECOND,now(),FROM_UNIXTIME(send_time)) < 86400
+		  order by id
+		  limit #{startCount},#{pageSize}
+		 ]]>
+	</select> 
+	
+	<!-- 修改任务状态--> 
+	<update id="updateWeiXinTaskList" parameterType="LinksusWx">
+	  UPDATE linksus_wx SET STATUS=#{status:TINYINT} where id=#{id}	     
+	</update>
+	
+	<!-- 获取微信群发信息用户token及信息 -->
+	<select id="getLinksusWXUserAndInfo" resultMap="LinksusWx" parameterType="java.lang.Long">
+	    SELECT
+			wx.id,
+			wx.institution_id,
+			wx.account_id,
+			wx.TYPE,
+			wx.send_time,
+			wx.publish_status,
+			app.token,
+            app.app_etime,
+            app.token_etime
+		FROM
+			linksus_wx wx
+		INNER JOIN linksus_appaccount app ON wx.account_id = app.id			 
+			   AND app.token != "0"
+			   AND app.app_etime &gt;= UNIX_TIMESTAMP(NOW())
+			   AND app.token_etime &gt;= UNIX_TIMESTAMP(NOW())
+		where wx.id=#{id:BIGINT}   
+		  AND wx.STATUS = 1
+       	  AND wx.apply_status = '11'
+   	</select>
+   	
+   	<!-- 修改微信发布结果-->
+	<update id="updateWeiXinTaskErrmsg" parameterType="LinksusWx">
+	   update linksus_wx set errmsg=#{errmsg:VARCHAR}
+	   where id=#{id}
+	</update>
+	
+	<!-- 修改微信发布结果及状态-->
+	<update id="updateWeiXinTaskstatusAndErrmsg" parameterType="LinksusWx">
+	   update linksus_wx set errmsg=#{errmsg:VARCHAR},STATUS=#{status:TINYINT}
+	   where id=#{id}
+	</update>
+	
+	<!-- 修改微信发布结果-->
+	<update id="updateWeiXinTaskErrmsgByGroup" parameterType="java.lang.Long">
+	UPDATE linksus_wx wx, 
+	(select	CASE
+	          WHEN sucesscount = 0 THEN status_msg
+	        ELSE
+		      CONCAT('成功',sucesscount,'个粉丝,失败',failcount,'个粉丝')
+	        END msg
+	  FROM
+		(
+			SELECT
+				sum(sent_count) sucesscount,
+				sum(group_count - sent_count) failcount,
+				status_msg status_msg
+			FROM
+				linksus_wx_mass_group mass
+			WHERE
+				mass.wx_id=#{id:BIGINT}
+		) a ) t set wx.errmsg = t.msg where wx.id=#{id:BIGINT}
+	</update>
+		
+</mapper>   

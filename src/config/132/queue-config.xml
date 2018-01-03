@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<queues><!-- 客户端任务队列 -->
+		<queue>
+			<taskType>Queue001</taskType><!-- 队列类型 不能重复  需要和服务端对应队列一致 -->
+			<taskName>新浪账户发布微博动态数据更新</taskName><!-- 队列名称 描述信息 -->
+			<className>TaskWeiboDynaData</className><!-- 队列类 需要继承BaseQueue -->
+			<status>0</status><!-- 启用状态 0不启用,1启用 -->
+			<assignCount>100</assignCount><!-- 客户端每次请求任务数 -->
+			<pageSize>1000</pageSize><!-- 服务端每次查询任务数 -->
+			<queueInterval>0</queueInterval><!-- 队列刷新间隔 单位毫秒 -->
+			<taskInterval>600000</taskInterval><!-- 任务刷新间隔  单位毫秒-->
+			<taskCountPerHour>0</taskCountPerHour><!-- 每小时分配任务数 0不控制-->
+			<taskCountPerDay>0</taskCountPerDay><!-- 每天分配任务数 0不控制-->
+			<params><!-- 自定义参数 会设置到属性中 需要有set方法 -->
+				<param name="dataType">1</param>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue002</taskType>
+			<taskName>腾讯账户发布微博动态数据更新</taskName>
+			<className>TaskWeiboDynaData</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>600000</taskInterval>
+			<params>
+				<param name="dataType">1</param>
+				<param name="accountType">2</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue003</taskType>
+			<taskName>关注用户新浪微博动态数据更新</taskName>
+			<className>TaskWeiboDynaData</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params>
+				<param name="dataType">2</param>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue004</taskType>
+			<taskName>关注用户腾讯微博动态数据更新</taskName>
+			<className>TaskWeiboDynaData</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params>
+				<param name="dataType">2</param>
+				<param name="accountType">2</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue005</taskType><!-- 队列类型 不能重复  需要和服务端对应队列一致 -->
+			<taskName>新浪微博池动态数据更新</taskName><!-- 队列名称 描述信息 -->
+			<className>TaskWeiboDynaData</className><!-- 队列类 需要继承BaseQueue -->
+			<status>0</status><!-- 启用状态 0不启用,1启用 -->
+			<assignCount>100</assignCount><!-- 客户端每次请求任务数 -->
+			<pageSize>1000</pageSize><!-- 服务端每次查询任务数 -->
+			<queueInterval>0</queueInterval><!-- 队列刷新间隔 单位毫秒 -->
+			<taskInterval>3600000</taskInterval><!-- 任务刷新间隔  单位毫秒-->
+			<taskCountPerHour>0</taskCountPerHour><!-- 每小时分配任务数 0不控制-->
+			<taskCountPerDay>0</taskCountPerDay><!-- 每天分配任务数 0不控制-->
+			<params><!-- 自定义参数 会设置到属性中 需要有set方法 -->
+				<param name="dataType">3</param>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue006</taskType>
+			<taskName>腾讯微博池动态数据更新</taskName>
+			<className>TaskWeiboDynaData</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params>
+				<param name="dataType">3</param>
+				<param name="accountType">2</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue007</taskType>
+			<taskName>新浪增量关注任务</taskName>
+			<className>TaskIncrementalAttention</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue008</taskType>
+			<taskName>腾讯增量关注任务</taskName>
+			<className>TaskIncrementalAttention</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params>
+				<param name="accountType">2</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue009</taskType>
+			<taskName>新浪更新用户任务</taskName>
+			<className>TaskMicroblogUserinfo</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>100</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<taskCountPerHour>0</taskCountPerHour>
+			<taskCountPerDay>0</taskCountPerDay>
+			<params>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue010</taskType>
+			<taskName>腾讯更新用户任务</taskName>
+			<className>TaskMicroblogUserinfo</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>100</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<taskCountPerHour>0</taskCountPerHour>
+			<taskCountPerDay>0</taskCountPerDay>
+			<params>
+				<param name="accountType">2</param>
+			</params>
+		</queue>
+		<!-- 使用私信处理-->
+		<queue>
+			<taskType>Queue011</taskType>
+			<taskName>新浪增量粉丝任务列表</taskName>
+			<className>TaskIncrementalFans</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue012</taskType>
+			<taskName>腾讯增量粉丝任务列表</taskName>
+			<className>TaskIncrementalFans</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params>
+				<param name="accountType">2</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue013</taskType>
+			<taskName>新浪关注用户的微博列表</taskName>
+			<className>TaskAttentionWeiboSync</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>300000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue014</taskType>
+			<taskName>腾讯关注用户的微博列表</taskName>
+			<className>TaskAttentionWeiboSync</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>300000</taskInterval>
+			<params>
+				<param name="accountType">2</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue015</taskType>
+			<taskName>新浪用户标签抓取队列</taskName>
+			<className>TaskIncrementalUserTag</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue016</taskType>
+			<taskName>新浪用户信息抓取队列</taskName>
+			<className>TaskAllNewFansList</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>60000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue017</taskType>
+			<taskName>微信用户全量粉丝列表</taskName>
+			<className>TaskAllWeiXinFans</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params/>
+		</queue>
+		<queue>
+			<taskType>Queue018</taskType>
+			<taskName>新浪用户全量粉丝列表</taskName>
+			<className>TaskQueueAllSinaFans</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue019</taskType>
+			<taskName>更新平台账号的详细信息</taskName>
+			<className>TaskPlatWeiboUserInfo</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue020</taskType>
+			<taskName>更新平台账号的详细信息</taskName>
+			<className>TaskPlatWeiboUserInfo</className>
+			<status>0</status>
+			<assignCount>100</assignCount>
+			<pageSize>1000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>3600000</taskInterval>
+			<params>
+				<param name="accountType">2</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue021</taskType>
+			<taskName>新浪用户微博同步</taskName>
+			<className>TaskMicroblogData</className>
+			<status>0</status>
+			<assignCount>1000</assignCount>
+			<pageSize>10000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>300000</taskInterval>
+			<params>
+				<param name="accountType">1</param>
+			</params>
+		</queue>
+		<queue>
+			<taskType>Queue022</taskType>
+			<taskName>腾讯用户微博同步</taskName>
+			<className>TaskMicroblogData</className>
+			<status>0</status>
+			<assignCount>1000</assignCount>
+			<pageSize>10000</pageSize>
+			<queueInterval>0</queueInterval>
+			<taskInterval>300000</taskInterval>
+			<params>
+				<param name="accountType">2</param>
+			</params>
+		</queue>
+	</queues>
+</root>

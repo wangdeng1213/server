@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInstitutionMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInstitution" type="LinksusInstitution" >
+		<result column="id" property="id" jdbcType="BIGINT" />	
+		<result column="name" property="name" jdbcType="VARCHAR" />	
+		<result column="short_name" property="shortName" jdbcType="VARCHAR" />	
+		<result column="industry" property="industry" jdbcType="BIGINT" />	
+		<result column="address" property="address" jdbcType="VARCHAR" />	
+		<result column="code" property="code" jdbcType="CHAR" />	
+		<result column="phone" property="phone" jdbcType="VARCHAR" />	
+		<result column="fax" property="fax" jdbcType="VARCHAR" />	
+		<result column="trival" property="trival" jdbcType="TINYINT" />	
+		<result column="trival_status" property="trivalStatus" jdbcType="TINYINT" />	
+		<result column="trival_stime" property="trivalStime" jdbcType="BIGINT" />	
+		<result column="trival_etime" property="trivalEtime" jdbcType="BIGINT" />	
+		<result column="created_time" property="createdTime" jdbcType="BIGINT" />	
+		<result column="last_upd_time" property="lastUpdTime" jdbcType="BIGINT" />	
+		<result column="sina_business_number" property="sinaBusinessNumber" jdbcType="BIGINT" />	
+		<result column="qq_business_number" property="qqBusinessNumber" jdbcType="BIGINT" />	
+		<result column="sms_number" property="smsNumber" jdbcType="BIGINT" />	
+		<result column="type" property="type" jdbcType="TINYINT" />	
+		<result column="qq_source_id" property="qqSourceId" jdbcType="BIGINT" />	
+		<result column="sina_source_id" property="sinaSourceId" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		id,name,short_name,industry,address,code,phone,fax,trival,trival_status,trival_stime,trival_etime,created_time,last_upd_time,sina_business_number,qq_business_number,sms_number,type,qq_source_id,sina_source_id
+	</sql>
+	
+	<!-- 查询根据机构id查询短信余量 -->
+	<select id="getSmsNumber" resultMap="LinksusInstitution" parameterType="java.lang.Long">
+	   select * from linksus_institution  where id=#{id}
+	</select>
+	
+	<!-- 短信余量减1 -->
+	<update id="minusSmsNumber" parameterType="LinksusInstitution">
+	  update linksus_institution set sms_number=#{smsNumber} where id=#{id}
+	</update>
+        
+</mapper>   

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractUserMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractUser" type="LinksusInteractUser" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="interact_id" property="interactId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="person_id" property="personId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="count" property="count" jdbcType="INTEGER" />	
+		<result column="update_time" property="updateTime" jdbcType="INTEGER" />
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,interact_id,person_id,account_id,user_id,count,update_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractUserList"  resultMap="LinksusInteractUser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_user
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractUserById"  resultMap="LinksusInteractUser" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_user
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	
+		<select id="checkUserDataIsExsit"  resultMap="LinksusInteractUser" parameterType="LinksusInteractUser">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_user
+		  WHERE interact_id=#{interactId:BIGINT} and  user_id =#{userId:BIGINT}
+	</select> 
+	<!-- 新增  -->
+	<update id="insertLinksusInteractUser" parameterType="LinksusInteractUser">
+		INSERT INTO linksus_interact_user(
+		pid,interact_id,person_id,account_id,user_id,count,update_time
+		) VALUES(
+		#{pid:BIGINT},#{interactId:BIGINT},#{personId:BIGINT},#{accountId:BIGINT},#{userId:BIGINT},#{count:INTEGER},#{updateTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractUser" parameterType="LinksusInteractUser">
+		  UPDATE linksus_interact_user SET
+		  count=count+1,update_time=#{updateTime:INTEGER}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractUserById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_user 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 列表查询  -->
+	<select id="getInteractUserImageList"  resultType="java.util.Map" parameterType="java.util.Map">
+		  SELECT
+			i.user_id,
+			i.count,
+			p.account_type,
+		    i.accountName,
+			p.person_id,
+			i.update_time,
+			CASE
+		       WHEN p.account_type = 3 THEN u.headimgurl
+		    ELSE
+			   w.rps_profile_image_url
+		    END image_url,
+		    p.interact_id
+		FROM (
+		  SELECT 
+			  inuser.pid,
+			  inuser.interact_id,
+			  inuser.person_id,
+			  inuser.account_id,
+			  inuser.user_id,
+			  inuser.count,
+			  inuser.update_time,
+			  CASE 
+   				when a.type = 3 then a.nick_name
+  			  ELSE
+  				weibouser.rps_screen_name 
+  			  end accountName
+		  from linksus_interact_user inuser
+		  INNER JOIN linksus_appaccount a ON a.id = inuser.account_id
+		  LEFT JOIN linksus_relation_weibouser weibouser ON a.appid = weibouser.rps_id
+		  where 1=1
+		  <if test="status!=null">
+		  	<if test="status==3">
+		  		and status=#{status} and inst_person_id=#{instPersonId}
+		  	</if>
+		  	<if test="status!=3">
+		  		and status=#{status}
+		  	</if>
+		  </if>
+		  <if test="accountIds!=null and accountIds.size()>0">
+		 	and inuser.account_id in
+		 	<foreach collection="accountIds" index="index" item="item" separator="," open="(" close=")">  
+        		#{item}
+       		</foreach>
+		  </if>
+		  <if test="personId!=null">
+		 	and inuser.person_id =#{personId}
+		  </if>
+		  ) i
+		INNER JOIN linksus_interact_person p ON i.interact_id = p.interact_id
+		LEFT JOIN linksus_relation_weibouser w ON i.user_id = w.user_id
+		LEFT JOIN linksus_relation_wxuser u ON i.user_id = u.user_id
+		order by update_time desc
+	</select> 
+</mapper>   

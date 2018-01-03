@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusInteractKeywordMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusInteractKeyword" type="LinksusInteractKeyword" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="prarent_id" property="prarentId" jdbcType="BIGINT" />	
+		<result column="keyword_name" property="keywordName" jdbcType="CHAR" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,institution_id,prarent_id,keyword_name
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusInteractKeywordList"  resultMap="LinksusInteractKeyword">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_keyword
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusInteractKeywordById"  resultMap="LinksusInteractKeyword" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_interact_keyword
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusInteractKeyword" parameterType="LinksusInteractKeyword">
+		INSERT INTO linksus_interact_keyword(
+		pid,institution_id,prarent_id,keyword_name
+		) VALUES(
+		#{pid:BIGINT},#{institutionId:BIGINT},#{prarentId:BIGINT},#{keywordName:CHAR}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusInteractKeyword" parameterType="LinksusInteractKeyword">
+		  UPDATE linksus_interact_keyword SET
+		  pid=#{pid:BIGINT},institution_id=#{institutionId:BIGINT},prarent_id=#{prarentId:BIGINT},keyword_name=#{keywordName:CHAR}
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusInteractKeywordById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_interact_keyword 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+</mapper>   

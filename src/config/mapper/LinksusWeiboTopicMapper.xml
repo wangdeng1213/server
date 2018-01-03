@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusWeiboTopicMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusWeiboTopic" type="LinksusWeiboTopic" >
+		<result column="id" property="id" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="topic_name" property="topicName" jdbcType="VARCHAR" />	
+		<result column="used_num" property="usedNum" jdbcType="INTEGER" />	
+		<result column="last_used_time" property="lastUsedTime" jdbcType="INTEGER" />	
+		<result column="created_time" property="createdTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+	<sql id="Base_Column_List" >
+		id,institution_id,topic_name,used_num,last_used_time,created_time
+	</sql>
+      
+   <select id="getIsLinksusWeiboTopic"  resultMap="LinksusWeiboTopic" parameterType="LinksusWeiboTopic">
+        select * 
+        from linksus_weibo_topic 
+        where institution_id=#{institutionId,jdbcType=BIGINT} and topic_name=#{topicName,jdbcType=VARCHAR}
+    </select>
+    
+    <update id="updateLinksusWeiboTopicByUsedNum" parameterType="LinksusWeiboTopic">
+    update linksus_weibo_topic set used_num=#{usedNum,jdbcType=BIGINT} where id = '${id}' and institution_id=#{institutionId,jdbcType=BIGINT} and topic_name=#{topicName,jdbcType=VARCHAR}
+   </update>
+   
+   <insert id="insertintoLinksusWeiboTopic" parameterType="LinksusWeiboTopic">
+     insert into linksus_weibo_topic values(#{id,jdbcType=BIGINT}, #{institutionId,jdbcType=BIGINT},#{topicName,jdbcType=VARCHAR},#{usedNum,jdbcType=INTEGER},#{lastUsedTime,jdbcType=INTEGER},#{createdTime,jdbcType=INTEGER})
+   </insert>
+     
+</mapper>   

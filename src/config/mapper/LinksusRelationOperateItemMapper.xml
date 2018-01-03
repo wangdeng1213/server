@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationOperateItemMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationOperateItem" type="LinksusRelationOperateItem" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="operate_id" property="operateId" jdbcType="BIGINT" />	
+		<result column="user_id" property="userId" jdbcType="BIGINT" />	
+		<result column="task_status" property="taskStatus" jdbcType="BIGINT" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,operate_id,user_id,task_status
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationOperateItemList"  resultMap="LinksusRelationOperateItem">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_operate_item
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusWeiboById"  resultMap="LinksusRelationOperateItem" parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_operate_item
+		  WHERE pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationOperateItem" parameterType="LinksusRelationOperateItem">
+		INSERT INTO linksus_relation_operate_item(
+		pid,operate_id,user_id,task_status
+		) VALUES(
+		#{pid:BIGINT},#{operateId:BIGINT},#{userId:BIGINT},#{taskStatus:BIGINT}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationOperateItem" parameterType="LinksusRelationOperateItem">
+		  UPDATE linksus_relation_operate_item SET
+		  task_status=#{taskStatus:BIGINT}
+		  WHERE operate_id=#{operateId:BIGINT} and user_id=#{userId:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationOperateItemById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_operate_item 
+		  WHERE pid=#{pid:BIGINT}
+	</update> 
+</mapper>   

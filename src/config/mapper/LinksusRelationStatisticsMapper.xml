@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.linksus.dao.LinksusRelationStatisticsMapper" >
+	<!-- 返回字段映射  -->
+	<resultMap id="LinksusRelationStatistics" type="LinksusRelationStatistics" >
+		<result column="pid" property="pid" jdbcType="BIGINT" />	
+		<result column="institution_id" property="institutionId" jdbcType="BIGINT" />	
+		<result column="account_id" property="accountId" jdbcType="BIGINT" />	
+		<result column="account_type" property="accountType" jdbcType="TINYINT" />	
+		<result column="flag_relation" property="flagRelation" jdbcType="TINYINT" />	
+		<result column="statistics_bore" property="statisticsBore" jdbcType="VARCHAR" />	
+		<result column="statistics_type" property="statisticsType" jdbcType="VARCHAR" />	
+		<result column="statistics_count" property="statisticsCount" jdbcType="INTEGER" />	
+		<result column="statistics_scale" property="statisticsScale" jdbcType="INTEGER" />	
+		<result column="start_time" property="startTime" jdbcType="INTEGER" />	
+		<result column="end_time" property="endTime" jdbcType="INTEGER" />	
+		<result column="last_updt_time" property="lastUpdtTime" jdbcType="INTEGER" />	
+	</resultMap>
+    
+    <!-- 查询字段  -->
+	<sql id="Base_Column_List" >
+		pid,institution_id,account_id,account_type,flag_relation,statistics_bore,statistics_type,statistics_count,statistics_scale,start_time,end_time,last_updt_time
+	</sql>
+    
+    
+    <!-- 列表查询  -->
+	<select id="getLinksusRelationStatisticsList"  resultMap="LinksusRelationStatistics" >
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_statistics
+	</select> 
+    
+    <!-- 主键查询  -->
+	<select id="getLinksusRelationStatisticsById"  resultMap="LinksusRelationStatistics"  parameterType="java.lang.Long">
+		  SELECT 
+		  <include refid="Base_Column_List" />
+		  FROM linksus_relation_statistics
+		 WHERE 1=1  and pid=#{pid:BIGINT}
+	</select> 
+	
+	<!-- 新增  -->
+	<update id="insertLinksusRelationStatistics" parameterType="LinksusRelationStatistics">
+		INSERT INTO linksus_relation_statistics(
+		pid,institution_id,account_id,account_type,flag_relation,statistics_bore,statistics_type,statistics_count,statistics_scale,start_time,end_time,last_updt_time
+		) VALUES(
+		#{pid:BIGINT},#{institutionId:BIGINT},#{accountId:BIGINT},#{accountType:TINYINT},#{flagRelation:TINYINT},#{statisticsBore:VARCHAR},#{statisticsType:VARCHAR},#{statisticsCount:INTEGER},#{statisticsScale:INTEGER},#{startTime:INTEGER},#{endTime:INTEGER},#{lastUpdtTime:INTEGER}
+		)
+	</update>
+	
+	<!-- 更新  -->
+	<update id="updateLinksusRelationStatistics" parameterType="LinksusRelationStatistics">
+		  UPDATE linksus_relation_statistics SET
+		  pid=#{pid:BIGINT},institution_id=#{institutionId:BIGINT},account_id=#{accountId:BIGINT},account_type=#{accountType:TINYINT},flag_relation=#{flagRelation:TINYINT},statistics_bore=#{statisticsBore:VARCHAR},statistics_type=#{statisticsType:VARCHAR},statistics_count=#{statisticsCount:INTEGER},statistics_scale=#{statisticsScale:INTEGER},start_time=#{startTime:INTEGER},end_time=#{endTime:INTEGER},last_updt_time=#{lastUpdtTime:INTEGER}
+		 WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	
+	<!-- 主键删除 -->
+	<update id="deleteLinksusRelationStatisticsById" parameterType="java.lang.Long">
+		  DELETE FROM linksus_relation_statistics 
+		  WHERE 1=1  and pid=#{pid:BIGINT}
+	</update> 
+	 <!-- 主键删除 -->
+	<update id="deleteLinksusRelationStatisticsByMap" parameterType="java.util.Map">
+		  DELETE FROM linksus_relation_statistics 
+		  WHERE 1=1  and account_id =#{accountId:BIGINT} 
+		  <!-- and account_type =#{accountType} and statistics_bore =#{statistics_bore}-->
+	</update> 
+	 <!-- 批量新增  -->
+	<update id="insertALLLinksusRelationStatistics" parameterType="LinksusRelationStatistics">	 
+		${batchsql}
+	</update>
+	
+	 <!-- 列表查询  -->
+	<select id="getLinksusRelationStatisticsListByBean"  resultMap="LinksusRelationStatistics" parameterType="LinksusRelationStatistics">	 
+		  ${batchsql}
+	</select> 
+</mapper>   

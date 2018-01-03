@@ -1,0 +1,5 @@
+mysql -h192.168.1.156 -pwbcloud123 -P3306 -uwbcloud  linksus_cloud3  --skip-column-names --raw  --default-character-set=utf8 < redis_load_1.sql | redis-cli -a linksus --pipe 
+mysql -h192.168.1.156 -pwbcloud123 -P3306 -uwbcloud  linksus_cloud3  --skip-column-names --raw  --default-character-set=utf8 < redis_load_2.sql | redis-cli -a linksus --pipe 
+mysql -h192.168.1.156 -pwbcloud123 -P3306 -uwbcloud  linksus_cloud3  --skip-column-names --raw  --default-character-set=utf8 < redis_load_3.sql | redis-cli -a linksus --pipe 
+mysql -h192.168.1.156 -pwbcloud123 -P3306 -uwbcloud  linksus_cloud3  --skip-column-names --raw  --default-character-set=utf8 < redis_load_4.sql | redis-cli -a linksus --pipe 
+mysql -h192.168.1.156 -pwbcloud123 -P3306 -uwbcloud  linksus_cloud3  --skip-column-names --raw  --default-character-set=utf8 < redis_load_5.sql | redis-cli -a linksus --pipe 

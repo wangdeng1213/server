@@ -1,0 +1,16 @@
+eclipse.preferences.version=1
+encoding//src/com/linksus/common/util/FileUtil.java=gbk
+encoding//src/com/linksus/common/util/MailUtil.java=gbk
+encoding//src/com/linksus/common/util/PrimaryKeyGen.java=gbk
+encoding//src/com/linksus/common/util/QuartzUtil.java=gbk
+encoding//src/com/linksus/common/util/SmsUtil.java=gbk
+encoding//src/com/linksus/common/util/StringUtil.java=gbk
+encoding//src/com/linksus/common/util/WebSms.java=UTF-8
+encoding//src/com/linksus/data/QueueDataSave.java=gbk
+encoding//src/com/linksus/entity/LinksusWeibo.java=gbk
+encoding//src/com/linksus/interfaces/HttpClientTest.java=gbk
+encoding//src/com/linksus/interfaces/InterfaceServlet.java=gbk
+encoding//src/com/linksus/task/CronJob.java=gbk
+encoding//src/com/linksus/task/TaskSendWeibo.java=gbk
+encoding//src/config/model/taskStatistic.vm=UTF-8
+encoding/<project>=gbk

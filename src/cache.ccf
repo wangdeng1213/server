@@ -1,0 +1,25 @@
+# DEFAULT CACHE REGION
+
+# sets the default aux value for any non configured caches
+jcs.default=
+jcs.default.cacheattributes=org.apache.jcs.engine.CompositeCacheAttributes
+jcs.default.cacheattributes.MaxObjects=2000
+jcs.default.cacheattributes.MemoryCacheName=org.apache.jcs.engine.memory.lru.LRUMemoryCache
+jcs.default.elementattributes.IsEternal=true
+#jcs.default.elementattributes.MaxLifeSeconds=36000
+#jcs.default.elementattributes.IdleTime=3600
+jcs.default.elementattributes.IsSpool=true
+jcs.default.elementattributes.IsRemote=true
+jcs.default.elementattributes.IsLateral=true
+
+# AUXILIARY CACHES AVAILABLE
+
+# Primary Disk Cache -- faster than the rest because of memory key storage
+jcs.auxiliary.DC=org.apache.jcs.auxiliary.disk.indexed.IndexedDiskCacheFactory
+jcs.auxiliary.DC.attributes=org.apache.jcs.auxiliary.disk.indexed.IndexedDiskCacheAttributes
+jcs.auxiliary.DC.attributes.DiskPath=/usr/opt/bookstore/raf
+jcs.auxiliary.DC.attributes.MaxPurgatorySize=10000
+jcs.auxiliary.DC.attributes.MaxKeySize=10000
+jcs.auxiliary.DC.attributes.OptimizeAtRemoveCount=300000
+jcs.auxiliary.DC.attributes.MaxRecycleBinSize=7500
+
